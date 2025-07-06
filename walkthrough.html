@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Patrick Hall" />
+  <meta name="description" content="A comprehensive guide to the Elf World game code, explaining its structure, features, and how to extend it." />
+  <title>Elf World Game Tutorial Walkthrough</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Elf World Game Tutorial Walkthrough</h1>
+<p class="author">Patrick Hall</p>
+</header>
+<p>Welcome to the walkthrough tutorial for the <strong>Elf
+World</strong> browser-based conlang and exploration game! This guide
+explains the major components of the code, how it works, and how the
+pieces fit together.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#html-structure">HTML Structure</a></li>
+<li><a href="#css-styling">CSS Styling</a></li>
+<li><a href="#javascript-breakdown">JavaScript Breakdown</a>
+<ul>
+<li><a href="#constants-and-dom-elements">Constants and DOM
+Elements</a></li>
+<li><a href="#conlang-system">Conlang System</a></li>
+<li><a href="#entity-and-player-classes">Entity and Player
+Classes</a></li>
+<li><a href="#realms-and-world-generation">Realms and World
+Generation</a></li>
+<li><a href="#rendering-and-camera">Rendering and Camera</a></li>
+<li><a href="#audio-system">Audio System</a></li>
+<li><a href="#command-console">Command Console</a></li>
+<li><a href="#game-initialization">Game Initialization</a></li>
+</ul></li>
+<li><a href="#extending-the-game">Extending the Game</a></li>
+</ol>
+<hr />
+<h2 id="overview">Overview</h2>
+<p><strong>Elf World</strong> is a procedurally-generated exploration
+game featuring a player who can travel between realms, interact with
+entities, and learn a constructed language (conlang). The player moves
+around a grid-based world, encounters NPCs, learns vocabulary, and
+explores multiple realms (Forest, Wraith, Fairy).</p>
+<hr />
+<h2 id="html-structure">HTML Structure</h2>
+<p>The HTML divides the page into two main panes:</p>
+<ul>
+<li><code>.game-pane</code>: shows the game world, player, terrain, and
+speech bubbles.</li>
+<li><code>.console-pane</code>: shows the command console for
+interaction.</li>
+</ul>
+<p>Within the game pane, additional overlays provide UI elements like
+inventory, realm info, audio control, and dialogue bubbles.</p>
+<hr />
+<h2 id="css-styling">CSS Styling</h2>
+<p>The CSS handles all visual presentation, including:</p>
+<ul>
+<li>Layout (<code>flex</code>, full-screen viewport)</li>
+<li>Tile grid (<code>.tile</code>, <code>.world</code> with CSS
+Grid)</li>
+<li>Entities layered on top (<code>.entity</code>, <code>.player</code>,
+<code>.portal</code>)</li>
+<li>Console UI (<code>.console-pane</code>,
+<code>.command-output</code>, <code>.command-input</code>)</li>
+<li>Transitions and animations
+(<code>@keyframes portal-glow</code>)</li>
+</ul>
+<hr />
+<h2 id="javascript-breakdown">JavaScript Breakdown</h2>
+<h3 id="constants-and-dom-elements">Constants and DOM Elements</h3>
+<p>Variables like <code>COLS</code>, <code>ROWS</code>, and
+<code>VIEW_WIDTH</code> define the game grid size. DOM elements are
+cached for easy access and manipulation.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> COLS <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ROWS <span class="op">=</span> <span class="dv">20</span></span></code></pre></div>
+<p>The game initializes a 2D grid (<code>tileElements</code>) and a
+parallel <code>entityGrid</code> to track game entities.</p>
+<hr />
+<h3 id="conlang-system">Conlang System</h3>
+<p>The <code>Conlang</code> class defines a constructed language with
+random syllable generation. Words are stored in a <code>Map</code>, with
+a basic starter lexicon like “tree” = “temi”.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>conlang<span class="op">.</span><span class="fu">getWord</span>(<span class="st">&#39;fire&#39;</span>) <span class="co">// e.g. returns &#39;kilu&#39;</span></span></code></pre></div>
+<p>Players can use the console to learn words and use them in
+interactions.</p>
+<hr />
+<h3 id="entity-and-player-classes">Entity and Player Classes</h3>
+<ul>
+<li><code>Entity</code>: base class for all entities on the map, with
+emoji, position, and interaction logic.</li>
+<li><code>Player</code>: subclass of <code>Entity</code> with movement,
+inventory, and adjacent interaction checking.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>player<span class="op">.</span><span class="fu">move</span>(<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">0</span>) <span class="co">// Move left</span></span></code></pre></div>
+<p>Entities may be solid (blocking), interactive (NPCs), or portals
+(change realm).</p>
+<hr />
+<h3 id="realms-and-world-generation">Realms and World Generation</h3>
+<p>Three realms are defined in <code>REALMS</code>: <code>forest</code>,
+<code>wraith</code>, and <code>fairy</code>. Each has:</p>
+<ul>
+<li>Terrain colors and weights</li>
+<li>Music track</li>
+<li>Spawnable entities</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">switchRealm</span>(<span class="st">&#39;wraith&#39;</span>)</span></code></pre></div>
+<p>Entity generation randomly populates the grid based on chance per
+entity type.</p>
+<hr />
+<h3 id="rendering-and-camera">Rendering and Camera</h3>
+<ul>
+<li>The world is rendered using a <code>&lt;div class="world"&gt;</code>
+grid.</li>
+<li>The camera centers on the player and updates when moving.</li>
+<li><code>updateCamera()</code> adjusts
+<code>transform: translate(...)</code> based on player’s position.</li>
+</ul>
+<hr />
+<h3 id="audio-system">Audio System</h3>
+<p>Each realm has background music. The toggle button controls whether
+it’s playing:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>audioToggle<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> toggleAudio)</span></code></pre></div>
+<hr />
+<h3 id="command-console">Command Console</h3>
+<p>The command interface accepts user input:</p>
+<ul>
+<li><code>inspect tree</code> — inspects nearby tree entity</li>
+<li><code>learn fire</code> — adds a word to known vocabulary</li>
+<li><code>say hello</code> — attempts dialogue with nearby NPC</li>
+<li><code>vocab</code> — shows all known words</li>
+</ul>
+<p>Each command is parsed by <code>processCommand()</code>.</p>
+<hr />
+<h3 id="game-initialization">Game Initialization</h3>
+<p>On page load, the game:</p>
+<ol type="1">
+<li>Builds the grid</li>
+<li>Creates a player</li>
+<li>Switches to the Forest Realm</li>
+<li>Resizes tiles to fit the viewport</li>
+<li>Binds controls and command input</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">initializeGame</span>()</span></code></pre></div>
+<hr />
+<h2 id="extending-the-game">Extending the Game</h2>
+<p>You can easily expand Elf World by:</p>
+<ul>
+<li>Adding more realms to the <code>REALMS</code> object</li>
+<li>Creating new entity types with unique behaviors</li>
+<li>Enhancing the conlang system (e.g. grammar rules, morphology)</li>
+<li>Adding quests, puzzles, or battle mechanics</li>
+<li>Persisting player progress with <code>localStorage</code></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Elf World is a rich and extensible framework for conlang-based
+gameplay. By combining grid-based movement, entity interactions, and a
+custom command console, it provides a fun and educational platform to
+explore language and game design.</p>
+</body>
+</html>

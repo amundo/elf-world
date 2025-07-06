@@ -34,6 +34,9 @@
 
     .player, .entity {
       position: absolute;
+      display: grid;
+      font-size: 2rem;
+      place-content: center;
       width: 1px;
       height: 1px;
     }
@@ -149,12 +152,41 @@
       const tx = clamp(this.x + dx, 0, COLS - 1)
       const ty = clamp(this.y + dy, 0, ROWS - 1)
       const entity = grid[clamp(ty, 0, ROWS - 1)]?.[clamp(tx, 0, COLS - 1)]
+      
+      // Check if movement is blocked by solid entity
       if (entity?.solid) return
-      entity?.onInteract(this)
+      
+      // Move the player
       this.x = tx
       this.y = ty
       this.update()
       updateCamera()
+      
+      // Check for adjacent NPCs after moving
+      this.checkAdjacentInteractions()
+    }
+    
+    checkAdjacentInteractions() {
+      const directions = [
+        { dx: -1, dy: 0 },  // left
+        { dx: 1, dy: 0 },   // right
+        { dx: 0, dy: -1 },  // up
+        { dx: 0, dy: 1 }    // down
+      ]
+      
+      for (const dir of directions) {
+        const checkX = this.x + dir.dx
+        const checkY = this.y + dir.dy
+        
+        // Make sure we're within bounds
+        if (checkX >= 0 && checkX < COLS && checkY >= 0 && checkY < ROWS) {
+          const entity = grid[checkY][checkX]
+          if (entity && (entity instanceof NPC || entity instanceof Enemy)) {
+            entity.onInteract(this)
+            break // Only interact with one entity at a time
+          }
+        }
+      }
     }
   }
 
