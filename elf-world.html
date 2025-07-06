@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Emoji Zelda</title>
+  <title>Emoji Zelda Game</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       overflow: hidden;
-    }
-
-    body {
       font-family: sans-serif;
     }
 
@@ -39,6 +36,27 @@
       z-index: 10;
       pointer-events: none;
     }
+
+    .ui {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .dialogue {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 1rem;
+      font-size: 1.2rem;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -46,6 +64,8 @@
 <div class="view">
   <div id="world" class="world"></div>
   <div id="player" class="player">🧝‍♂️</div>
+  <div class="ui" id="inventory">Inventory: 🍎</div>
+  <div class="dialogue" id="dialogueBox">Hello!</div>
 </div>
 
 <script>
@@ -54,10 +74,20 @@
   const VIEW_WIDTH = 10
   const VIEW_HEIGHT = 8
 
-  const worldEl = document.getElementById('world')
-  const playerEl = document.getElementById('player')
+  const TILE_TYPES = {
+    EMPTY: '',
+    TREE: '🌲',
+    ENEMY: '🐍',
+    NPC: '👴'
+  }
 
   let tileWidth, tileHeight
+  const worldEl = document.getElementById('world')
+  const playerEl = document.getElementById('player')
+  const dialogueBox = document.getElementById('dialogueBox')
+  const inventoryEl = document.getElementById('inventory')
+
+  const worldGrid = []
 
   function resizeTiles() {
     tileWidth = window.innerWidth / VIEW_WIDTH
@@ -75,23 +105,33 @@
     updateCamera()
   }
 
-  const tiles = []
   for (let y = 0; y < ROWS; y++) {
+    const row = []
     for (let x = 0; x < COLS; x++) {
       const tile = document.createElement('div')
       tile.className = 'tile'
       tile.dataset.x = x
       tile.dataset.y = y
-      tile.textContent = Math.random() < 0.1 ? '🌲' : ''
+
+      let emoji = TILE_TYPES.EMPTY
+      const r = Math.random()
+      if (r < 0.1) emoji = TILE_TYPES.TREE
+      else if (r < 0.12) emoji = TILE_TYPES.ENEMY
+      else if (r < 0.14) emoji = TILE_TYPES.NPC
+
+      tile.textContent = emoji
       worldEl.appendChild(tile)
-      tiles.push(tile)
+      row.push({ el: tile, type: emoji })
     }
+    worldGrid.push(row)
   }
 
   let px = 15
   let py = 10
   let cameraX = px
   let cameraY = py
+
+  let inventory = ['🍎']
 
   function clamp(val, min, max) {
     return Math.max(min, Math.min(max, val))
@@ -106,10 +146,14 @@
     const marginX = Math.floor(VIEW_WIDTH / 2)
     const marginY = Math.floor(VIEW_HEIGHT / 2)
 
-    if (px < cameraX - marginX + 1) cameraX = clamp(px + marginX - 1, marginX, COLS - marginX - 1)
-    if (px > cameraX + marginX - 1) cameraX = clamp(px - marginX + 1, marginX, COLS - marginX - 1)
-    if (py < cameraY - marginY + 1) cameraY = clamp(py + marginY - 1, marginY, ROWS - marginY - 1)
-    if (py > cameraY + marginY - 1) cameraY = clamp(py - marginY + 1, marginY, ROWS - marginY - 1)
+    if (px < cameraX - marginX + 1)
+      cameraX = clamp(px + marginX - 1, marginX, COLS - marginX - 1)
+    if (px > cameraX + marginX - 1)
+      cameraX = clamp(px - marginX + 1, marginX, COLS - marginX - 1)
+    if (py < cameraY - marginY + 1)
+      cameraY = clamp(py + marginY - 1, marginY, ROWS - marginY - 1)
+    if (py > cameraY + marginY - 1)
+      cameraY = clamp(py - marginY + 1, marginY, ROWS - marginY - 1)
 
     const offsetX = clamp(cameraX - marginX, 0, COLS - VIEW_WIDTH) * tileWidth
     const offsetY = clamp(cameraY - marginY, 0, ROWS - VIEW_HEIGHT) * tileHeight
@@ -118,11 +162,46 @@
     playerEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
   }
 
+  function showDialogue(text) {
+    dialogueBox.textContent = text
+    dialogueBox.style.display = 'block'
+    setTimeout(() => {
+      dialogueBox.style.display = 'none'
+    }, 2000)
+  }
+
+  function canMoveTo(x, y) {
+    const tile = worldGrid[y]?.[x]
+    if (!tile) return false
+    if (tile.type === TILE_TYPES.TREE) return false
+    return true
+  }
+
   function move(dx, dy) {
-    px = clamp(px + dx, 0, COLS - 1)
-    py = clamp(py + dy, 0, ROWS - 1)
+    const tx = clamp(px + dx, 0, COLS - 1)
+    const ty = clamp(py + dy, 0, ROWS - 1)
+
+    const tile = worldGrid[ty][tx]
+    if (!canMoveTo(tx, ty)) return
+
+    if (tile.type === TILE_TYPES.ENEMY) {
+      showDialogue("A wild 🐍 hisses at you!")
+    } else if (tile.type === TILE_TYPES.NPC) {
+      showDialogue("👴: Stay safe out there!")
+      if (!inventory.includes('🗝️')) {
+        inventory.push('🗝️')
+        updateInventory()
+      }
+    }
+
+    px = tx
+    py = ty
     updatePlayer()
     updateCamera()
+  }
+
+  function updateInventory() {
+    inventoryEl.textContent = `Inventory: ${inventory.join(' ')}`
   }
 
   window.addEventListener('keydown', (e) => {
@@ -133,7 +212,6 @@
   })
 
   window.addEventListener('resize', resizeTiles)
-
   resizeTiles()
 </script>
 
