@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Emoji Zelda Game</title>
+  <title>Emoji Zelda Game - Refactored</title>
   <style>
     html, body {
       margin: 0;
@@ -31,10 +31,10 @@
       font-size: 2rem;
     }
 
-    .player {
+    .player, .entity {
       position: absolute;
-      z-index: 10;
-      pointer-events: none;
+      width: 1px; /* Will be resized dynamically */
+      height: 1px;
     }
 
     .ui {
@@ -74,146 +74,164 @@
   const VIEW_WIDTH = 10
   const VIEW_HEIGHT = 8
 
-  const TILE_TYPES = {
-    EMPTY: '',
-    TREE: '🌲',
-    ENEMY: '🐍',
-    NPC: '👴'
-  }
-
   let tileWidth, tileHeight
   const worldEl = document.getElementById('world')
   const playerEl = document.getElementById('player')
   const dialogueBox = document.getElementById('dialogueBox')
   const inventoryEl = document.getElementById('inventory')
 
-  const worldGrid = []
+  const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null))
 
-  function resizeTiles() {
-    tileWidth = window.innerWidth / VIEW_WIDTH
-    tileHeight = window.innerHeight / VIEW_HEIGHT
-
-    worldEl.style.gridTemplateColumns = `repeat(${COLS}, ${tileWidth}px)`
-    worldEl.style.gridTemplateRows = `repeat(${ROWS}, ${tileHeight}px)`
-    worldEl.style.width = `${COLS * tileWidth}px`
-    worldEl.style.height = `${ROWS * tileHeight}px`
-
-    playerEl.style.width = `${tileWidth}px`
-    playerEl.style.height = `${tileHeight}px`
-
-    updatePlayer()
-    updateCamera()
-  }
-
-  for (let y = 0; y < ROWS; y++) {
-    const row = []
-    for (let x = 0; x < COLS; x++) {
-      const tile = document.createElement('div')
-      tile.className = 'tile'
-      tile.dataset.x = x
-      tile.dataset.y = y
-
-      let emoji = TILE_TYPES.EMPTY
-      const r = Math.random()
-      if (r < 0.1) emoji = TILE_TYPES.TREE
-      else if (r < 0.12) emoji = TILE_TYPES.ENEMY
-      else if (r < 0.14) emoji = TILE_TYPES.NPC
-
-      tile.textContent = emoji
-      worldEl.appendChild(tile)
-      row.push({ el: tile, type: emoji })
+  class Entity {
+    constructor({ x, y, emoji }) {
+      this.x = x
+      this.y = y
+      this.emoji = emoji
+      this.solid = false
+      this.el = document.createElement('div')
+      this.el.className = 'tile entity'
+      this.el.textContent = emoji
+      worldEl.appendChild(this.el)
+      this.updatePosition()
     }
-    worldGrid.push(row)
+    updatePosition() {
+      this.el.style.left = `${this.x * tileWidth}px`
+      this.el.style.top = `${this.y * tileHeight}px`
+      this.el.style.width = `${tileWidth}px`
+      this.el.style.height = `${tileHeight}px`
+    }
+    onInteract(player) {}
   }
 
-  let px = 15
-  let py = 10
-  let cameraX = px
-  let cameraY = py
+  class ObjectEntity extends Entity {
+    constructor(data) {
+      super(data)
+      this.solid = true
+    }
+  }
 
-  let inventory = ['🍎']
+  class Enemy extends Entity {
+    onInteract(player) {
+      showDialogue("A wild " + this.emoji + " appears!")
+    }
+  }
+
+  class NPC extends Entity {
+    constructor(data) {
+      super(data)
+      this.dialogue = data.dialogue || "Hello!"
+    }
+    onInteract(player) {
+      showDialogue(this.dialogue)
+      if (!player.inventory.includes('🗝️')) {
+        player.inventory.push('🗝️')
+        updateInventory()
+      }
+    }
+  }
+
+  class Player {
+    constructor({ x, y, emoji }) {
+      this.x = x
+      this.y = y
+      this.emoji = emoji
+      this.inventory = ['🍎']
+      this.el = playerEl
+    }
+    update() {
+      this.el.style.left = `${this.x * tileWidth}px`
+      this.el.style.top = `${this.y * tileHeight}px`
+      this.el.style.width = `${tileWidth}px`
+      this.el.style.height = `${tileHeight}px`
+    }
+    move(dx, dy) {
+      const tx = clamp(this.x + dx, 0, COLS - 1)
+      const ty = clamp(this.y + dy, 0, ROWS - 1)
+      const entity = grid[ty][tx]
+      if (entity?.solid) return
+      entity?.onInteract(this)
+      this.x = tx
+      this.y = ty
+      this.update()
+      updateCamera()
+    }
+  }
+
+  const entitiesData = [
+    { type: 'object', emoji: '🌲', x: 5, y: 5 },
+    { type: 'enemy', emoji: '🐍', x: 10, y: 3 },
+    { type: 'npc', emoji: '👴', x: 15, y: 8, dialogue: 'Stay safe out there!' }
+  ]
+
+  const entityTypes = {
+    object: ObjectEntity,
+    enemy: Enemy,
+    npc: NPC
+  }
+
+  const entities = []
+  entitiesData.forEach(data => {
+    const Cls = entityTypes[data.type]
+    const entity = new Cls(data)
+    grid[data.y][data.x] = entity
+    entities.push(entity)
+  })
+
+  const player = new Player({ x: 2, y: 2, emoji: '🧝‍♂️' })
+
+  let cameraX = player.x
+  let cameraY = player.y
 
   function clamp(val, min, max) {
     return Math.max(min, Math.min(max, val))
   }
 
-  function updatePlayer() {
-    playerEl.style.left = `${px * tileWidth}px`
-    playerEl.style.top = `${py * tileHeight}px`
-  }
-
-  function updateCamera() {
-    const marginX = Math.floor(VIEW_WIDTH / 2)
-    const marginY = Math.floor(VIEW_HEIGHT / 2)
-
-    if (px < cameraX - marginX + 1)
-      cameraX = clamp(px + marginX - 1, marginX, COLS - marginX - 1)
-    if (px > cameraX + marginX - 1)
-      cameraX = clamp(px - marginX + 1, marginX, COLS - marginX - 1)
-    if (py < cameraY - marginY + 1)
-      cameraY = clamp(py + marginY - 1, marginY, ROWS - marginY - 1)
-    if (py > cameraY + marginY - 1)
-      cameraY = clamp(py - marginY + 1, marginY, ROWS - marginY - 1)
-
-    const offsetX = clamp(cameraX - marginX, 0, COLS - VIEW_WIDTH) * tileWidth
-    const offsetY = clamp(cameraY - marginY, 0, ROWS - VIEW_HEIGHT) * tileHeight
-
-    worldEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
-    playerEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
+  function updateInventory() {
+    inventoryEl.textContent = `Inventory: ${player.inventory.join(' ')}`
   }
 
   function showDialogue(text) {
     dialogueBox.textContent = text
     dialogueBox.style.display = 'block'
-    setTimeout(() => {
-      dialogueBox.style.display = 'none'
-    }, 2000)
+    setTimeout(() => dialogueBox.style.display = 'none', 2000)
   }
 
-  function canMoveTo(x, y) {
-    const tile = worldGrid[y]?.[x]
-    if (!tile) return false
-    if (tile.type === TILE_TYPES.TREE) return false
-    return true
+  function updateCamera() {
+    const marginX = Math.floor(VIEW_WIDTH / 2)
+    const marginY = Math.floor(VIEW_HEIGHT / 2)
+    if (player.x < cameraX - marginX + 1) cameraX = clamp(player.x + marginX - 1, marginX, COLS - marginX - 1)
+    if (player.x > cameraX + marginX - 1) cameraX = clamp(player.x - marginX + 1, marginX, COLS - marginX - 1)
+    if (player.y < cameraY - marginY + 1) cameraY = clamp(player.y + marginY - 1, marginY, ROWS - marginY - 1)
+    if (player.y > cameraY + marginY - 1) cameraY = clamp(player.y - marginY + 1, marginY, ROWS - marginY - 1)
+
+    const offsetX = clamp(cameraX - marginX, 0, COLS - VIEW_WIDTH) * tileWidth
+    const offsetY = clamp(cameraY - marginY, 0, ROWS - VIEW_HEIGHT) * tileHeight
+    worldEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
+    player.el.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
+    entities.forEach(e => e.el.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`)
   }
 
-  function move(dx, dy) {
-    const tx = clamp(px + dx, 0, COLS - 1)
-    const ty = clamp(py + dy, 0, ROWS - 1)
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') player.move(-1, 0)
+    else if (e.key === 'ArrowRight') player.move(1, 0)
+    else if (e.key === 'ArrowUp') player.move(0, -1)
+    else if (e.key === 'ArrowDown') player.move(0, 1)
+  })
 
-    const tile = worldGrid[ty][tx]
-    if (!canMoveTo(tx, ty)) return
-
-    if (tile.type === TILE_TYPES.ENEMY) {
-      showDialogue("A wild 🐍 hisses at you!")
-    } else if (tile.type === TILE_TYPES.NPC) {
-      showDialogue("👴: Stay safe out there!")
-      if (!inventory.includes('🗝️')) {
-        inventory.push('🗝️')
-        updateInventory()
-      }
-    }
-
-    px = tx
-    py = ty
-    updatePlayer()
+  function resizeTiles() {
+    tileWidth = window.innerWidth / VIEW_WIDTH
+    tileHeight = window.innerHeight / VIEW_HEIGHT
+    worldEl.style.gridTemplateColumns = `repeat(${COLS}, ${tileWidth}px)`
+    worldEl.style.gridTemplateRows = `repeat(${ROWS}, ${tileHeight}px)`
+    worldEl.style.width = `${COLS * tileWidth}px`
+    worldEl.style.height = `${ROWS * tileHeight}px`
+    player.update()
+    entities.forEach(e => e.updatePosition())
     updateCamera()
   }
-
-  function updateInventory() {
-    inventoryEl.textContent = `Inventory: ${inventory.join(' ')}`
-  }
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') move(-1, 0)
-    else if (e.key === 'ArrowRight') move(1, 0)
-    else if (e.key === 'ArrowUp') move(0, -1)
-    else if (e.key === 'ArrowDown') move(0, 1)
-  })
 
   window.addEventListener('resize', resizeTiles)
   resizeTiles()
 </script>
-
 </body>
 </html>
