@@ -1,0 +1,263 @@
+{
+  "metadata": {
+    "title": "Basic words for a conlang",
+    "description": "A list of basic words for a constructed language (conlang) using emojis.",
+    "version": "1.0",
+    "author": "Patrick Hall",
+    "date": "2025-07-06"
+  },
+  "words": [
+    {
+      "emoji": "👋",
+      "gloss": "HELLO",
+      "category": "politeness",
+      "type": "interjection",
+      "form": ""
+    },
+    {
+      "emoji": "❓",
+      "gloss": "WHAT",
+      "category": "question",
+      "type": "interrogative",
+      "form": ""
+    },
+    {
+      "emoji": "🗣️",
+      "gloss": "LANGUAGE",
+      "category": "communication",
+      "type": "noun",
+      "form": ""
+    },
+    {
+      "emoji": "✋",
+      "gloss": "TAKE",
+      "category": "action",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "🤲",
+      "gloss": "GIVE",
+      "category": "action",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "😀",
+      "gloss": "HAPPY",
+      "category": "emotion",
+      "type": "adjective",
+      "form": ""
+    },
+    {
+      "emoji": "😢",
+      "gloss": "SAD",
+      "category": "emotion",
+      "type": "adjective",
+      "form": ""
+    },
+    {
+      "emoji": "😡",
+      "gloss": "ANGRY",
+      "category": "emotion",
+      "type": "adjective",
+      "form": ""
+    },
+    {
+      "emoji": "😱",
+      "gloss": "AFRAID",
+      "category": "emotion",
+      "type": "adjective",
+      "form": ""
+    },
+    {
+      "emoji": "😴",
+      "gloss": "TIRED",
+      "category": "emotion",
+      "type": "adjective",
+      "form": ""
+    },
+    {
+      "emoji": "🥰",
+      "gloss": "LOVE",
+      "category": "emotion",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "👍",
+      "gloss": "YES",
+      "category": "response",
+      "type": "interjection",
+      "form": ""
+    },
+    {
+      "emoji": "👎",
+      "gloss": "NO",
+      "category": "response",
+      "type": "interjection",
+      "form": ""
+    },
+    {
+      "emoji": "🏃",
+      "gloss": "GO",
+      "category": "movement",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "📦",
+      "gloss": "HAVE",
+      "category": "state",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "👂",
+      "gloss": "HEAR",
+      "category": "perception",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "📍",
+      "gloss": "HERE",
+      "category": "location",
+      "type": "adverb",
+      "form": ""
+    },
+    {
+      "emoji": "🤔",
+      "gloss": "HOW",
+      "category": "question",
+      "type": "interrogative",
+      "form": ""
+    },
+    {
+      "emoji": "🧠",
+      "gloss": "KNOW",
+      "category": "cognition",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "📘",
+      "gloss": "LEARN",
+      "category": "cognition",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "📶",
+      "gloss": "NEAR",
+      "category": "spatial",
+      "type": "adverb",
+      "form": ""
+    },
+    {
+      "emoji": "🚫",
+      "gloss": "NOT",
+      "category": "negation",
+      "type": "particle",
+      "form": ""
+    },
+    {
+      "emoji": "🚪",
+      "gloss": "OPEN",
+      "category": "action",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "🗨️",
+      "gloss": "SAY",
+      "category": "communication",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "👀",
+      "gloss": "SEE",
+      "category": "perception",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "📦",
+      "gloss": "THING",
+      "category": "object",
+      "type": "noun",
+      "form": ""
+    },
+    {
+      "emoji": "👉",
+      "gloss": "THIS",
+      "category": "demonstrative",
+      "type": "pronoun",
+      "form": ""
+    },
+    {
+      "emoji": "🛠️",
+      "gloss": "USE",
+      "category": "action",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "📍",
+      "gloss": "WHERE",
+      "category": "question",
+      "type": "interrogative",
+      "form": ""
+    },
+    {
+      "emoji": "🧑",
+      "gloss": "WHO",
+      "category": "question",
+      "type": "interrogative",
+      "form": ""
+    },
+    {
+      "emoji": "📝",
+      "gloss": "WORD",
+      "category": "language",
+      "type": "noun",
+      "form": ""
+    },
+    {
+      "emoji": "🌍",
+      "gloss": "WORLD",
+      "category": "location",
+      "type": "noun",
+      "form": ""
+    },
+    {
+      "emoji": "🍽️",
+      "gloss": "EAT",
+      "category": "survival",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "🥤",
+      "gloss": "DRINK",
+      "category": "survival",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "🛌",
+      "gloss": "SLEEP",
+      "category": "survival",
+      "type": "verb",
+      "form": ""
+    },
+    {
+      "emoji": "😋",
+      "gloss": "HUNGRY",
+      "category": "need",
+      "type": "adjective",
+      "form": ""
+    }
+  ]
+}

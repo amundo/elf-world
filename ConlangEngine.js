@@ -1,51 +1,267 @@
-/**
- * Conlang Engine - Simple Procedural Language Generator
- * Generates consistent random words with basic phonotactics
- */
-
-
+// Simple ConlangEngine embedded directly
 class ConlangEngine {
   constructor(config = {}) {
-    // Phone inventory
     this.consonants = config.consonants || ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j']
     this.vowels = config.vowels || ['a', 'e', 'i', 'o', 'u']
-
-    // Syllable structures
     this.syllableStructures = config.syllableStructures || ['CV', 'CVC', 'V', 'VC']
-
-    // Random seed for deterministic generation
     this.seed = config.seed || null
     this.rng = this.createRNG(this.seed)
-
-    // Word cache to ensure consistency
     this.lexicon = new Map()
+    this.seedWords = [
+      {
+        "emoji": "👋",
+        "gloss": "HELLO",
+        "category": "politeness",
+        "type": "interjection",
+        "form": ""
+      },
+      {
+        "emoji": "❓",
+        "gloss": "WHAT",
+        "category": "question",
+        "type": "interrogative",
+        "form": ""
+      },
+      {
+        "emoji": "🗣️",
+        "gloss": "LANGUAGE",
+        "category": "communication",
+        "type": "noun",
+        "form": ""
+      },
+      {
+        "emoji": "✋",
+        "gloss": "TAKE",
+        "category": "action",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "🤲",
+        "gloss": "GIVE",
+        "category": "action",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "😀",
+        "gloss": "HAPPY",
+        "category": "emotion",
+        "type": "adjective",
+        "form": ""
+      },
+      {
+        "emoji": "😢",
+        "gloss": "SAD",
+        "category": "emotion",
+        "type": "adjective",
+        "form": ""
+      },
+      {
+        "emoji": "😡",
+        "gloss": "ANGRY",
+        "category": "emotion",
+        "type": "adjective",
+        "form": ""
+      },
+      {
+        "emoji": "😱",
+        "gloss": "AFRAID",
+        "category": "emotion",
+        "type": "adjective",
+        "form": ""
+      },
+      {
+        "emoji": "😴",
+        "gloss": "TIRED",
+        "category": "emotion",
+        "type": "adjective",
+        "form": ""
+      },
+      {
+        "emoji": "🥰",
+        "gloss": "LOVE",
+        "category": "emotion",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "👍",
+        "gloss": "YES",
+        "category": "response",
+        "type": "interjection",
+        "form": ""
+      },
+      {
+        "emoji": "👎",
+        "gloss": "NO",
+        "category": "response",
+        "type": "interjection",
+        "form": ""
+      },
+      {
+        "emoji": "🏃",
+        "gloss": "GO",
+        "category": "movement",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "📦",
+        "gloss": "HAVE",
+        "category": "state",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "👂",
+        "gloss": "HEAR",
+        "category": "perception",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "📍",
+        "gloss": "HERE",
+        "category": "location",
+        "type": "adverb",
+        "form": ""
+      },
+      {
+        "emoji": "🤔",
+        "gloss": "HOW",
+        "category": "question",
+        "type": "interrogative",
+        "form": ""
+      },
+      {
+        "emoji": "🧠",
+        "gloss": "KNOW",
+        "category": "cognition",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "📘",
+        "gloss": "LEARN",
+        "category": "cognition",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "📶",
+        "gloss": "NEAR",
+        "category": "spatial",
+        "type": "adverb",
+        "form": ""
+      },
+      {
+        "emoji": "🚫",
+        "gloss": "NOT",
+        "category": "negation",
+        "type": "particle",
+        "form": ""
+      },
+      {
+        "emoji": "🚪",
+        "gloss": "OPEN",
+        "category": "action",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "🗨️",
+        "gloss": "SAY",
+        "category": "communication",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "👀",
+        "gloss": "SEE",
+        "category": "perception",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "📦",
+        "gloss": "THING",
+        "category": "object",
+        "type": "noun",
+        "form": ""
+      },
+      {
+        "emoji": "👉",
+        "gloss": "THIS",
+        "category": "demonstrative",
+        "type": "pronoun",
+        "form": ""
+      },
+      {
+        "emoji": "🛠️",
+        "gloss": "USE",
+        "category": "action",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "📍",
+        "gloss": "WHERE",
+        "category": "question",
+        "type": "interrogative",
+        "form": ""
+      },
+      {
+        "emoji": "🧑",
+        "gloss": "WHO",
+        "category": "question",
+        "type": "interrogative",
+        "form": ""
+      },
+      {
+        "emoji": "📝",
+        "gloss": "WORD",
+        "category": "language",
+        "type": "noun",
+        "form": ""
+      },
+      {
+        "emoji": "🌍",
+        "gloss": "WORLD",
+        "category": "location",
+        "type": "noun",
+        "form": ""
+      },
+      {
+        "emoji": "🍽️",
+        "gloss": "EAT",
+        "category": "survival",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "🥤",
+        "gloss": "DRINK",
+        "category": "survival",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "🛌",
+        "gloss": "SLEEP",
+        "category": "survival",
+        "type": "verb",
+        "form": ""
+      },
+      {
+        "emoji": "😋",
+        "gloss": "HUNGRY",
+        "category": "need",
+        "type": "adjective",
+        "form": ""
+      }
+    ].map(word => word.gloss)
 
-    // Seed lexicon - basic words to start with
-    this.seedWords = config.seedWords || [
-      "GO",
-      "HAVE",
-      "HEAR",
-      "HELLO",
-      "HERE",
-      "HOW",
-      "KNOW",
-      "LEARN",
-      "NEAR",
-      "NOT",
-      "OPEN",
-      "SAY",
-      "SEE",
-      "TAKE",
-      "THING",
-      "THIS",
-      "USE",
-      "WHAT",
-      "WHERE",
-      "WHO",
-      "WORD",
-      "WORLD"
-    ]
-    // Initialize with seed words
     this.initializeLexicon()
   }
 
@@ -71,7 +287,6 @@ class ConlangEngine {
 
   generateSyllable(structure) {
     let syllable = ''
-
     for (const segment of structure) {
       if (segment === 'C') {
         syllable += this.consonants[Math.floor(this.rng() * this.consonants.length)]
@@ -79,37 +294,26 @@ class ConlangEngine {
         syllable += this.vowels[Math.floor(this.rng() * this.vowels.length)]
       }
     }
-
     return syllable
   }
 
   generateRandomWord() {
-    const numSyllables = Math.floor(this.rng() * 3) + 1 // 1-3 syllables
+    const numSyllables = Math.floor(this.rng() * 3) + 1
     let word = ''
-
     for (let i = 0; i < numSyllables; i++) {
       const structure = this.syllableStructures[Math.floor(this.rng() * this.syllableStructures.length)]
       word += this.generateSyllable(structure)
     }
-
     return word
   }
 
   getWord(concept) {
     const key = concept.toLowerCase()
-
     if (this.lexicon.has(key)) {
       return this.lexicon.get(key).form
     }
-
-    // Generate new word
     const form = this.generateRandomWord()
-    this.lexicon.set(key, {
-      form: form,
-      gloss: concept.toUpperCase(),
-      concept: key
-    })
-
+    this.lexicon.set(key, { form: form, gloss: concept.toUpperCase(), concept: key })
     return form
   }
 
@@ -120,38 +324,6 @@ class ConlangEngine {
   hasWord(concept) {
     return this.lexicon.has(concept.toLowerCase())
   }
-}
-
-
-
-// Simple test function
-function testConlangEngine() {
-  console.log('Testing ConlangEngine...')
-
-  const engine = new ConlangEngine({ seed: Math.floor(Math.random() * 10000) })
-  console.log('✓ Engine created')
-
-  const whatWord = engine.getWord('what')
-  const thisWord = engine.getWord('this')
-  console.log(`✓ Seed words: WHAT=${whatWord}, THIS=${thisWord}`)
-
-  const tree1 = engine.getWord('tree')
-  const tree2 = engine.getWord('tree')
-  console.log(`✓ Consistency: tree=${tree1}, tree=${tree2}, equal=${tree1 === tree2}`)
-
-  const randomWords = ['cat', 'house', 'magic', 'forest'].map(w => `${w}=${engine.getWord(w)}`)
-  console.log(`✓ Random words: ${randomWords.join(', ')}`)
-
-  const stats = engine.getStats()
-  console.log(`✓ Stats:`, stats)
-
-  console.table(engine.getAllEntries().map(([concept, entry]) => ({
-    concept: entry.concept,
-    form: entry.form,
-    gloss: entry.gloss
-  })))
-  console.log('All tests passed!')
-  return engine
 }
 
 

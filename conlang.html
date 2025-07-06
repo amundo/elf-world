@@ -239,7 +239,8 @@
   </div>
 
   <script type="module">
-    import {ConlangEngine} from './ConlangEngine.js'
+    import { ConlangEngine } from './ConlangEngine.js'
+
     const COLS = 30
     const ROWS = 20
     const VIEW_WIDTH = 10
@@ -260,8 +261,7 @@
     let backgroundMusic = null
     let isPlaying = false
 
-    // Initialize conlang using the simplified engine
-
+    // Initialize conlang
     const conlang = new ConlangEngine({ seed: Math.floor(Math.random() * 1000) })
 
     // Player's learned vocabulary - start with basic seed words
@@ -271,52 +271,42 @@
     let selectedEntity = null
     let focusedEntity = null
 
-    // Gloss parser and UI translation
-    function wastranslateGloss(glossText) {
-      // Simple gloss parser - converts [GLOSS TEXT] to conlang
-      const glossPattern = /\[([^\]]+)\]/g
-      return glossText.replace(glossPattern, (match, gloss) => {
-        const words = gloss.split(' ')
-        return words.map(word => {
-          const entry = conlang.getEntry(word.toLowerCase())
-          return entry ? entry.form : word.toLowerCase()
-        }).join(' ')
-      })
-    }
+    // UI translation system - simplified and cleaned up
     function translateGloss(glossText) {
-      if (!glossText.startsWith('[') && !glossText.endsWith(']')) {
-        return glossText // Return as is if not a gloss
+      if (!(glossText.startsWith('[') && glossText.endsWith(']'))) {
+        return glossText
       }
 
-      glossText = glossText.trim().slice(1, -1) // Remove brackets
-
-      const tokens = new Intl.Segmenter('en', { granularity: 'word' }).segment(glossText)
-      const translated = Array.from(tokens).map(token => {
-        const word = token.segment.toLowerCase()
-        return conlang.hasWord(word) ? conlang.getWord(word) : token.segment
-      })
-
-      return translated.join(' ')
+      const innerGlossText = glossText.slice(1, -1).toLowerCase()
+      const tokenizer = new Intl.Segmenter('en', { granularity: 'word' })
+      const tokens = Array.from(tokenizer.segment(innerGlossText))
+        .filter(segment => segment.isWordLike)
+        .map(segment => segment.segment)
+      
+      return tokens.map(word => {
+        const entry = conlang.getEntry(word)
+        return entry ? entry.form : word
+      }).join(' ')
     }
 
     function getUIText(key) {
-      // UI text stored as gloss, converted to conlang
       const uiGlosses = {
-        consoleHeader: '[WORD LEARN]',
-        inventoryLabel: '[HAVE]:',
-        welcomeMessage: '[HELLO] [WORD] [WORLD]!',
-        helpHint: '[SAY] "[WHAT]" [NEAR] [THING]',
-        unknownCommand: '[NOT] [KNOW] [WORD]',
-        notNear: '[NOT] [NEAR]',
-        learned: '[NOW] [KNOW]:',
-        youSay: '[SAY]:',
-        youSee: '[SEE]:',
-        focus: '[THIS]:'
+        consoleHeader: '[word learn]',
+        inventoryLabel: '[have]',
+        welcomeMessage: '[hello world]!',
+        helpHint: '[say what near thing]',
+        unknownCommand: '[not know word]',
+        notNear: '[not near]',
+        learned: '[now know]',
+        youSay: '[you say]',
+        youSee: '[you see]',
+        focus: '[this]'
       }
 
-      const gloss = uiGlosses[key] || key
+      const gloss = uiGlosses[key] || `[${key}]`
       return translateGloss(gloss)
     }
+
     // Grid of tile DOM elements
     const tileElements = Array.from({ length: ROWS }, () => Array(COLS).fill(null))
     // Grid of entity data
@@ -326,11 +316,10 @@
     const REALMS = {
       forest: {
         name: "Forest Realm",
-        music: "audio/woodland-fantasy.mp3",
         terrain: {
-          primary: { color: "#90EE90", weight: 0.7 },   // Light green
-          secondary: { color: "#228B22", weight: 0.2 }, // Forest green  
-          accent: { color: "#4169E1", weight: 0.1 }     // Blue (water)
+          primary: { color: "#90EE90", weight: 0.7 },
+          secondary: { color: "#228B22", weight: 0.2 },
+          accent: { color: "#4169E1", weight: 0.1 }
         },
         entities: [
           { type: 'object', emoji: '🌲', chance: 0.12, solid: true },
@@ -345,11 +334,10 @@
       },
       wraith: {
         name: "Wraith Realm",
-        music: "audio/the-wraiths-of-winter.mp3",
         terrain: {
-          primary: { color: "#2F2F2F", weight: 0.6 },   // Dark gray
-          secondary: { color: "#1C1C1C", weight: 0.3 }, // Very dark gray
-          accent: { color: "#4B0082", weight: 0.1 }     // Dark purple
+          primary: { color: "#2F2F2F", weight: 0.6 },
+          secondary: { color: "#1C1C1C", weight: 0.3 },
+          accent: { color: "#4B0082", weight: 0.1 }
         },
         entities: [
           { type: 'object', emoji: '🪦', chance: 0.08, solid: true },
@@ -359,18 +347,16 @@
           { type: 'enemy', emoji: '👻', chance: 0.02, dialogue: 'A wraith materializes before you!' },
           { type: 'npc', emoji: '🧙‍♀️', chance: 0.01, dialogue: 'The dead whisper secrets here...' },
           { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
-          { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
           { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
           { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
         ]
       },
       fairy: {
         name: "Fairy Realm",
-        music: "audio/epic-orchestral-fantasy.mp3",
         terrain: {
-          primary: { color: "#FFB6C1", weight: 0.4 },   // Light pink
-          secondary: { color: "#E6E6FA", weight: 0.3 }, // Lavender
-          accent: { color: "#98FB98", weight: 0.3 }     // Pale green
+          primary: { color: "#FFB6C1", weight: 0.4 },
+          secondary: { color: "#E6E6FA", weight: 0.3 },
+          accent: { color: "#98FB98", weight: 0.3 }
         },
         entities: [
           { type: 'object', emoji: '🌸', chance: 0.15, solid: false },
@@ -389,23 +375,20 @@
     }
 
     class Entity {
-      constructor({ x, y, emoji, type = 'entity', solid = false, dialogue = null, dialogues = null, destination = null, concept = null }) {
+      constructor({ x, y, emoji, type = 'entity', solid = false, dialogue = null, destination = null, concept = null }) {
         this.x = x
         this.y = y
         this.type = type
         this.solid = solid
         this.dialogue = dialogue
-        this.dialogues = dialogues
         this.destination = destination
 
-        // Handle emoji (can be string or array)
         if (Array.isArray(emoji)) {
           this.emoji = emoji[Math.floor(Math.random() * emoji.length)]
         } else {
           this.emoji = emoji
         }
 
-        // Use provided concept or derive from emoji
         this.concept = concept || this.getConceptFromEmoji(this.emoji)
         this.conlangName = conlang.getWord(this.concept)
 
@@ -414,10 +397,8 @@
         this.el.textContent = this.emoji
         this.el.title = `${this.concept} (${this.conlangName})`
 
-        // Add click handler for inspection
         this.el.addEventListener('click', () => this.inspect())
 
-        // Add to the appropriate tile
         const tile = tileElements[y][x]
         if (tile) {
           tile.appendChild(this.el)
@@ -426,31 +407,8 @@
         entityGrid[y][x] = this
       }
 
-      /**
-       * Generate dialogue probabilistically from dialogues array or use single dialogue
-       */
       speak() {
-        if (this.dialogues && this.dialogues.length > 0) {
-          // Use probabilistic dialogue selection
-          const rand = Math.random()
-          let cumulativeChance = 0
-
-          for (const dialogueOption of this.dialogues) {
-            cumulativeChance += dialogueOption.chance
-            if (rand <= cumulativeChance) {
-              return dialogueOption.dialogue
-            }
-          }
-
-          // Fallback to last dialogue if probabilities don't sum to 1
-          return this.dialogues[this.dialogues.length - 1].dialogue
-        } else if (this.dialogue) {
-          // Use single dialogue
-          return this.dialogue
-        } else {
-          // Default response
-          return 'The entity makes no sound.'
-        }
+        return this.dialogue || 'The entity makes no sound.'
       }
 
       getConceptFromEmoji(emoji) {
@@ -468,26 +426,23 @@
 
       inspect() {
         const isKnown = knownWords.has(this.concept)
-        const name = isKnown ? this.conlangName : '???'
-
-        addCommandOutput(`${getUIText('youSee')} ${this.emoji}`, 'info')
+        
+        addCommandOutput(`${getUIText('youSee')} ${this.emoji}`)
         if (isKnown) {
           addCommandOutput(`${this.conlangName}`, 'success')
         } else {
-          addCommandOutput(`${getUIText('unknownCommand')}`, 'info')
+          addCommandOutput(`???`, 'error')
         }
 
         selectedEntity = this
       }
 
       moveTo(newX, newY) {
-        // Remove from old position
         if (this.el.parentElement) {
           this.el.parentElement.removeChild(this.el)
         }
         entityGrid[this.y][this.x] = null
 
-        // Add to new position
         this.x = newX
         this.y = newY
         const tile = tileElements[newY][newX]
@@ -500,8 +455,7 @@
       onInteract(player) {
         if (this.type === 'portal') {
           switchRealm(this.destination)
-        } else if (this.dialogues || this.dialogue) {
-          // Check if player knows the word for greeting
+        } else if (this.dialogue) {
           const greeting = knownWords.has('hello') ? conlang.getWord('hello') : 'hello'
           const spokenText = this.speak()
           showDialogue(`${greeting}! ${spokenText}`, this)
@@ -522,32 +476,23 @@
         const ty = clamp(this.y + dy, 0, ROWS - 1)
         const entity = entityGrid[ty][tx]
 
-        // Check if movement is blocked by solid entity
         if (entity?.solid) return
 
-        // Handle portal interaction
         if (entity?.type === 'portal') {
           entity.onInteract(this)
           return
         }
 
-        // Move the player
         this.moveTo(tx, ty)
         updateCamera()
-
-        // Check for adjacent NPCs after moving
         this.checkAdjacentInteractions()
       }
 
       checkAdjacentInteractions() {
         const directions = [
-          { dx: -1, dy: 0 },  // left
-          { dx: 1, dy: 0 },   // right
-          { dx: 0, dy: -1 },  // up
-          { dx: 0, dy: 1 }    // down
+          { dx: -1, dy: 0 }, { dx: 1, dy: 0 }, { dx: 0, dy: -1 }, { dx: 0, dy: 1 }
         ]
 
-        // Find closest entity for focus
         let closestEntity = null
         let closestDistance = Infinity
 
@@ -567,15 +512,13 @@
           }
         }
 
-        // Update focus
         if (focusedEntity !== closestEntity) {
           focusedEntity = closestEntity
           if (focusedEntity) {
-            addCommandOutput(`${getUIText('focus')} ${focusedEntity.emoji}`, 'info')
+            addCommandOutput(`${getUIText('focus')} ${focusedEntity.emoji}`)
           }
         }
 
-        // Handle NPC interactions
         for (const dir of directions) {
           const checkX = this.x + dir.dx
           const checkY = this.y + dir.dy
@@ -592,17 +535,13 @@
     }
 
     function createTileGrid() {
-      // Clear existing tiles
       worldEl.innerHTML = ''
-
-      // Create all tile DOM elements
       for (let y = 0; y < ROWS; y++) {
         for (let x = 0; x < COLS; x++) {
           const tile = document.createElement('div')
           tile.className = 'tile'
           tile.dataset.x = x
           tile.dataset.y = y
-
           worldEl.appendChild(tile)
           tileElements[y][x] = tile
         }
@@ -611,7 +550,6 @@
 
     function applyRealmTerrain(realm) {
       const terrain = realm.terrain
-
       for (let y = 0; y < ROWS; y++) {
         for (let x = 0; x < COLS; x++) {
           const tile = tileElements[y][x]
@@ -629,11 +567,9 @@
     }
 
     function clearEntities() {
-      // Clear entity grid
       for (let y = 0; y < ROWS; y++) {
         for (let x = 0; x < COLS; x++) {
           entityGrid[y][x] = null
-          // Remove entity elements from tiles
           const tile = tileElements[y][x]
           if (tile) {
             const entities = tile.querySelectorAll('.entity:not(.player)')
@@ -646,7 +582,6 @@
     function generateEntities(realm) {
       for (let y = 0; y < ROWS; y++) {
         for (let x = 0; x < COLS; x++) {
-          // Skip player position
           if (player && x === player.x && y === player.y) continue
 
           for (const entityDef of realm.entities) {
@@ -657,7 +592,6 @@
                 type: entityDef.type,
                 solid: entityDef.solid,
                 dialogue: entityDef.dialogue,
-                dialogues: entityDef.dialogues,
                 destination: entityDef.destination,
                 concept: entityDef.concept
               })
@@ -672,35 +606,24 @@
       const newRealm = REALMS[realmKey]
       if (!newRealm || newRealm === currentRealm) return
 
-      // Show transition
       transition.classList.add('active')
 
       setTimeout(() => {
-        // Stop current music
         if (backgroundMusic) {
           backgroundMusic.pause()
           backgroundMusic.currentTime = 0
         }
 
-        // Update realm
         currentRealm = newRealm
         realmInfo.textContent = newRealm.name
 
-        // Clear and regenerate world
         clearEntities()
         applyRealmTerrain(newRealm)
         generateEntities(newRealm)
 
-        // Update music
-        backgroundMusic = new Audio(newRealm.music)
-        backgroundMusic.loop = true
-        backgroundMusic.volume = 0.3
+        // Skip audio for now since files don't exist
+        // backgroundMusic = new Audio(newRealm.music)
 
-        if (isPlaying) {
-          backgroundMusic.play().catch(e => console.log('Audio play failed:', e))
-        }
-
-        // Move player to a safe spot (find empty tile)
         let newX = 2, newY = 2
         for (let attempts = 0; attempts < 50; attempts++) {
           const testX = Math.floor(Math.random() * COLS)
@@ -714,7 +637,6 @@
         player.moveTo(newX, newY)
         updateCamera()
 
-        // Hide transition
         setTimeout(() => {
           transition.classList.remove('active')
         }, 250)
@@ -729,7 +651,7 @@
     }
 
     function updateInventory() {
-      const haveWord = conlang.getEntry('have').form
+      const haveWord = conlang.getWord('have')
       inventoryEl.textContent = `${haveWord}: ${player.inventory.join(' ')}`
     }
 
@@ -819,7 +741,7 @@
       updateCamera()
     }
 
-    // Command system
+    // Command system - FIXED
     function addCommandOutput(text, className = '') {
       const div = document.createElement('div')
       div.textContent = text
@@ -836,9 +758,10 @@
     function processCommand(input) {
       const trimmedInput = input.toLowerCase().trim()
 
-      addCommandOutput(`> ${input}`, '')
+      // Show what the player typed
+      addCommandOutput(`> ${input}`)
 
-      // Check if input is a known word
+      // Check if input is a known word in the conlang
       const entry = conlang.getEntry(trimmedInput)
 
       if (!entry) {
@@ -858,39 +781,43 @@
           if (focusedEntity) {
             // Teach the player the word for the focused entity
             const entityWord = focusedEntity.conlangName
-            const thisWord = conlang.getEntry('this').form
+            const thisWord = conlang.getWord('this')
 
             addCommandOutput(`${thisWord} ${entityWord}`, 'success')
 
             // Add entity concept to known words
             knownWords.add(focusedEntity.concept)
-            addCommandOutput(`${getUIText('learned')} ${focusedEntity.concept} = ${entityWord}`, 'info')
+            const learnedText = getUIText('learned')
+            addCommandOutput(`${learnedText}: ${focusedEntity.concept} = ${entityWord}`, 'info')
           } else {
             addCommandOutput(getUIText('notNear'), 'error')
           }
           break
 
         case 'say':
-          addCommandOutput(`${getUIText('youSay')} ${entry.form}`, 'success')
+          const youSayText = getUIText('youSay')
+          addCommandOutput(`${youSayText} ${entry.form}`, 'success')
           break
 
         case 'have':
-          const haveLabel = getUIText('inventoryLabel')
-          addCommandOutput(`${haveLabel} ${player.inventory.join(' ')}`, 'info')
+          const haveText = conlang.getWord('have')
+          addCommandOutput(`${haveText}: ${player.inventory.join(' ')}`, 'info')
           break
 
         case 'see':
           if (focusedEntity) {
             const isKnown = knownWords.has(focusedEntity.concept)
             const entityName = isKnown ? focusedEntity.conlangName : '???'
-            addCommandOutput(`${getUIText('youSee')} ${entityName}`, 'info')
+            const youSeeText = getUIText('youSee')
+            addCommandOutput(`${youSeeText} ${entityName}`, 'info')
           } else {
             addCommandOutput(getUIText('notNear'), 'error')
           }
           break
 
         case 'know':
-          addCommandOutput(`${getUIText('learned')}`, 'info')
+          const learnedText = getUIText('learned')
+          addCommandOutput(learnedText, 'info')
           for (const word of knownWords) {
             const wordEntry = conlang.getEntry(word)
             if (wordEntry) {
@@ -900,51 +827,9 @@
           break
 
         default:
-          addCommandOutput(`${getUIText('youSay')} ${entry.form}`, 'success')
+          const youSayText2 = getUIText('youSay')
+          addCommandOutput(`${youSayText2} ${entry.form}`, 'success')
       }
-    }
-
-    function findNearbyEntity(entityType) {
-      const directions = [
-        { dx: 0, dy: 0 },   // same tile
-        { dx: -1, dy: 0 },  // left
-        { dx: 1, dy: 0 },   // right
-        { dx: 0, dy: -1 },  // up
-        { dx: 0, dy: 1 }    // down
-      ]
-
-      for (const dir of directions) {
-        const checkX = player.x + dir.dx
-        const checkY = player.y + dir.dy
-
-        if (checkX >= 0 && checkX < COLS && checkY >= 0 && checkY < ROWS) {
-          const entity = entityGrid[checkY][checkX]
-          if (entity && entity !== player && entity.concept === entityType) {
-            return entity
-          }
-        }
-      }
-      return null
-    }
-
-    function findNearbyEntities(types) {
-      const directions = [
-        { dx: -1, dy: 0 }, { dx: 1, dy: 0 }, { dx: 0, dy: -1 }, { dx: 0, dy: 1 }
-      ]
-
-      const found = []
-      for (const dir of directions) {
-        const checkX = player.x + dir.dx
-        const checkY = player.y + dir.dy
-
-        if (checkX >= 0 && checkX < COLS && checkY >= 0 && checkY < ROWS) {
-          const entity = entityGrid[checkY][checkX]
-          if (entity && entity !== player && types.includes(entity.type)) {
-            found.push(entity)
-          }
-        }
-      }
-      return found
     }
 
     audioToggle.addEventListener('click', toggleAudio)
@@ -955,13 +840,12 @@
     function initializeGame() {
       createTileGrid()
       player = new Player({ x: 2, y: 2, emoji: '🧝‍♂️' })
-      switchRealm('fairy') // Start in forest realm
+      switchRealm('fairy') // Start in fairy realm
 
       // Translate UI elements
       const consoleHeader = document.getElementById('consoleHeader')
       consoleHeader.textContent = getUIText('consoleHeader')
 
-      const commandInput = document.getElementById('commandInput')
       commandInput.placeholder = getUIText('helpHint')
 
       // Welcome message in conlang
@@ -976,19 +860,16 @@
     initializeGame()
     resizeTiles()
 
-    Object.assign(
-      window, {
-        player,
-        conlang,
-        knownWords,
-        getUIText,
-        translateGloss,
-        addCommandOutput,
-        showDialogue,
-        findNearbyEntity,
-        findNearbyEntities
-      }
-    )
+    // Expose useful functions for debugging
+    Object.assign(window, {
+      player,
+      conlang,
+      knownWords,
+      getUIText,
+      translateGloss,
+      addCommandOutput,
+      showDialogue
+    })
   </script>
 </body>
 
