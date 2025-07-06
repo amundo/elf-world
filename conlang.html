@@ -695,8 +695,11 @@
         applyRealmTerrain(newRealm)
         generateEntities(newRealm)
 
+        console.log(`Applying terrain for realm: ${newRealm.name} with music ${newRealm.music}`)
         backgroundMusic = new Audio(newRealm.music)
-
+        backgroundMusic.loop = true
+        backgroundMusic.play().catch(e => console.log('Audio play failed:', e))
+        
         let newX = 2, newY = 2
         for (let attempts = 0; attempts < 50; attempts++) {
           const testX = Math.floor(Math.random() * COLS)
