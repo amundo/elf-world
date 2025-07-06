@@ -1,164 +1,164 @@
 ---
 title: "Emoji Zelda Game: Viewport, Movement, and Camera Math"
-description: A breakdown of the mathematical logic behind viewport sizing, player movement, and camera behavior in a DOM-only, grid-based emoji-style top-down game inspired by classic Zelda mechanics.
+description: "A breakdown of the mathematical logic behind viewport sizing, player movement, and camera behavior in a DOM-only, grid-based emoji-style top-down game inspired by classic Zelda mechanics."
 author: Patrick Hall
 ---
 
 
-This game is a DOM-only, grid-based, emoji-style top-down game inspired by classic Zelda mechanics. It runs entirely in the browser using HTML, CSS Grid, and JavaScript.
+This project is a lightweight, DOM-only, top-down Zelda-style game. It uses **CSS Grid** and emoji-based entities to render a procedurally generated game world. Everything is managed in HTML, CSS, and vanilla JavaScript — no canvas or game engine required.
 
-This document explains the **mathematical logic** behind:
 
-- The **viewport sizing**
-- The **player movement**
-- The **camera behavior**
+## 🚀 Features
+
+- Grid-based world layout (`30 × 20`)
+- Viewport shows only a portion of the map (`10 × 8`)
+- Player movement with arrow keys
+- Laggy camera that scrolls only when the player nears the edges
+- Procedural world generation using probability rules
+- Modular entity system using classes
+- Interaction with enemies and NPCs
+- Inventory system
+- Dialogue overlay UI
 
 ---
 
-## 📐 1. Viewport and Tile Sizing
+## 📐 Viewport and Tile Sizing
 
-### World Grid
-The entire world is a fixed-size grid:
-
-```js
-const COLS = 30   // number of tiles horizontally
-const ROWS = 20   // number of tiles vertically
-````
-
-### Viewport Grid
-
-We define how many tiles should **visibly fit** on screen at any given time:
+The screen is divided into a fixed number of visible tiles:
 
 ```js
-const VIEW_WIDTH = 10   // tiles shown across the screen
-const VIEW_HEIGHT = 8   // tiles shown vertically
-```
-
-### Dynamic Tile Sizing
-
-We calculate the width and height of each tile so that the visible area perfectly fills the screen:
-
-```js
+const VIEW_WIDTH = 10
+const VIEW_HEIGHT = 8
 tileWidth = window.innerWidth / VIEW_WIDTH
 tileHeight = window.innerHeight / VIEW_HEIGHT
-```
+````
 
-This ensures:
-
-* 10 tiles fit across the full width
-* 8 tiles fit down the full height
-* No scrollbars, no empty space, and tiles scale responsively
+This ensures that tiles always fit exactly in the screen regardless of screen size.
 
 ---
 
-## 🕹️ 2. Player Movement
+## 🧊 Procedural World Generation
 
-The player’s position is represented by `(px, py)` coordinates in grid space:
-
-```js
-let px = 15
-let py = 10
-```
-
-Each time an arrow key is pressed:
+Entities are generated based on `terrainOptions`, where each object has a `chance` to appear at any `(x, y)` position:
 
 ```js
-function move(dx, dy) {
-  px = clamp(px + dx, 0, COLS - 1)
-  py = clamp(py + dy, 0, ROWS - 1)
-}
+const terrainOptions = [
+  { type: 'object', emoji: '🌲', chance: 0.1 },      // tree
+  { type: 'object', emoji: '🪨', chance: 0.05 },     // rock
+  { type: 'enemy',  emoji: '🐍', chance: 0.03 },     // snake
+  { type: 'enemy',  emoji: '🦇', chance: 0.02 },     // bat
+  { type: 'npc',    emoji: '👴', chance: 0.02, dialogue: 'Welcome, traveler!' },
+  { type: 'npc',    emoji: '🧙‍♂️', chance: 0.01, dialogue: 'Magic is real!' }
+]
 ```
 
-* `clamp()` ensures the player doesn’t move off the edge of the world.
-* The player's DOM element is positioned absolutely using:
+Entities are instantiated dynamically using:
 
 ```js
-playerEl.style.left = `${px * tileWidth}px`
-playerEl.style.top = `${py * tileHeight}px`
+const entity = new Cls({ ...data, x, y })
+grid[y][x] = entity
 ```
-
-This multiplies their grid position by the size of a tile to compute pixel position.
 
 ---
 
-## 🎥 3. Laggy Camera System
+## 🧱 Entity Class System
 
-The camera does not follow the player *immediately*. Instead, it centers the player only **when they approach the edge of the viewport**.
+Each tile on the map may contain a dynamic entity:
 
-### Camera Position
+### Base Class: `Entity`
 
-We track camera center coordinates separately:
+* Manages `x`, `y`, emoji, rendering
+* `onInteract(player)` is defined by subclasses
+
+### `ObjectEntity`
+
+* Solid, blocks movement (e.g. 🌲 or 🪨)
+
+### `Enemy`
+
+* Not solid
+* Shows dialogue when touched
+
+### `NPC`
+
+* Not solid
+* Triggers dialogue and gives item if needed
+
+### `Player`
+
+* Stores position, emoji, inventory
+* Handles movement logic
+* Interacts with entities via grid lookup
+
+---
+
+## 🕹️ Movement and Interaction
 
 ```js
-let cameraX = px
-let cameraY = py
+player.move(dx, dy)
 ```
 
-Then compute the visible window of tiles:
+Performs:
+
+* Clamp to world bounds
+* Check if grid tile has an entity
+
+  * If solid, block movement
+  * If interactive, call `onInteract()`
+* Update player position and camera
+
+---
+
+## 🎥 Camera Math
 
 ```js
-const marginX = Math.floor(VIEW_WIDTH / 2)
-const marginY = Math.floor(VIEW_HEIGHT / 2)
-
 const offsetX = (cameraX - marginX) * tileWidth
 const offsetY = (cameraY - marginY) * tileHeight
 ```
 
-This means:
-
-* The top-left corner of the view is always `(cameraX - marginX, cameraY - marginY)`
-* The visible grid is centered around the camera
-* If the player moves too far from the camera, we adjust the camera
-
-### Camera Adjustment
-
-```js
-if (px < cameraX - marginX + 1)
-  cameraX = clamp(px + marginX - 1, marginX, COLS - marginX - 1)
-
-if (px > cameraX + marginX - 1)
-  cameraX = clamp(px - marginX + 1, marginX, COLS - marginX - 1)
-
-... same for y ...
-```
-
-This keeps the camera “laggy”:
-
-* It **doesn’t move** unless the player nears the edge of the screen.
-* It **snaps** when the player exceeds the center margin.
-
-### World Scrolling
-
-Finally, the `world` and `player` containers are moved:
-
-```js
-worldEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
-playerEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
-```
-
-So even though the world is much larger than the viewport, only the portion near the player is visible.
+* `cameraX` and `cameraY` track the virtual center
+* Camera only moves when the player nears the visible edge
+* `transform: translate(...)` scrolls the grid and entities
 
 ---
 
-## 📊 Summary
+## 📦 Inventory & UI
 
-| Concept                 | Formula / Logic                               |
-| ----------------------- | --------------------------------------------- |
-| `tileWidth`             | `window.innerWidth / VIEW_WIDTH`              |
-| `tileHeight`            | `window.innerHeight / VIEW_HEIGHT`            |
-| Player DOM position     | `px * tileWidth`, `py * tileHeight`           |
-| Camera center           | `(cameraX, cameraY)`                          |
-| Camera offset           | `(cameraX - marginX) * tileWidth`             |
-| Camera movement trigger | When player nears edge of visible window      |
-| Clamp world movement    | `clamp(val, min, max)` to avoid overscrolling |
+* Inventory is a simple array: `player.inventory`
+* Shown at top-left of screen
+* `🗝️` is given by NPCs if not already in inventory
+* Dialogue box appears at the bottom for 2 seconds
 
 ---
 
-## 🚀 Tips for Extensions
+## 🧠 Extending the Game
 
-* Add collision logic to block movement on tree tiles 🌲
-* Show NPCs or enemies using emojis (🐍, 👹, etc.)
-* Add an inventory or dialogue box
+You can easily add:
 
-Happy hacking!
+* New entity types: just subclass `Entity`
+* More emojis: update `terrainOptions`
+* Items, combat, quests: hook into `onInteract()`
+* Zones or levels: change generation logic
 
+---
+
+## 🛠️ Tech Stack
+
+* HTML + CSS Grid
+* Plain JavaScript (DOM APIs)
+* No canvas
+* No frameworks
+
+---
+
+## ✅ Example Screenshot
+
+```
+🧝‍♂️
+⬜⬜🌲⬜⬜⬜⬜🧙‍♂️⬜⬜
+⬜⬜⬜⬜🪨⬜⬜⬜⬜⬜
+⬜⬜⬜⬜⬜⬜🐍⬜⬜⬜
+⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+```
+
+---

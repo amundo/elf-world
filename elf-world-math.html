@@ -241,155 +241,131 @@
 Math</h1>
 <p class="author">Patrick Hall</p>
 </header>
-<p>This game is a DOM-only, grid-based, emoji-style top-down game
-inspired by classic Zelda mechanics. It runs entirely in the browser
-using HTML, CSS Grid, and JavaScript.</p>
-<p>This document explains the <strong>mathematical logic</strong>
-behind:</p>
+<p>This project is a lightweight, DOM-only, top-down Zelda-style game.
+It uses <strong>CSS Grid</strong> and emoji-based entities to render a
+procedurally generated game world. Everything is managed in HTML, CSS,
+and vanilla JavaScript — no canvas or game engine required.</p>
+<h2 id="features">🚀 Features</h2>
 <ul>
-<li>The <strong>viewport sizing</strong></li>
-<li>The <strong>player movement</strong></li>
-<li>The <strong>camera behavior</strong></li>
+<li>Grid-based world layout (<code>30 × 20</code>)</li>
+<li>Viewport shows only a portion of the map (<code>10 × 8</code>)</li>
+<li>Player movement with arrow keys</li>
+<li>Laggy camera that scrolls only when the player nears the edges</li>
+<li>Procedural world generation using probability rules</li>
+<li>Modular entity system using classes</li>
+<li>Interaction with enemies and NPCs</li>
+<li>Inventory system</li>
+<li>Dialogue overlay UI</li>
 </ul>
 <hr />
-<h2 id="viewport-and-tile-sizing">📐 1. Viewport and Tile Sizing</h2>
-<h3 id="world-grid">World Grid</h3>
-<p>The entire world is a fixed-size grid:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> COLS <span class="op">=</span> <span class="dv">30</span>   <span class="co">// number of tiles horizontally</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ROWS <span class="op">=</span> <span class="dv">20</span>   <span class="co">// number of tiles vertically</span></span></code></pre></div>
-<h3 id="viewport-grid">Viewport Grid</h3>
-<p>We define how many tiles should <strong>visibly fit</strong> on
-screen at any given time:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIEW_WIDTH <span class="op">=</span> <span class="dv">10</span>   <span class="co">// tiles shown across the screen</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIEW_HEIGHT <span class="op">=</span> <span class="dv">8</span>   <span class="co">// tiles shown vertically</span></span></code></pre></div>
-<h3 id="dynamic-tile-sizing">Dynamic Tile Sizing</h3>
-<p>We calculate the width and height of each tile so that the visible
-area perfectly fills the screen:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tileWidth <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">innerWidth</span> <span class="op">/</span> VIEW_WIDTH</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tileHeight <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">innerHeight</span> <span class="op">/</span> VIEW_HEIGHT</span></code></pre></div>
-<p>This ensures:</p>
+<h2 id="viewport-and-tile-sizing">📐 Viewport and Tile Sizing</h2>
+<p>The screen is divided into a fixed number of visible tiles:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIEW_WIDTH <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIEW_HEIGHT <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tileWidth <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">innerWidth</span> <span class="op">/</span> VIEW_WIDTH</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tileHeight <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">innerHeight</span> <span class="op">/</span> VIEW_HEIGHT</span></code></pre></div>
+<p>This ensures that tiles always fit exactly in the screen regardless
+of screen size.</p>
+<hr />
+<h2 id="procedural-world-generation">🧊 Procedural World Generation</h2>
+<p>Entities are generated based on <code>terrainOptions</code>, where
+each object has a <code>chance</code> to appear at any
+<code>(x, y)</code> position:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> terrainOptions <span class="op">=</span> [</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;object&#39;</span><span class="op">,</span> <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;🌲&#39;</span><span class="op">,</span> <span class="dt">chance</span><span class="op">:</span> <span class="fl">0.1</span> }<span class="op">,</span>      <span class="co">// tree</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;object&#39;</span><span class="op">,</span> <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;🪨&#39;</span><span class="op">,</span> <span class="dt">chance</span><span class="op">:</span> <span class="fl">0.05</span> }<span class="op">,</span>     <span class="co">// rock</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;enemy&#39;</span><span class="op">,</span>  <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;🐍&#39;</span><span class="op">,</span> <span class="dt">chance</span><span class="op">:</span> <span class="fl">0.03</span> }<span class="op">,</span>     <span class="co">// snake</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;enemy&#39;</span><span class="op">,</span>  <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;🦇&#39;</span><span class="op">,</span> <span class="dt">chance</span><span class="op">:</span> <span class="fl">0.02</span> }<span class="op">,</span>     <span class="co">// bat</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;npc&#39;</span><span class="op">,</span>    <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;👴&#39;</span><span class="op">,</span> <span class="dt">chance</span><span class="op">:</span> <span class="fl">0.02</span><span class="op">,</span> <span class="dt">dialogue</span><span class="op">:</span> <span class="st">&#39;Welcome, traveler!&#39;</span> }<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;npc&#39;</span><span class="op">,</span>    <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;🧙‍♂️&#39;</span><span class="op">,</span> <span class="dt">chance</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">dialogue</span><span class="op">:</span> <span class="st">&#39;Magic is real!&#39;</span> }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div>
+<p>Entities are instantiated dynamically using:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> entity <span class="op">=</span> <span class="kw">new</span> <span class="fu">Cls</span>({ <span class="op">...</span>data<span class="op">,</span> x<span class="op">,</span> y })</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>grid[y][x] <span class="op">=</span> entity</span></code></pre></div>
+<hr />
+<h2 id="entity-class-system">🧱 Entity Class System</h2>
+<p>Each tile on the map may contain a dynamic entity:</p>
+<h3 id="base-class-entity">Base Class: <code>Entity</code></h3>
 <ul>
-<li>10 tiles fit across the full width</li>
-<li>8 tiles fit down the full height</li>
-<li>No scrollbars, no empty space, and tiles scale responsively</li>
+<li>Manages <code>x</code>, <code>y</code>, emoji, rendering</li>
+<li><code>onInteract(player)</code> is defined by subclasses</li>
+</ul>
+<h3 id="objectentity"><code>ObjectEntity</code></h3>
+<ul>
+<li>Solid, blocks movement (e.g. 🌲 or 🪨)</li>
+</ul>
+<h3 id="enemy"><code>Enemy</code></h3>
+<ul>
+<li>Not solid</li>
+<li>Shows dialogue when touched</li>
+</ul>
+<h3 id="npc"><code>NPC</code></h3>
+<ul>
+<li>Not solid</li>
+<li>Triggers dialogue and gives item if needed</li>
+</ul>
+<h3 id="player"><code>Player</code></h3>
+<ul>
+<li>Stores position, emoji, inventory</li>
+<li>Handles movement logic</li>
+<li>Interacts with entities via grid lookup</li>
 </ul>
 <hr />
-<h2 id="player-movement">🕹️ 2. Player Movement</h2>
-<p>The player’s position is represented by <code>(px, py)</code>
-coordinates in grid space:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> px <span class="op">=</span> <span class="dv">15</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> py <span class="op">=</span> <span class="dv">10</span></span></code></pre></div>
-<p>Each time an arrow key is pressed:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">move</span>(dx<span class="op">,</span> dy) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  px <span class="op">=</span> <span class="fu">clamp</span>(px <span class="op">+</span> dx<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> COLS <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  py <span class="op">=</span> <span class="fu">clamp</span>(py <span class="op">+</span> dy<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> ROWS <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="movement-and-interaction">🕹️ Movement and Interaction</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>player<span class="op">.</span><span class="fu">move</span>(dx<span class="op">,</span> dy)</span></code></pre></div>
+<p>Performs:</p>
 <ul>
-<li><code>clamp()</code> ensures the player doesn’t move off the edge of
-the world.</li>
-<li>The player’s DOM element is positioned absolutely using:</li>
+<li><p>Clamp to world bounds</p></li>
+<li><p>Check if grid tile has an entity</p>
+<ul>
+<li>If solid, block movement</li>
+<li>If interactive, call <code>onInteract()</code></li>
+</ul></li>
+<li><p>Update player position and camera</p></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>playerEl<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">left</span> <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>px <span class="op">*</span> tileWidth<span class="sc">}</span><span class="vs">px`</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>playerEl<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">top</span> <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>py <span class="op">*</span> tileHeight<span class="sc">}</span><span class="vs">px`</span></span></code></pre></div>
-<p>This multiplies their grid position by the size of a tile to compute
-pixel position.</p>
 <hr />
-<h2 id="laggy-camera-system">🎥 3. Laggy Camera System</h2>
-<p>The camera does not follow the player <em>immediately</em>. Instead,
-it centers the player only <strong>when they approach the edge of the
-viewport</strong>.</p>
-<h3 id="camera-position">Camera Position</h3>
-<p>We track camera center coordinates separately:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cameraX <span class="op">=</span> px</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cameraY <span class="op">=</span> py</span></code></pre></div>
-<p>Then compute the visible window of tiles:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> marginX <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(VIEW_WIDTH <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> marginY <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(VIEW_HEIGHT <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> offsetX <span class="op">=</span> (cameraX <span class="op">-</span> marginX) <span class="op">*</span> tileWidth</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> offsetY <span class="op">=</span> (cameraY <span class="op">-</span> marginY) <span class="op">*</span> tileHeight</span></code></pre></div>
-<p>This means:</p>
+<h2 id="camera-math">🎥 Camera Math</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> offsetX <span class="op">=</span> (cameraX <span class="op">-</span> marginX) <span class="op">*</span> tileWidth</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> offsetY <span class="op">=</span> (cameraY <span class="op">-</span> marginY) <span class="op">*</span> tileHeight</span></code></pre></div>
 <ul>
-<li>The top-left corner of the view is always
-<code>(cameraX - marginX, cameraY - marginY)</code></li>
-<li>The visible grid is centered around the camera</li>
-<li>If the player moves too far from the camera, we adjust the
-camera</li>
+<li><code>cameraX</code> and <code>cameraY</code> track the virtual
+center</li>
+<li>Camera only moves when the player nears the visible edge</li>
+<li><code>transform: translate(...)</code> scrolls the grid and
+entities</li>
 </ul>
-<h3 id="camera-adjustment">Camera Adjustment</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (px <span class="op">&lt;</span> cameraX <span class="op">-</span> marginX <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  cameraX <span class="op">=</span> <span class="fu">clamp</span>(px <span class="op">+</span> marginX <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> marginX<span class="op">,</span> COLS <span class="op">-</span> marginX <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (px <span class="op">&gt;</span> cameraX <span class="op">+</span> marginX <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  cameraX <span class="op">=</span> <span class="fu">clamp</span>(px <span class="op">-</span> marginX <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> marginX<span class="op">,</span> COLS <span class="op">-</span> marginX <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="op">...</span> same <span class="cf">for</span> y <span class="op">...</span></span></code></pre></div>
-<p>This keeps the camera “laggy”:</p>
-<ul>
-<li>It <strong>doesn’t move</strong> unless the player nears the edge of
-the screen.</li>
-<li>It <strong>snaps</strong> when the player exceeds the center
-margin.</li>
-</ul>
-<h3 id="world-scrolling">World Scrolling</h3>
-<p>Finally, the <code>world</code> and <code>player</code> containers
-are moved:</p>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>worldEl<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">transform</span> <span class="op">=</span> <span class="vs">`translate(</span><span class="sc">${</span><span class="op">-</span>offsetX<span class="sc">}</span><span class="vs">px, </span><span class="sc">${</span><span class="op">-</span>offsetY<span class="sc">}</span><span class="vs">px)`</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>playerEl<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">transform</span> <span class="op">=</span> <span class="vs">`translate(</span><span class="sc">${</span><span class="op">-</span>offsetX<span class="sc">}</span><span class="vs">px, </span><span class="sc">${</span><span class="op">-</span>offsetY<span class="sc">}</span><span class="vs">px)`</span></span></code></pre></div>
-<p>So even though the world is much larger than the viewport, only the
-portion near the player is visible.</p>
 <hr />
-<h2 id="summary">📊 Summary</h2>
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 66%" />
-</colgroup>
-<thead>
-<tr>
-<th>Concept</th>
-<th>Formula / Logic</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>tileWidth</code></td>
-<td><code>window.innerWidth / VIEW_WIDTH</code></td>
-</tr>
-<tr>
-<td><code>tileHeight</code></td>
-<td><code>window.innerHeight / VIEW_HEIGHT</code></td>
-</tr>
-<tr>
-<td>Player DOM position</td>
-<td><code>px * tileWidth</code>, <code>py * tileHeight</code></td>
-</tr>
-<tr>
-<td>Camera center</td>
-<td><code>(cameraX, cameraY)</code></td>
-</tr>
-<tr>
-<td>Camera offset</td>
-<td><code>(cameraX - marginX) * tileWidth</code></td>
-</tr>
-<tr>
-<td>Camera movement trigger</td>
-<td>When player nears edge of visible window</td>
-</tr>
-<tr>
-<td>Clamp world movement</td>
-<td><code>clamp(val, min, max)</code> to avoid overscrolling</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="tips-for-extensions">🚀 Tips for Extensions</h2>
+<h2 id="inventory-ui">📦 Inventory &amp; UI</h2>
 <ul>
-<li>Add collision logic to block movement on tree tiles 🌲</li>
-<li>Show NPCs or enemies using emojis (🐍, 👹, etc.)</li>
-<li>Add an inventory or dialogue box</li>
+<li>Inventory is a simple array: <code>player.inventory</code></li>
+<li>Shown at top-left of screen</li>
+<li><code>🗝️</code> is given by NPCs if not already in inventory</li>
+<li>Dialogue box appears at the bottom for 2 seconds</li>
 </ul>
-<p>Happy hacking!</p>
+<hr />
+<h2 id="extending-the-game">🧠 Extending the Game</h2>
+<p>You can easily add:</p>
+<ul>
+<li>New entity types: just subclass <code>Entity</code></li>
+<li>More emojis: update <code>terrainOptions</code></li>
+<li>Items, combat, quests: hook into <code>onInteract()</code></li>
+<li>Zones or levels: change generation logic</li>
+</ul>
+<hr />
+<h2 id="tech-stack">🛠️ Tech Stack</h2>
+<ul>
+<li>HTML + CSS Grid</li>
+<li>Plain JavaScript (DOM APIs)</li>
+<li>No canvas</li>
+<li>No frameworks</li>
+</ul>
+<hr />
+<h2 id="example-screenshot">✅ Example Screenshot</h2>
+<pre><code>🧝‍♂️
+⬜⬜🌲⬜⬜⬜⬜🧙‍♂️⬜⬜
+⬜⬜⬜⬜🪨⬜⬜⬜⬜⬜
+⬜⬜⬜⬜⬜⬜🐍⬜⬜⬜
+⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜</code></pre>
+<hr />
 </body>
 </html>

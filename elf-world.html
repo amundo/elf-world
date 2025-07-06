@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Emoji Zelda Game - Refactored</title>
+  <title>elf world</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'48'%20height%3D'48'%20viewBox%3D'0%200%2016%2016'%3E%3Ctext%20x%3D'0'%20y%3D'14'%3E%F0%9F%A7%9D%E2%80%8D%E2%99%82%EF%B8%8F%3C%2Ftext%3E%3C%2Fsvg%3E" />
   <style>
     html, body {
       margin: 0;
@@ -33,7 +34,7 @@
 
     .player, .entity {
       position: absolute;
-      width: 1px; /* Will be resized dynamically */
+      width: 1px;
       height: 1px;
     }
 
@@ -112,7 +113,7 @@
 
   class Enemy extends Entity {
     onInteract(player) {
-      showDialogue("A wild " + this.emoji + " appears!")
+      showDialogue(`A wild ${this.emoji} appears!`, this)
     }
   }
 
@@ -122,7 +123,7 @@
       this.dialogue = data.dialogue || "Hello!"
     }
     onInteract(player) {
-      showDialogue(this.dialogue)
+      showDialogue(this.dialogue, this)
       if (!player.inventory.includes('🗝️')) {
         player.inventory.push('🗝️')
         updateInventory()
@@ -147,7 +148,7 @@
     move(dx, dy) {
       const tx = clamp(this.x + dx, 0, COLS - 1)
       const ty = clamp(this.y + dy, 0, ROWS - 1)
-      const entity = grid[ty][tx]
+      const entity = grid[clamp(ty, 0, ROWS - 1)]?.[clamp(tx, 0, COLS - 1)]
       if (entity?.solid) return
       entity?.onInteract(this)
       this.x = tx
@@ -157,10 +158,13 @@
     }
   }
 
-  const entitiesData = [
-    { type: 'object', emoji: '🌲', x: 5, y: 5 },
-    { type: 'enemy', emoji: '🐍', x: 10, y: 3 },
-    { type: 'npc', emoji: '👴', x: 15, y: 8, dialogue: 'Stay safe out there!' }
+  const terrainOptions = [
+    { type: 'object', emoji: '🌲', chance: 0.1 },
+    { type: 'object', emoji: '🪨', chance: 0.05 },
+    { type: 'enemy', emoji: '🐍', chance: 0.03 },
+    { type: 'enemy', emoji: '🦇', chance: 0.02 },
+    { type: 'npc', emoji: '👴', chance: 0.02, dialogue: 'Welcome, traveler!' },
+    { type: 'npc', emoji: '🧙‍♂️', chance: 0.01, dialogue: 'Magic is real!' }
   ]
 
   const entityTypes = {
@@ -170,12 +174,21 @@
   }
 
   const entities = []
-  entitiesData.forEach(data => {
-    const Cls = entityTypes[data.type]
-    const entity = new Cls(data)
-    grid[data.y][data.x] = entity
-    entities.push(entity)
-  })
+
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      for (const option of terrainOptions) {
+        if (Math.random() < option.chance) {
+          const Cls = entityTypes[option.type]
+          const data = { ...option, x, y }
+          const entity = new Cls(data)
+          grid[y][x] = entity
+          entities.push(entity)
+          break
+        }
+      }
+    }
+  }
 
   const player = new Player({ x: 2, y: 2, emoji: '🧝‍♂️' })
 
@@ -190,10 +203,29 @@
     inventoryEl.textContent = `Inventory: ${player.inventory.join(' ')}`
   }
 
-  function showDialogue(text) {
-    dialogueBox.textContent = text
-    dialogueBox.style.display = 'block'
-    setTimeout(() => dialogueBox.style.display = 'none', 2000)
+  function showDialogue(text, entity = null) {
+    if (!entity) return
+
+    let bubble = entity.el.querySelector('.speech-bubble')
+    if (!bubble) {
+      bubble = document.createElement('div')
+      bubble.className = 'speech-bubble'
+      bubble.style.position = 'absolute'; bubble.style.left = '50%'; bubble.style.top = '-0.2em'
+      bubble.style.background = 'white'
+      bubble.style.border = '1px solid black'
+      bubble.style.padding = '4px 8px'
+      bubble.style.borderRadius = '8px'
+      bubble.style.fontSize = '1rem'
+      bubble.style.zIndex = '20'
+      bubble.style.whiteSpace = 'nowrap'
+      bubble.style.transform = 'translate(-50%, -120%)'
+      entity.el.appendChild(bubble)
+    }
+    bubble.textContent = text
+    bubble.style.display = 'block'
+    setTimeout(() => {
+      if (bubble) bubble.style.display = 'none'
+    }, 2000)
   }
 
   function updateCamera() {
