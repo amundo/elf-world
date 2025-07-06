@@ -239,7 +239,75 @@
   </div>
 
   <script type="module">
-    import { ConlangEngine } from './ConlangEngine.js'
+    // Simple ConlangEngine embedded directly
+    class ConlangEngine {
+      constructor(config = {}) {
+        this.consonants = config.consonants || ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j']
+        this.vowels = config.vowels || ['a', 'e', 'i', 'o', 'u']
+        this.syllableStructures = config.syllableStructures || ['CV', 'CVC', 'V', 'VC']
+        this.seed = config.seed || null
+        this.rng = this.createRNG(this.seed)
+        this.lexicon = new Map()
+        this.seedWords = [
+          "GO", "HAVE", "HEAR", "HELLO", "HERE", "HOW", "KNOW", "LEARN", 
+          "NEAR", "NOT", "OPEN", "SAY", "SEE", "TAKE", "THING", "THIS", 
+          "USE", "WHAT", "WHERE", "WHO", "WORD", "WORLD"
+        ]
+        this.initializeLexicon()
+      }
+
+      createRNG(seed) {
+        if (!seed) return Math.random
+        let s = seed
+        return function () {
+          s = Math.sin(s) * 10000
+          return s - Math.floor(s)
+        }
+      }
+
+      initializeLexicon() {
+        for (const word of this.seedWords) {
+          const form = this.generateRandomWord()
+          this.lexicon.set(word.toLowerCase(), form)
+        }
+      }
+
+      generateSyllable(structure) {
+        let syllable = ''
+        for (const segment of structure) {
+          if (segment === 'C') {
+            syllable += this.consonants[Math.floor(this.rng() * this.consonants.length)]
+          } else if (segment === 'V') {
+            syllable += this.vowels[Math.floor(this.rng() * this.vowels.length)]
+          }
+        }
+        return syllable
+      }
+
+      generateRandomWord() {
+        const numSyllables = Math.floor(this.rng() * 3) + 1
+        let word = ''
+        for (let i = 0; i < numSyllables; i++) {
+          const structure = this.syllableStructures[Math.floor(this.rng() * this.syllableStructures.length)]
+          word += this.generateSyllable(structure)
+        }
+        return word
+      }
+
+      getWord(concept) {
+        const key = concept.toLowerCase()
+        if (this.lexicon.has(key)) {
+          return this.lexicon.get(key)
+        }
+        const form = this.generateRandomWord()
+        this.lexicon.set(key, form)
+        return form
+      }
+
+      hasWord(concept) {
+        return this.lexicon.has(concept.toLowerCase())
+      }
+    }
 
     const COLS = 30
     const ROWS = 20
@@ -276,16 +344,14 @@
       if (!(glossText.startsWith('[') && glossText.endsWith(']'))) {
         return glossText
       }
-
       const innerGlossText = glossText.slice(1, -1).toLowerCase()
       const tokenizer = new Intl.Segmenter('en', { granularity: 'word' })
       const tokens = Array.from(tokenizer.segment(innerGlossText))
         .filter(segment => segment.isWordLike)
         .map(segment => segment.segment)
-      
       return tokens.map(word => {
-        const entry = conlang.getEntry(word)
-        return entry ? entry.form : word
+        const conlangWord = conlang.getWord(word)
+        return conlangWord || word
       }).join(' ')
     }
 
@@ -312,67 +378,72 @@
     // Grid of entity data
     const entityGrid = Array.from({ length: ROWS }, () => Array(COLS).fill(null))
 
-    // Realm definitions
-    const REALMS = {
-      forest: {
-        name: "Forest Realm",
-        terrain: {
-          primary: { color: "#90EE90", weight: 0.7 },
-          secondary: { color: "#228B22", weight: 0.2 },
-          accent: { color: "#4169E1", weight: 0.1 }
-        },
-        entities: [
-          { type: 'object', emoji: '🌲', chance: 0.12, solid: true },
-          { type: 'object', emoji: '🪨', chance: 0.06, solid: true },
-          { type: 'enemy', emoji: '🐍', chance: 0.03, dialogue: 'A wild snake appears!' },
-          { type: 'enemy', emoji: '🦇', chance: 0.02, dialogue: 'A bat swoops down!' },
-          { type: 'npc', emoji: '👴', chance: 0.02, dialogue: 'Welcome to the forest, traveler!' },
-          { type: 'npc', emoji: '🧙‍♂️', chance: 0.01, dialogue: 'The forest magic is strong here!' },
-          { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'wraith' },
-          { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
-        ]
+  // Realm definitions
+  const REALMS = {
+    forest: {
+      name: "Forest Realm",
+      music: "audio/woodland-fantasy.mp3",
+      terrain: {
+        primary: { color: "#90EE90", weight: 0.7 },   // Light green
+        secondary: { color: "#228B22", weight: 0.2 }, // Forest green  
+        accent: { color: "#4169E1", weight: 0.1 }     // Blue (water)
       },
-      wraith: {
-        name: "Wraith Realm",
-        terrain: {
-          primary: { color: "#2F2F2F", weight: 0.6 },
-          secondary: { color: "#1C1C1C", weight: 0.3 },
-          accent: { color: "#4B0082", weight: 0.1 }
-        },
-        entities: [
-          { type: 'object', emoji: '🪦', chance: 0.08, solid: true },
-          { type: 'object', emoji: '🌙', chance: 0.03, solid: false },
-          { type: 'enemy', emoji: '💀', chance: 0.04, dialogue: 'A skull rattles menacingly!' },
-          { type: 'enemy', emoji: '🧟', chance: 0.03, dialogue: 'A zombie groans and approaches!' },
-          { type: 'enemy', emoji: '👻', chance: 0.02, dialogue: 'A wraith materializes before you!' },
-          { type: 'npc', emoji: '🧙‍♀️', chance: 0.01, dialogue: 'The dead whisper secrets here...' },
-          { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
-          { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
-          { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
-        ]
+      entities: [
+        { type: 'object', emoji: '🌲', chance: 0.12, solid: true },
+        { type: 'object', emoji: '🪨', chance: 0.06, solid: true },
+        { type: 'enemy', emoji: '🐍', chance: 0.03, dialogue: 'A wild snake appears!' },
+        { type: 'enemy', emoji: '🦇', chance: 0.02, dialogue: 'A bat swoops down!' },
+        { type: 'npc', emoji: '👴', chance: 0.02, dialogue: 'Welcome to the forest, traveler!' },
+        { type: 'npc', emoji: '🧙‍♂️', chance: 0.01, dialogue: 'The forest magic is strong here!' },
+        { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'wraith' },
+        { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
+      ]
+    },
+    wraith: {
+      name: "Wraith Realm", 
+      music: "audio/the-wraiths-of-winter.mp3",
+      terrain: {
+        primary: { color: "#2F2F2F", weight: 0.6 },   // Dark gray
+        secondary: { color: "#1C1C1C", weight: 0.3 }, // Very dark gray
+        accent: { color: "#4B0082", weight: 0.1 }     // Dark purple
       },
-      fairy: {
-        name: "Fairy Realm",
-        terrain: {
-          primary: { color: "#FFB6C1", weight: 0.4 },
-          secondary: { color: "#E6E6FA", weight: 0.3 },
-          accent: { color: "#98FB98", weight: 0.3 }
-        },
-        entities: [
-          { type: 'object', emoji: '🌸', chance: 0.15, solid: false },
-          { type: 'object', emoji: '🌺', chance: 0.08, solid: false },
-          { type: 'object', emoji: '🍄', chance: 0.1, solid: true },
-          { type: 'object', emoji: '🦋', chance: 0.06, solid: false },
-          { type: 'enemy', emoji: '🐝', chance: 0.02, dialogue: 'A magical bee buzzes around you!' },
-          { type: 'enemy', emoji: '🦄', chance: 0.01, dialogue: 'A unicorn prances nearby, but seems wary!' },
-          { type: 'npc', emoji: '🧚‍♀️', chance: 0.04, dialogue: 'Welcome to our enchanted realm!' },
-          { type: 'npc', emoji: '🧚‍♂️', chance: 0.03, dialogue: 'The fairy magic flows strong here!' },
-          { type: 'npc', emoji: '👑', chance: 0.005, dialogue: 'I am the Fairy Queen. You are welcome in my domain.' },
-          { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
-          { type: 'portal', emoji: '🌫️', chance: 0.003, destination: 'wraith' }
-        ]
-      }
+      entities: [
+        { type: 'object', emoji: '🪦', chance: 0.08, solid: true },
+        { type: 'object', emoji: '🌙', chance: 0.03, solid: false },
+        { type: 'enemy', emoji: '💀', chance: 0.04, dialogue: 'A skull rattles menacingly!' },
+        { type: 'enemy', emoji: '🧟', chance: 0.03, dialogue: 'A zombie groans and approaches!' },
+        { type: 'enemy', emoji: '👻', chance: 0.02, dialogue: 'A wraith materializes before you!' },
+        { type: 'npc', emoji: '🧙‍♀️', chance: 0.01, dialogue: 'The dead whisper secrets here...' },
+        { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
+        { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
+        { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
+        { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
+      ]
+    },
+    fairy: {
+      name: "Fairy Realm",
+      music: "audio/epic-orchestral-fantasy.mp3", 
+      terrain: {
+        primary: { color: "#FFB6C1", weight: 0.4 },   // Light pink
+        secondary: { color: "#E6E6FA", weight: 0.3 }, // Lavender
+        accent: { color: "#98FB98", weight: 0.3 }     // Pale green
+      },
+      entities: [
+        { type: 'object', emoji: '🌸', chance: 0.15, solid: false },
+        { type: 'object', emoji: '🌺', chance: 0.08, solid: false },
+        { type: 'object', emoji: '🍄', chance: 0.1, solid: true },
+        { type: 'object', emoji: '🦋', chance: 0.06, solid: false },
+        { type: 'enemy', emoji: '🐝', chance: 0.02, dialogue: 'A magical bee buzzes around you!' },
+        { type: 'enemy', emoji: '🦄', chance: 0.01, dialogue: 'A unicorn prances nearby, but seems wary!' },
+        { type: 'npc', emoji: '🧚‍♀️', chance: 0.04, dialogue: 'Welcome to our enchanted realm!' },
+        { type: 'npc', emoji: '🧚‍♂️', chance: 0.03, dialogue: 'The fairy magic flows strong here!' },
+        { type: 'npc', emoji: '👑', chance: 0.005, dialogue: 'I am the Fairy Queen. You are welcome in my domain.' },
+        { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
+        { type: 'portal', emoji: '🌫️', chance: 0.003, destination: 'wraith' }
+      ]
     }
+  }
+
 
     class Entity {
       constructor({ x, y, emoji, type = 'entity', solid = false, dialogue = null, destination = null, concept = null }) {
@@ -603,7 +674,10 @@
     }
 
     function switchRealm(realmKey) {
+      console.log(`Switching to realm: ${realmKey}`)
+
       const newRealm = REALMS[realmKey]
+
       if (!newRealm || newRealm === currentRealm) return
 
       transition.classList.add('active')
@@ -621,8 +695,7 @@
         applyRealmTerrain(newRealm)
         generateEntities(newRealm)
 
-        // Skip audio for now since files don't exist
-        // backgroundMusic = new Audio(newRealm.music)
+        backgroundMusic = new Audio(newRealm.music)
 
         let newX = 2, newY = 2
         for (let attempts = 0; attempts < 50; attempts++) {
@@ -762,21 +835,22 @@
       addCommandOutput(`> ${input}`)
 
       // Check if input is a known word in the conlang
-      const entry = conlang.getEntry(trimmedInput)
-
-      if (!entry) {
+      if (!conlang.hasWord(trimmedInput)) {
         addCommandOutput(getUIText('unknownCommand'), 'error')
         return
       }
 
+      // Get the conlang word
+      const conlangWord = conlang.getWord(trimmedInput)
+
       // Check if player knows this word
-      if (!knownWords.has(entry.concept)) {
+      if (!knownWords.has(trimmedInput)) {
         addCommandOutput(getUIText('unknownCommand'), 'error')
         return
       }
 
       // Process based on word meaning
-      switch (entry.concept) {
+      switch (trimmedInput) {
         case 'what':
           if (focusedEntity) {
             // Teach the player the word for the focused entity
@@ -796,7 +870,7 @@
 
         case 'say':
           const youSayText = getUIText('youSay')
-          addCommandOutput(`${youSayText} ${entry.form}`, 'success')
+          addCommandOutput(`${youSayText} ${conlangWord}`, 'success')
           break
 
         case 'have':
@@ -819,16 +893,14 @@
           const learnedText = getUIText('learned')
           addCommandOutput(learnedText, 'info')
           for (const word of knownWords) {
-            const wordEntry = conlang.getEntry(word)
-            if (wordEntry) {
-              addCommandOutput(`  ${word} = ${wordEntry.form}`, 'success')
-            }
+            const wordForm = conlang.getWord(word)
+            addCommandOutput(`  ${word} = ${wordForm}`, 'success')
           }
           break
 
         default:
           const youSayText2 = getUIText('youSay')
-          addCommandOutput(`${youSayText2} ${entry.form}`, 'success')
+          addCommandOutput(`${youSayText2} ${conlangWord}`, 'success')
       }
     }
 
@@ -869,6 +941,17 @@
       translateGloss,
       addCommandOutput,
       showDialogue
+    })
+
+
+    Object.assign(window, {
+      switchRealm,
+      updateCamera,
+      updateInventory,
+      applyRealmTerrain,
+      generateEntities,
+      clearEntities,
+      backgroundMusic,
     })
   </script>
 </body>
