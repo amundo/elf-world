@@ -1,3 +1,4 @@
 deploy.sh
 .file_cache.json
 audio/
+.DS_Store
