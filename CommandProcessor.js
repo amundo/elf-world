@@ -1,7 +1,4 @@
-
-// ========================================
 // CommandProcessor.js - Command handling
-// ========================================
 
 export class CommandProcessor {
   constructor(gameState) {
@@ -29,7 +26,6 @@ export class CommandProcessor {
     // Get the conlang word
     const conlangWord = this.gameState.conlang.getWord(trimmedInput)
 
-    console.log(`Processing command: ${trimmedInput} -> ${conlangWord}`)
     // Process based on word meaning
     switch (trimmedInput) {
       case 'what':
@@ -130,6 +126,14 @@ export class CommandProcessor {
       const availableRealms = Object.keys(this.gameState.realms).join(', ')
       this.gameState.ui.addMessage(`Current: ${currentRealm}`, 'info')
       this.gameState.ui.addMessage(`Available: ${availableRealms}`, 'info')
+      
+      // Show portal connections
+      if (this.gameState.currentRealm?.portals) {
+        this.gameState.ui.addMessage('Portals:', 'info')
+        for (const portal of this.gameState.currentRealm.portals) {
+          this.gameState.ui.addMessage(`  ${portal.emoji} → ${portal.destination}`, 'success')
+        }
+      }
     }
   }
 
