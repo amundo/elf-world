@@ -10,7 +10,8 @@ export class Entity {
     this.destination = entityDef.destination || null
     this.gameState = gameState
     this.world = world
-
+    this.canWander = entityDef.canWander || false
+    
     this.emoji = Array.isArray(entityDef.emoji) 
       ? entityDef.emoji[Math.floor(Math.random() * entityDef.emoji.length)]
       : entityDef.emoji
@@ -57,6 +58,23 @@ export class Entity {
       '👑': 'queen'
     }
     return emojiMap[emoji] || 'entity'
+  }
+
+  wander(){
+    const directions = [
+      { dx: 0, dy: -1 }, // Up
+      { dx: 1, dy: 0 }, // Right
+      { dx: 0, dy: 1 }, // Down
+      { dx: -1, dy: 0 } // Left
+    ]
+    
+    const randomDirection = directions[Math.floor(Math.random() * directions.length)]
+    const newX = this.x + randomDirection.dx
+    const newY = this.y + randomDirection.dy
+
+    if (this.world.isValidPosition(newX, newY) && !this.world.entityGrid[newY][newX]) {
+      this.moveTo(newX, newY)
+    }
   }
 
   inspect() {
