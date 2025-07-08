@@ -1,270 +1,36 @@
-// Simple ConlangEngine embedded directly
+import { Lexicon } from './Lexicon.js'
+
+/**
+ * ConlangEngine - handles phonological generation and lexicon management
+ * Now cleanly separated: ConlangEngine generates forms, Lexicon manages storage
+ */
 class ConlangEngine {
   constructor(config = {}) {
+    // Phonological system
     this.consonants = config.consonants || ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j']
     this.vowels = config.vowels || ['a', 'e', 'i', 'o', 'u']
     this.syllableStructures = config.syllableStructures || ['CV', 'CVC', 'V', 'VC']
+    
+    // Random number generator
     this.seed = config.seed || null
     this.rng = this.createRNG(this.seed)
-    this.lexicon = new Map()
-    this.seedWords = [
-      {
-        "emoji": "👋",
-        "gloss": "HELLO",
-        "category": "politeness",
-        "type": "interjection",
-        "form": ""
-      },
-      {
-        "emoji": "❓",
-        "gloss": "WHAT",
-        "category": "question",
-        "type": "interrogative",
-        "form": ""
-      },
-      {
-        "emoji": "🗣️",
-        "gloss": "LANGUAGE",
-        "category": "communication",
-        "type": "noun",
-        "form": ""
-      },
-      {
-        "emoji": "✋",
-        "gloss": "TAKE",
-        "category": "action",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "🤲",
-        "gloss": "GIVE",
-        "category": "action",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "😀",
-        "gloss": "HAPPY",
-        "category": "emotion",
-        "type": "adjective",
-        "form": ""
-      },
-      {
-        "emoji": "😢",
-        "gloss": "SAD",
-        "category": "emotion",
-        "type": "adjective",
-        "form": ""
-      },
-      {
-        "emoji": "😡",
-        "gloss": "ANGRY",
-        "category": "emotion",
-        "type": "adjective",
-        "form": ""
-      },
-      {
-        "emoji": "😱",
-        "gloss": "AFRAID",
-        "category": "emotion",
-        "type": "adjective",
-        "form": ""
-      },
-      {
-        "emoji": "😴",
-        "gloss": "TIRED",
-        "category": "emotion",
-        "type": "adjective",
-        "form": ""
-      },
-      {
-        "emoji": "🥰",
-        "gloss": "LOVE",
-        "category": "emotion",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "👍",
-        "gloss": "YES",
-        "category": "response",
-        "type": "interjection",
-        "form": ""
-      },
-      {
-        "emoji": "👎",
-        "gloss": "NO",
-        "category": "response",
-        "type": "interjection",
-        "form": ""
-      },
-      {
-        "emoji": "🏃",
-        "gloss": "GO",
-        "category": "movement",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "📦",
-        "gloss": "HAVE",
-        "category": "state",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "👂",
-        "gloss": "HEAR",
-        "category": "perception",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "📍",
-        "gloss": "HERE",
-        "category": "location",
-        "type": "adverb",
-        "form": ""
-      },
-      {
-        "emoji": "🤔",
-        "gloss": "HOW",
-        "category": "question",
-        "type": "interrogative",
-        "form": ""
-      },
-      {
-        "emoji": "🧠",
-        "gloss": "KNOW",
-        "category": "cognition",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "📘",
-        "gloss": "LEARN",
-        "category": "cognition",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "📶",
-        "gloss": "NEAR",
-        "category": "spatial",
-        "type": "adverb",
-        "form": ""
-      },
-      {
-        "emoji": "🚫",
-        "gloss": "NOT",
-        "category": "negation",
-        "type": "particle",
-        "form": ""
-      },
-      {
-        "emoji": "🚪",
-        "gloss": "OPEN",
-        "category": "action",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "🗨️",
-        "gloss": "SAY",
-        "category": "communication",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "👀",
-        "gloss": "SEE",
-        "category": "perception",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "📦",
-        "gloss": "THING",
-        "category": "object",
-        "type": "noun",
-        "form": ""
-      },
-      {
-        "emoji": "👉",
-        "gloss": "THIS",
-        "category": "demonstrative",
-        "type": "pronoun",
-        "form": ""
-      },
-      {
-        "emoji": "🛠️",
-        "gloss": "USE",
-        "category": "action",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "📍",
-        "gloss": "WHERE",
-        "category": "question",
-        "type": "interrogative",
-        "form": ""
-      },
-      {
-        "emoji": "🧑",
-        "gloss": "WHO",
-        "category": "question",
-        "type": "interrogative",
-        "form": ""
-      },
-      {
-        "emoji": "📝",
-        "gloss": "WORD",
-        "category": "language",
-        "type": "noun",
-        "form": ""
-      },
-      {
-        "emoji": "🌍",
-        "gloss": "WORLD",
-        "category": "location",
-        "type": "noun",
-        "form": ""
-      },
-      {
-        "emoji": "🍽️",
-        "gloss": "EAT",
-        "category": "survival",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "🥤",
-        "gloss": "DRINK",
-        "category": "survival",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "🛌",
-        "gloss": "SLEEP",
-        "category": "survival",
-        "type": "verb",
-        "form": ""
-      },
-      {
-        "emoji": "😋",
-        "gloss": "HUNGRY",
-        "category": "need",
-        "type": "adjective",
-        "form": ""
-      }
-    ].map(word => word.gloss)
-
-    this.initializeLexicon()
+    
+    // Lexicon instance
+    this.lexicon = new Lexicon()
+    
+    // Initialize with seed vocabulary
+    this.seedWords = config.seedWords || [
+      "GO", "HAVE", "HEAR", "HELLO", "HERE", "HOW", "KNOW", "LEARN", 
+      "NEAR", "NOT", "OPEN", "SAY", "SEE", "TAKE", "THING", "THIS", 
+      "USE", "WHAT", "WHERE", "WHO", "WORD", "WORLD"
+    ]
+    
+    this.initializeSeedVocabulary()
   }
 
+  /**
+   * Create a seeded random number generator
+   */
   createRNG(seed) {
     if (!seed) return Math.random
     let s = seed
@@ -274,17 +40,9 @@ class ConlangEngine {
     }
   }
 
-  initializeLexicon() {
-    for (const word of this.seedWords) {
-      const form = this.generateRandomWord()
-      this.lexicon.set(word.toLowerCase(), {
-        form: form,
-        gloss: word,
-        concept: word.toLowerCase()
-      })
-    }
-  }
-
+  /**
+   * Generate a syllable based on structure pattern
+   */
   generateSyllable(structure) {
     let syllable = ''
     for (const segment of structure) {
@@ -297,7 +55,10 @@ class ConlangEngine {
     return syllable
   }
 
-  generateRandomWord() {
+  /**
+   * Generate a random word form based on phonological rules
+   */
+  generateWordForm() {
     const numSyllables = Math.floor(this.rng() * 3) + 1
     let word = ''
     for (let i = 0; i < numSyllables; i++) {
@@ -307,30 +68,195 @@ class ConlangEngine {
     return word
   }
 
-  getWord(concept) {
-    const key = concept.toLowerCase()
-    if (this.lexicon.has(key)) {
-      return this.lexicon.get(key).form
+  /**
+   * Get or create a word for a given concept
+   * This is the main interface method
+   */
+  getWord(gloss, metadata = {}) {
+    // Check if word already exists
+    const existingWord = this.lexicon.getByGloss(gloss)
+    if (existingWord) {
+      return existingWord.form
     }
-    const form = this.generateRandomWord()
-    this.lexicon.set(key, { form: form, gloss: concept.toUpperCase(), concept: key })
+
+    // Generate new word form
+    let form
+    do {
+      form = this.generateWordForm()
+    } while (this.lexicon.hasForm(form)) // Ensure uniqueness
+
+    // Add to lexicon with metadata
+    this.lexicon.addWord(gloss, form, {
+      generatedBy: 'ConlangEngine',
+      phonologicalStructure: this.analyzePhonologicalStructure(form),
+      ...metadata
+    })
+
     return form
   }
 
-  getEntry(concept) {
-    return this.lexicon.get(concept.toLowerCase())
+  /**
+   * Check if we have a word for a concept
+   */
+  hasWord(gloss) {
+    return this.lexicon.hasGloss(gloss)
   }
 
-  hasWord(concept) {
-    return this.lexicon.has(concept.toLowerCase())
+  /**
+   * Back-translate from conlang form to English gloss
+   */
+  backTranslate(conlangText) {
+    const words = conlangText.toLowerCase().split(/\s+/)
+    return words.map(conlangWord => {
+      const gloss = this.lexicon.getGloss(conlangWord)
+      return gloss || conlangWord // Return original if not found
+    }).join(' ')
+  }
+
+  /**
+   * Translate from English to conlang
+   */
+  translate(englishText) {
+    const words = englishText.toLowerCase().split(/\s+/)
+    return words.map(englishWord => {
+      return this.getWord(englishWord)
+    }).join(' ')
+  }
+
+  /**
+   * Initialize seed vocabulary
+   */
+  initializeSeedVocabulary() {
+    for (const word of this.seedWords) {
+      this.getWord(word.toLowerCase(), { 
+        seedWord: true,
+        frequency: 'high'
+      })
+    }
+  }
+
+  /**
+   * Analyze phonological structure of a word
+   */
+  analyzePhonologicalStructure(word) {
+    let structure = ''
+    for (const char of word.toLowerCase()) {
+      if (this.vowels.includes(char)) {
+        structure += 'V'
+      } else if (this.consonants.includes(char)) {
+        structure += 'C'
+      } else {
+        structure += 'X' // Unknown segment
+      }
+    }
+    return structure
+  }
+
+  /**
+   * Get phonological statistics
+   */
+  getPhonologicalStats() {
+    const allWords = this.lexicon.getAllWords()
+    const consonantCounts = new Map()
+    const vowelCounts = new Map()
+    const structureCounts = new Map()
+
+    for (const word of allWords) {
+      // Count segments
+      for (const char of word.form) {
+        if (this.consonants.includes(char)) {
+          consonantCounts.set(char, (consonantCounts.get(char) || 0) + 1)
+        } else if (this.vowels.includes(char)) {
+          vowelCounts.set(char, (vowelCounts.get(char) || 0) + 1)
+        }
+      }
+
+      // Count structures
+      const structure = word.phonologicalStructure || this.analyzePhonologicalStructure(word.form)
+      structureCounts.set(structure, (structureCounts.get(structure) || 0) + 1)
+    }
+
+    return {
+      consonantFrequencies: Object.fromEntries(consonantCounts),
+      vowelFrequencies: Object.fromEntries(vowelCounts),
+      structureFrequencies: Object.fromEntries(structureCounts),
+      totalWords: allWords.length
+    }
+  }
+
+  /**
+   * Generate a batch of words for concepts
+   */
+  generateBatch(concepts, metadata = {}) {
+    return concepts.map(concept => ({
+      gloss: concept,
+      form: this.getWord(concept, metadata),
+      word: this.lexicon.getByGloss(concept)
+    }))
+  }
+
+  /**
+   * Export the lexicon
+   */
+  exportLexicon() {
+    return this.lexicon.toJSON()
+  }
+
+  /**
+   * Import a lexicon
+   */
+  importLexicon(jsonString) {
+    return this.lexicon.fromJSON(jsonString)
+  }
+
+  /**
+   * Access to underlying lexicon for advanced operations
+   */
+  getLexicon() {
+    return this.lexicon
+  }
+
+  /**
+   * Get comprehensive statistics
+   */
+  getStats() {
+    return {
+      lexicon: this.lexicon.getStats(),
+      phonology: this.getPhonologicalStats(),
+      config: {
+        consonants: this.consonants,
+        vowels: this.vowels,
+        syllableStructures: this.syllableStructures,
+        seed: this.seed
+      }
+    }
   }
 }
 
+// // Example usage showing the cleaner API:
+// const engine = new ConlangEngine({
+//   seed: 12345,
+//   consonants: ['p', 't', 'k', 's', 'n', 'm', 'l', 'r'],
+//   vowels: ['a', 'e', 'i', 'o'],
+//   syllableStructures: ['CV', 'CVC']
+// })
 
-if (import.meta?.main) {
-  testConlangEngine()
-}
+// // Simple word generation
+// console.log(engine.getWord('tree'))     // e.g., 'kelu'
+// console.log(engine.getWord('water'))    // e.g., 'amiso'
 
-export {
-  ConlangEngine
-}
+// // Check existence
+// console.log(engine.hasWord('tree'))     // true
+
+// // Translation
+// console.log(engine.translate('tree water'))           // 'kelu amiso'
+// console.log(engine.backTranslate('kelu amiso'))       // 'tree water'
+
+// // Access lexicon directly for complex operations
+// const lexicon = engine.getLexicon()
+// console.log(lexicon.searchByGloss('tre'))             // Find words containing 'tre'
+// console.log(lexicon.filter(word => word.seedWord))    // Get all seed words
+
+// Statistics
+
+export { ConlangEngine }
