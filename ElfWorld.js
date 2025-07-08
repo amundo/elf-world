@@ -22,7 +22,7 @@ const CONFIG = {
   game: {
     startingRealm: 'fairy',
     initialVocabulary: ['what', 'this'],
-    debugMode: Math.random() < 0.1 // 10% chance for debug mode
+    debugMode: true
   }
 }
 
