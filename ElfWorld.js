@@ -1,668 +1,245 @@
-    // Import the modular ConlangEngine system
-    import { ConlangEngine } from './ConlangEngine.js'
+// ElfWorld.js - Main game module
 
-    const COLS = 30
-    const ROWS = 20
-    const VIEW_WIDTH = 10
-    const VIEW_HEIGHT = 8
+import { ConlangEngine } from './ConlangEngine.js'
+import { GameWorld } from './GameWorld.js'
+import { UIManager } from './UIManager.js'
+import { CommandProcessor } from './CommandProcessor.js'
 
-    let tileWidth, tileHeight
-    const worldEl = document.getElementById('world')
-    const dialogueBox = document.getElementById('dialogueBox')
-    const inventoryEl = document.getElementById('inventory')
-    const audioToggle = document.getElementById('audioToggle')
-    const realmInfo = document.getElementById('realmInfo')
-    const transition = document.getElementById('transition')
-    const commandInput = document.getElementById('commandInput')
-    const commandOutput = document.getElementById('commandOutput')
+// Game configuration
+const CONFIG = {
+  world: {
+    cols: 100,
+    rows: 90,
+    viewWidth: 10,
+    viewHeight: 8
+  },
+  conlang: {
+    seed: Math.floor(43),
+    consonants: ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j'],
+    vowels: ['a', 'e', 'i', 'o', 'u'],
+    syllableStructures: ['CV', 'CVC', 'V', 'VC']
+  },
+  game: {
+    startingRealm: 'fairy',
+    initialVocabulary: ['what', 'this'],
+    debugMode: Math.random() < 0.1 // 10% chance for debug mode
+  }
+}
 
-    // Current realm and audio
-    let currentRealm = null
-    let backgroundMusic = null
-    let isPlaying = false
+// Global game state
+let gameState = {
+  conlang: null,
+  world: null,
+  ui: null,
+  commands: null,
+  realms: null,
+  player: null,
+  knownWords: new Set(CONFIG.game.initialVocabulary),
+  focusedEntity: null,
+  selectedEntity: null,
+  currentRealm: null
+}
 
-    // Initialize conlang with modular system
-    const conlang = new ConlangEngine({ 
-      seed: Math.floor(Math.random() * 1000),
-      consonants: ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j'],
-      vowels: ['a', 'e', 'i', 'o', 'u'],
-      syllableStructures: ['CV', 'CVC', 'V', 'VC']
-    })
+// Initialize the game
+async function initializeGame() {
+  try {
+    // Load external resources
+    const realmsData = await loadRealms()
+    
+    // Initialize core systems
+    gameState.conlang = new ConlangEngine(CONFIG.conlang)
+    gameState.realms = realmsData
+    gameState.world = new GameWorld(CONFIG.world, gameState)
+    gameState.ui = new UIManager(gameState)
+    gameState.commands = new CommandProcessor(gameState)
 
-    // Access lexicon for direct operations
-    const lexicon = conlang.getLexicon()
-
-    // Player's learned vocabulary - start with basic seed words
-    const knownWords = new Set(['what', 'this'])
-
-    // Game state
-    let selectedEntity = null
-    let focusedEntity = null
-
-    // UI translation system - now using the modular system
-    function translateGloss(glossText) {
-      if (!(glossText.startsWith('[') && glossText.endsWith(']'))) {
-        return glossText
-      }
-      const innerGlossText = glossText.slice(1, -1).toLowerCase()
-      return conlang.translate(innerGlossText)
+    // Set up event listeners
+    setupEventListeners()
+    
+    // Initialize UI
+    gameState.ui.initialize()
+    
+    // Create game world
+    await gameState.world.initialize()
+    
+    // Start in the initial realm
+    await gameState.world.switchRealm(CONFIG.game.startingRealm)
+    
+    // Show the game
+    showGame()
+    
+    // Welcome messages
+    gameState.ui.addMessage(gameState.ui.getUIText('welcomeMessage'), 'success')
+    gameState.ui.addMessage(gameState.ui.getUIText('helpHint'), 'info')
+    
+    if (CONFIG.game.debugMode) {
+      gameState.knownWords.add('lexicon')
+      gameState.knownWords.add('export')
+      gameState.knownWords.add('realm')
+      gameState.ui.addMessage('Debug mode: advanced commands available', 'warning')
     }
 
-    function getUIText(key) {
-      const uiGlosses = {
-        consoleHeader: '[word learn]',
-        inventoryLabel: '[have]',
-        welcomeMessage: '[hello world]!',
-        helpHint: '[say what near thing]',
-        unknownCommand: '[not know word]',
-        notNear: '[not near]',
-        learned: '[now know]',
-        youSay: '[you say]',
-        youSee: '[you see]',
-        focus: '[this]'
-      }
+    // Expose debugging interface
+    exposeDebugAPI()
+    
+  } catch (error) {
+    console.error('Failed to initialize game:', error)
+    showError('Failed to load game resources. Please refresh the page.')
+  }
+}
 
-      const gloss = uiGlosses[key] || `[${key}]`
-      return translateGloss(gloss)
+// Load realms data
+async function loadRealms() {
+  try {
+    const response = await fetch('./realms.json')
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }
-
-    // Grid of tile DOM elements
-    const tileElements = Array.from({ length: ROWS }, () => Array(COLS).fill(null))
-    // Grid of entity data
-    const entityGrid = Array.from({ length: ROWS }, () => Array(COLS).fill(null))
-
-    // Realm definitions
-    const REALMS = {
-      forest: {
-        name: "Forest Realm",
-        terrain: {
-          primary: { color: "#90EE90", weight: 0.7 },
-          secondary: { color: "#228B22", weight: 0.2 },
-          accent: { color: "#4169E1", weight: 0.1 }
-        },
-        entities: [
-          { type: 'object', emoji: '🌲', chance: 0.12, solid: true, concept: 'tree' },
-          { type: 'object', emoji: '🪨', chance: 0.06, solid: true, concept: 'rock' },
-          { type: 'enemy', emoji: '🐍', chance: 0.03, dialogue: 'A wild snake appears!', concept: 'snake' },
-          { type: 'enemy', emoji: '🦇', chance: 0.02, dialogue: 'A bat swoops down!', concept: 'bat' },
-          { type: 'npc', emoji: '👴', chance: 0.02, dialogue: 'Welcome to the forest, traveler!', concept: 'elder' },
-          { type: 'npc', emoji: '🧙‍♂️', chance: 0.01, dialogue: 'The forest magic is strong here!', concept: 'wizard' },
-          { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'wraith', concept: 'portal' },
-          { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy', concept: 'portal' }
-        ]
-      },
-      wraith: {
-        name: "Wraith Realm",
-        terrain: {
-          primary: { color: "#2F2F2F", weight: 0.6 },
-          secondary: { color: "#1C1C1C", weight: 0.3 },
-          accent: { color: "#4B0082", weight: 0.1 }
-        },
-        entities: [
-          { type: 'object', emoji: '🪦', chance: 0.08, solid: true, concept: 'grave' },
-          { type: 'object', emoji: '🌙', chance: 0.03, solid: false, concept: 'moon' },
-          { type: 'enemy', emoji: '💀', chance: 0.04, dialogue: 'A skull rattles menacingly!', concept: 'skull' },
-          { type: 'enemy', emoji: '🧟', chance: 0.03, dialogue: 'A zombie groans and approaches!', concept: 'zombie' },
-          { type: 'enemy', emoji: '👻', chance: 0.02, dialogue: 'A wraith materializes before you!', concept: 'ghost' },
-          { type: 'npc', emoji: '🧙‍♀️', chance: 0.01, dialogue: 'The dead whisper secrets here...', concept: 'witch' },
-          { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...', concept: 'crystal' },
-          { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest', concept: 'portal' },
-          { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy', concept: 'portal' }
-        ]
-      },
+    return await response.json()
+  } catch (error) {
+    console.error('Failed to load realms:', error)
+    // Fallback to minimal realm data
+    return {
       fairy: {
         name: "Fairy Realm",
+        description: "A magical fairy realm",
         terrain: {
           primary: { color: "#FFB6C1", weight: 0.4 },
           secondary: { color: "#E6E6FA", weight: 0.3 },
           accent: { color: "#98FB98", weight: 0.3 }
         },
         entities: [
-          { type: 'object', emoji: '🌸', chance: 0.15, solid: false, concept: 'flower' },
-          { type: 'object', emoji: '🌺', chance: 0.08, solid: false, concept: 'flower' },
-          { type: 'object', emoji: '🍄', chance: 0.1, solid: true, concept: 'mushroom' },
-          { type: 'object', emoji: '🦋', chance: 0.06, solid: false, concept: 'butterfly' },
-          { type: 'enemy', emoji: '🐝', chance: 0.02, dialogue: 'A magical bee buzzes around you!', concept: 'bee' },
-          { type: 'enemy', emoji: '🦄', chance: 0.01, dialogue: 'A unicorn prances nearby, but seems wary!', concept: 'unicorn' },
-          { type: 'npc', emoji: '🧚‍♀️', chance: 0.04, dialogue: 'Welcome to our enchanted realm!', concept: 'fairy' },
-          { type: 'npc', emoji: '🧚‍♂️', chance: 0.03, dialogue: 'The fairy magic flows strong here!', concept: 'fairy' },
-          { type: 'npc', emoji: '👑', chance: 0.005, dialogue: 'I am the Fairy Queen. You are welcome in my domain.', concept: 'queen' },
-          { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest', concept: 'portal' },
-          { type: 'portal', emoji: '🌫️', chance: 0.003, destination: 'wraith', concept: 'portal' }
+          {
+            type: 'npc',
+            emoji: '🧚‍♀️',
+            concept: 'fairy',
+            chance: 0.05,
+            dialogue: 'Welcome to the fairy realm!'
+          }
         ]
       }
     }
+  }
+}
 
-    class Entity {
-      constructor({ x, y, emoji, type = 'entity', solid = false, dialogue = null, destination = null, concept = null }) {
-        this.x = x
-        this.y = y
-        this.type = type
-        this.solid = solid
-        this.dialogue = dialogue
-        this.destination = destination
+// Set up event listeners
+function setupEventListeners() {
+  // Keyboard controls
+  window.addEventListener('keydown', (e) => {
+    if (!gameState.player) return
+    
+    switch (e.key) {
+      case 'ArrowLeft':
+        e.preventDefault()
+        gameState.player.move(-1, 0)
+        break
+      case 'ArrowRight':
+        e.preventDefault()
+        gameState.player.move(1, 0)
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        gameState.player.move(0, -1)
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        gameState.player.move(0, 1)
+        break
+    }
+  })
 
-        if (Array.isArray(emoji)) {
-          this.emoji = emoji[Math.floor(Math.random() * emoji.length)]
-        } else {
-          this.emoji = emoji
-        }
-
-        // Use explicit concept or derive from emoji
-        this.concept = concept || this.getConceptFromEmoji(this.emoji)
-        
-        // Generate conlang word using the new system
-        this.conlangName = conlang.getWord(this.concept, {
-          entityType: this.type,
-          emoji: this.emoji,
-          realm: currentRealm?.name || 'unknown'
-        })
-
-        this.el = document.createElement('div')
-        this.el.className = `entity ${type}`
-        this.el.textContent = this.emoji
-        this.el.title = `${this.concept} (${this.conlangName})`
-
-        this.el.addEventListener('click', () => this.inspect())
-
-        const tile = tileElements[y][x]
-        if (tile) {
-          tile.appendChild(this.el)
-        }
-
-        entityGrid[y][x] = this
-      }
-
-      speak() {
-        return this.dialogue || 'The entity makes no sound.'
-      }
-
-      getConceptFromEmoji(emoji) {
-        const emojiMap = {
-          '🌲': 'tree', '🪨': 'rock', '🐍': 'snake', '🦇': 'bat',
-          '👴': 'elder', '🧙‍♂️': 'wizard', '🌀': 'portal', '✨': 'portal',
-          '🌫️': 'portal', '🪦': 'grave', '🌙': 'moon', '💀': 'skull',
-          '🧟': 'zombie', '👻': 'ghost', '🧙‍♀️': 'witch', '🔮': 'crystal',
-          '🌸': 'flower', '🌺': 'flower', '🍄': 'mushroom', '🦋': 'butterfly',
-          '🐝': 'bee', '🦄': 'unicorn', '🧚‍♀️': 'fairy', '🧚‍♂️': 'fairy',
-          '👑': 'queen'
-        }
-        return emojiMap[emoji] || 'entity'
-      }
-
-      inspect() {
-        const isKnown = knownWords.has(this.concept)
-        
-        addCommandOutput(`${getUIText('youSee')} ${this.emoji}`)
-        if (isKnown) {
-          addCommandOutput(`${this.conlangName}`, 'success')
-        } else {
-          addCommandOutput(`???`, 'error')
-        }
-
-        selectedEntity = this
-      }
-
-      moveTo(newX, newY) {
-        if (this.el.parentElement) {
-          this.el.parentElement.removeChild(this.el)
-        }
-        entityGrid[this.y][this.x] = null
-
-        this.x = newX
-        this.y = newY
-        const tile = tileElements[newY][newX]
-        if (tile) {
-          tile.appendChild(this.el)
-        }
-        entityGrid[newY][newX] = this
-      }
-
-      onInteract(player) {
-        if (this.type === 'portal') {
-          switchRealm(this.destination)
-        } else if (this.dialogue) {
-          const greeting = knownWords.has('hello') ? conlang.getWord('hello') : 'hello'
-          const spokenText = this.speak()
-          showDialogue(`${greeting}! ${spokenText}`, this)
-        }
+  // Command input
+  const commandInput = document.getElementById('commandInput')
+  commandInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const input = commandInput.value.trim()
+      if (input) {
+        gameState.commands.processCommand(input)
+        commandInput.value = ''
       }
     }
-
-    class Player extends Entity {
-      constructor({ x, y, emoji }) {
-        super({ x, y, emoji, type: 'player', concept: 'player' })
-        this.inventory = ['🍎']
-      }
-
-      move(dx, dy) {
-        const tx = clamp(this.x + dx, 0, COLS - 1)
-        const ty = clamp(this.y + dy, 0, ROWS - 1)
-        const entity = entityGrid[ty][tx]
-
-        if (entity?.solid) return
-
-        if (entity?.type === 'portal') {
-          entity.onInteract(this)
-          return
-        }
-
-        this.moveTo(tx, ty)
-        updateCamera()
-        this.checkAdjacentInteractions()
-      }
-
-      checkAdjacentInteractions() {
-        const directions = [
-          { dx: -1, dy: 0 }, { dx: 1, dy: 0 }, { dx: 0, dy: -1 }, { dx: 0, dy: 1 }
-        ]
-
-        let closestEntity = null
-        let closestDistance = Infinity
-
-        for (const dir of directions) {
-          const checkX = this.x + dir.dx
-          const checkY = this.y + dir.dy
-
-          if (checkX >= 0 && checkX < COLS && checkY >= 0 && checkY < ROWS) {
-            const entity = entityGrid[checkY][checkX]
-            if (entity && entity !== player) {
-              const distance = Math.abs(dir.dx) + Math.abs(dir.dy)
-              if (distance < closestDistance) {
-                closestDistance = distance
-                closestEntity = entity
-              }
-            }
-          }
-        }
-
-        if (focusedEntity !== closestEntity) {
-          focusedEntity = closestEntity
-          if (focusedEntity) {
-            addCommandOutput(`${getUIText('focus')} ${focusedEntity.emoji}`)
-          }
-        }
-
-        for (const dir of directions) {
-          const checkX = this.x + dir.dx
-          const checkY = this.y + dir.dy
-
-          if (checkX >= 0 && checkX < COLS && checkY >= 0 && checkY < ROWS) {
-            const entity = entityGrid[checkY][checkX]
-            if (entity && (entity.type === 'npc' || entity.type === 'enemy')) {
-              entity.onInteract(this)
-              break
-            }
-          }
-        }
-      }
-    }
-
-    function createTileGrid() {
-      worldEl.innerHTML = ''
-      for (let y = 0; y < ROWS; y++) {
-        for (let x = 0; x < COLS; x++) {
-          const tile = document.createElement('div')
-          tile.className = 'tile'
-          tile.dataset.x = x
-          tile.dataset.y = y
-          worldEl.appendChild(tile)
-          tileElements[y][x] = tile
-        }
-      }
-    }
-
-    function applyRealmTerrain(realm) {
-      const terrain = realm.terrain
-      for (let y = 0; y < ROWS; y++) {
-        for (let x = 0; x < COLS; x++) {
-          const tile = tileElements[y][x]
-          const rand = Math.random()
-
-          if (rand < terrain.accent.weight) {
-            tile.style.backgroundColor = terrain.accent.color
-          } else if (rand < terrain.accent.weight + terrain.secondary.weight) {
-            tile.style.backgroundColor = terrain.secondary.color
-          } else {
-            tile.style.backgroundColor = terrain.primary.color
-          }
-        }
-      }
-    }
-
-    function clearEntities() {
-      for (let y = 0; y < ROWS; y++) {
-        for (let x = 0; x < COLS; x++) {
-          entityGrid[y][x] = null
-          const tile = tileElements[y][x]
-          if (tile) {
-            const entities = tile.querySelectorAll('.entity:not(.player)')
-            entities.forEach(entity => entity.remove())
-          }
-        }
-      }
-    }
-
-    function generateEntities(realm) {
-      for (let y = 0; y < ROWS; y++) {
-        for (let x = 0; x < COLS; x++) {
-          if (player && x === player.x && y === player.y) continue
-
-          for (const entityDef of realm.entities) {
-            if (Math.random() < entityDef.chance) {
-              new Entity({
-                x, y,
-                emoji: entityDef.emoji,
-                type: entityDef.type,
-                solid: entityDef.solid,
-                dialogue: entityDef.dialogue,
-                destination: entityDef.destination,
-                concept: entityDef.concept
-              })
-              break
-            }
-          }
-        }
-      }
-    }
-
-    function switchRealm(realmKey) {
-      const newRealm = REALMS[realmKey]
-      if (!newRealm || newRealm === currentRealm) return
-
-      transition.classList.add('active')
-
-      setTimeout(() => {
-        if (backgroundMusic) {
-          backgroundMusic.pause()
-          backgroundMusic.currentTime = 0
-        }
-
-        currentRealm = newRealm
-        realmInfo.textContent = newRealm.name
-
-        clearEntities()
-        applyRealmTerrain(newRealm)
-        generateEntities(newRealm)
-
-        // Skip audio for now since files don't exist
-        backgroundMusic = new Audio(newRealm.music)
-
-        let newX = 2, newY = 2
-        for (let attempts = 0; attempts < 50; attempts++) {
-          const testX = Math.floor(Math.random() * COLS)
-          const testY = Math.floor(Math.random() * ROWS)
-          if (!entityGrid[testY][testX]) {
-            newX = testX
-            newY = testY
-            break
-          }
-        }
-        player.moveTo(newX, newY)
-        updateCamera()
-
-        setTimeout(() => {
-          transition.classList.remove('active')
-        }, 250)
-      }, 250)
-    }
-
-    let cameraX = 2
-    let cameraY = 2
-
-    function clamp(val, min, max) {
-      return Math.max(min, Math.min(max, val))
-    }
-
-    function updateInventory() {
-      const haveWord = conlang.getWord('have')
-      inventoryEl.textContent = `${haveWord}: ${player.inventory.join(' ')}`
-    }
-
-    function showDialogue(text, entity = null) {
-      if (!entity) return
-
-      let bubble = entity.el.querySelector('.speech-bubble')
-      if (!bubble) {
-        bubble = document.createElement('div')
-        bubble.className = 'speech-bubble'
-        bubble.style.position = 'absolute'
-        bubble.style.left = '50%'
-        bubble.style.top = '-0.2em'
-        bubble.style.background = 'white'
-        bubble.style.border = '1px solid black'
-        bubble.style.padding = '4px 8px'
-        bubble.style.borderRadius = '8px'
-        bubble.style.fontSize = '1rem'
-        bubble.style.zIndex = '30'
-        bubble.style.whiteSpace = 'nowrap'
-        bubble.style.transform = 'translate(-50%, -120%)'
-        entity.el.appendChild(bubble)
-      }
-      bubble.textContent = text
-      bubble.style.display = 'block'
-      setTimeout(() => {
-        if (bubble) bubble.style.display = 'none'
-      }, 2000)
-    }
-
-    function updateCamera() {
-      const marginX = Math.floor(VIEW_WIDTH / 2)
-      const marginY = Math.floor(VIEW_HEIGHT / 2)
-
-      if (player.x < cameraX - marginX + 1) cameraX = clamp(player.x + marginX - 1, marginX, COLS - marginX - 1)
-      if (player.x > cameraX + marginX - 1) cameraX = clamp(player.x - marginX + 1, marginX, COLS - marginX - 1)
-      if (player.y < cameraY - marginY + 1) cameraY = clamp(player.y + marginY - 1, marginY, ROWS - marginY - 1)
-      if (player.y > cameraY + marginY - 1) cameraY = clamp(player.y - marginY + 1, marginY, ROWS - marginY - 1)
-
-      const offsetX = clamp(cameraX - marginX, 0, COLS - VIEW_WIDTH) * tileWidth
-      const offsetY = clamp(cameraY - marginY, 0, ROWS - VIEW_HEIGHT) * tileHeight
-      worldEl.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`
-    }
-
-    function toggleAudio() {
-      if (isPlaying) {
-        if (backgroundMusic) backgroundMusic.pause()
-        audioToggle.textContent = '🔇'
-        isPlaying = false
-      } else {
-        if (backgroundMusic) {
-          backgroundMusic.play().catch(e => console.log('Audio play failed:', e))
-        }
-        audioToggle.textContent = '🔊'
-        isPlaying = true
-      }
-    }
-
-    window.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') player.move(-1, 0)
-      else if (e.key === 'ArrowRight') player.move(1, 0)
-      else if (e.key === 'ArrowUp') player.move(0, -1)
-      else if (e.key === 'ArrowDown') player.move(0, 1)
-    })
-
-    commandInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        const input = commandInput.value.trim()
-        if (input) {
-          processCommand(input)
-          commandInput.value = ''
-        }
-      }
-    })
-
-    function resizeTiles() {
-      const gamePane = document.querySelector('.game-pane')
-      const gamePaneWidth = gamePane.clientWidth
-      const gamePaneHeight = gamePane.clientHeight
-
-      tileWidth = gamePaneWidth / VIEW_WIDTH
-      tileHeight = gamePaneHeight / VIEW_HEIGHT
-      worldEl.style.gridTemplateColumns = `repeat(${COLS}, ${tileWidth}px)`
-      worldEl.style.gridTemplateRows = `repeat(${ROWS}, ${tileHeight}px)`
-      worldEl.style.width = `${COLS * tileWidth}px`
-      worldEl.style.height = `${ROWS * tileHeight}px`
-      updateCamera()
-    }
-
-    // Command system - updated to use new lexicon API
-    function addCommandOutput(text, className = '') {
-      const div = document.createElement('div')
-      div.textContent = text
-      if (className) div.className = className
-      commandOutput.appendChild(div)
-      commandOutput.scrollTop = commandOutput.scrollHeight
-
-      // Keep only last 15 messages
-      while (commandOutput.children.length > 15) {
-        commandOutput.removeChild(commandOutput.firstChild)
-      }
-    }
-
-    function processCommand(input) {
-      const trimmedInput = input.toLowerCase().trim()
-
-      // Show what the player typed
-      addCommandOutput(`> ${input}`)
-
-      // Check if input is a known word in the conlang
-      if (!conlang.hasWord(trimmedInput)) {
-        addCommandOutput(getUIText('unknownCommand'), 'error')
-        return
-      }
-
-      // Get the conlang word
-      const conlangWord = conlang.getWord(trimmedInput)
-
-      // Check if player knows this word
-      if (!knownWords.has(trimmedInput)) {
-        addCommandOutput(getUIText('unknownCommand'), 'error')
-        return
-      }
-
-      // Process based on word meaning
-      switch (trimmedInput) {
-        case 'what':
-          if (focusedEntity) {
-            // Teach the player the word for the focused entity
-            const entityWord = focusedEntity.conlangName
-            const thisWord = conlang.getWord('this')
-
-            addCommandOutput(`${thisWord} ${entityWord}`, 'success')
-
-            // Add entity concept to known words
-            knownWords.add(focusedEntity.concept)
-            const learnedText = getUIText('learned')
-            addCommandOutput(`${learnedText}: ${focusedEntity.concept} = ${entityWord}`, 'info')
-          } else {
-            addCommandOutput(getUIText('notNear'), 'error')
-          }
-          break
-
-        case 'say':
-          const youSayText = getUIText('youSay')
-          addCommandOutput(`${youSayText} ${conlangWord}`, 'success')
-          break
-
-        case 'have':
-          const haveText = conlang.getWord('have')
-          addCommandOutput(`${haveText}: ${player.inventory.join(' ')}`, 'info')
-          break
-
-        case 'see':
-          if (focusedEntity) {
-            const isKnown = knownWords.has(focusedEntity.concept)
-            const entityName = isKnown ? focusedEntity.conlangName : '???'
-            const youSeeText = getUIText('youSee')
-            addCommandOutput(`${youSeeText} ${entityName}`, 'info')
-          } else {
-            addCommandOutput(getUIText('notNear'), 'error')
-          }
-          break
-
-        case 'know':
-          const learnedText = getUIText('learned')
-          addCommandOutput(learnedText, 'info')
-          for (const word of knownWords) {
-            const wordForm = conlang.getWord(word)
-            addCommandOutput(`  ${word} = ${wordForm}`, 'success')
-          }
-          break
-
-        case 'lexicon':
-          // Debug command to show lexicon stats
-          if (knownWords.has('lexicon')) {
-            const stats = conlang.getStats()
-            addCommandOutput(`Words in lexicon: ${stats.lexicon.totalWords}`, 'info')
-            addCommandOutput(`Phonology: ${stats.phonology.totalWords} words analyzed`, 'info')
-          }
-          break
-
-        case 'export':
-          // Debug command to export lexicon
-          if (knownWords.has('export')) {
-            const exportData = conlang.exportLexicon()
-            console.log('Lexicon export:', exportData)
-            addCommandOutput('Lexicon exported to browser console', 'info')
-          }
-          break
-
-        default:
-          const youSayText2 = getUIText('youSay')
-          addCommandOutput(`${youSayText2} ${conlangWord}`, 'success')
-      }
-    }
-
-    audioToggle.addEventListener('click', toggleAudio)
-
-    // Initialize the game
-    let player = null
-
-    function initializeGame() {
-      createTileGrid()
-      player = new Player({ x: 2, y: 2, emoji: '🧝‍♂️' })
-      switchRealm('fairy') // Start in fairy realm
-
-      // Translate UI elements using the new system
-      const consoleHeader = document.getElementById('consoleHeader')
-      consoleHeader.textContent = getUIText('consoleHeader')
-
-      commandInput.placeholder = getUIText('helpHint')
-
-      // Welcome message in conlang
-      addCommandOutput(getUIText('welcomeMessage'), 'success')
-      addCommandOutput(getUIText('helpHint'), 'info')
-
-      updateInventory()
-
-      // Add some debug words for advanced users
-      if (Math.random() < 0.1) { // 10% chance to be a "researcher"
-        knownWords.add('lexicon')
-        knownWords.add('export')
-        addCommandOutput('Debug mode: lexicon commands available', 'info')
-      }
-    }
-
-    window.addEventListener('resize', resizeTiles)
-
-    initializeGame()
-    resizeTiles()
-
-    // Expose useful functions for debugging - now with new lexicon API
+  })
+
+  // Audio toggle
+  const audioToggle = document.getElementById('audioToggle')
+  audioToggle.addEventListener('click', () => {
+    gameState.world.toggleAudio()
+  })
+
+  // Window resize
+  window.addEventListener('resize', () => {
+    gameState.world.resizeView()
+  })
+
+  // Prevent context menu on game area
+  document.getElementById('world').addEventListener('contextmenu', (e) => {
+    e.preventDefault()
+  })
+}
+
+// Show/hide game interface
+function showGame() {
+  document.getElementById('loadingScreen').style.display = 'none'
+  document.getElementById('gameView').style.display = 'flex'
+}
+
+function showError(message) {
+  const loadingScreen = document.getElementById('loadingScreen')
+  loadingScreen.textContent = `Error: ${message}`
+  loadingScreen.style.color = '#ff6666'
+}
+
+// Expose debugging API
+function exposeDebugAPI() {
+  if (typeof window !== 'undefined') {
     Object.assign(window, {
-      player,
-      conlang,
-      lexicon,
-      knownWords,
-      getUIText,
-      translateGloss,
-      addCommandOutput,
-      ConlangEngine,
-      showDialogue,
-      // New lexicon debugging functions
-      exportLexicon: () => conlang.exportLexicon(),
-      getLexiconStats: () => conlang.getStats(),
-      searchLexicon: (term) => lexicon.searchByGloss(term),
-      addWord: (gloss, form) => lexicon.addWord(gloss, form),
-      getPhonologyStats: () => conlang.getPhonologicalStats()
+      // Core game objects
+      game: gameState,
+      conlang: gameState.conlang,
+      lexicon: gameState.conlang?.getLexicon(),
+      player: () => gameState.player,
+      
+      // Utility functions
+      addWord: (gloss, form) => gameState.conlang.getLexicon().addWord(gloss, form),
+      exportLexicon: () => gameState.conlang.exportLexicon(),
+      getLexiconStats: () => gameState.conlang.getStats(),
+      searchLexicon: (term) => gameState.conlang.getLexicon().searchByGloss(term),
+      getPhonologyStats: () => gameState.conlang.getPhonologicalStats(),
+      
+      // Game controls
+      switchRealm: (realm) => gameState.world.switchRealm(realm),
+      addMessage: (text, type) => gameState.ui.addMessage(text, type),
+      learnWord: (word) => gameState.knownWords.add(word),
+      
+      // Debug info
+      showRealms: () => Object.keys(gameState.realms),
+      showKnownWords: () => Array.from(gameState.knownWords),
+      getCurrentRealm: () => gameState.currentRealm?.name || 'Unknown',
+      
+      // Advanced debugging
+      dumpGameState: () => {
+        return {
+          knownWords: Array.from(gameState.knownWords),
+          currentRealm: gameState.currentRealm?.name,
+          playerPos: gameState.player ? { x: gameState.player.x, y: gameState.player.y } : null,
+          lexiconSize: gameState.conlang.getLexicon().size,
+          realmsLoaded: Object.keys(gameState.realms)
+        }
+      }
     })
+    
+    console.log('🧝‍♂️ Elf World Debug API loaded!')
+    console.log('Available commands:', [
+      'game', 'conlang', 'lexicon', 'player()',
+      'addWord(gloss, form)', 'exportLexicon()', 'getLexiconStats()',
+      'switchRealm(name)', 'addMessage(text, type)', 'learnWord(word)',
+      'showRealms()', 'showKnownWords()', 'dumpGameState()'
+    ])
+  }
+}
+
+// Start the game
+initializeGame().catch(error => {
+  console.error('Game initialization failed:', error)
+  showError('Game failed to start. Check console for details.')
+})
