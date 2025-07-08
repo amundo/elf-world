@@ -249,8 +249,8 @@
         this.rng = this.createRNG(this.seed)
         this.lexicon = new Map()
         this.seedWords = [
-          "GO", "HAVE", "HEAR", "HELLO", "HERE", "HOW", "KNOW", "LEARN", 
-          "NEAR", "NOT", "OPEN", "SAY", "SEE", "TAKE", "THING", "THIS", 
+          "GO", "HAVE", "HEAR", "HELLO", "HERE", "HOW", "KNOW", "LEARN",
+          "NEAR", "NOT", "OPEN", "SAY", "SEE", "TAKE", "THING", "THIS",
           "USE", "WHAT", "WHERE", "WHO", "WORD", "WORLD"
         ]
         this.initializeLexicon()
@@ -307,6 +307,20 @@
       hasWord(concept) {
         return this.lexicon.has(concept.toLowerCase())
       }
+
+      backTranslate(conlangText) {
+        const words = conlangText.toLowerCase().split(/\s+/)
+        return words.map(conlangWord => {
+          // Search through the lexicon to find the concept that maps to this conlang word
+          for (const [concept, form] of this.lexicon.entries()) {
+            if (form === conlangWord) {
+              return concept
+            }
+          }
+          // If not found, return the original conlang word
+          return conlangWord
+        }).join(' ')
+      }
     }
 
     const COLS = 30
@@ -333,7 +347,7 @@
     const conlang = new ConlangEngine({ seed: Math.floor(Math.random() * 1000) })
 
     // Player's learned vocabulary - start with basic seed words
-    const knownWords = new Set(['what', 'this'])
+    const knownWords = new Set()
 
     // Game state
     let selectedEntity = null
@@ -378,160 +392,384 @@
     // Grid of entity data
     const entityGrid = Array.from({ length: ROWS }, () => Array(COLS).fill(null))
 
-  // Realm definitions
-  const REALMS = {
-    forest: {
-      name: "Forest Realm",
-      music: "audio/woodland-fantasy.mp3",
-      terrain: {
-        primary: { color: "#90EE90", weight: 0.7 },   // Light green
-        secondary: { color: "#228B22", weight: 0.2 }, // Forest green  
-        accent: { color: "#4169E1", weight: 0.1 }     // Blue (water)
+   // Realm definitions
+    const REALMS = {
+      "forest": {
+        "name": "Forest Realm",
+        "terrain": {
+          "primary": {
+            "color": "#90EE90",
+            "weight": 0.7
+          },
+          "secondary": {
+            "color": "#228B22",
+            "weight": 0.2
+          },
+          "accent": {
+            "color": "#4169E1",
+            "weight": 0.1
+          }
+        },
+        "entities": [
+          {
+            "type": "object",
+            "emoji": "🌲",
+            "chance": 0.06,
+            "solid": true,
+            "canWander": false
+          },
+          {
+            "type": "object",
+            "emoji": "🪨",
+            "chance": 0.03,
+            "solid": true,
+            "canWander": false
+          },
+          {
+            "type": "enemy",
+            "emoji": "🐍",
+            "chance": 0.015,
+            "dialogue": "A wild snake appears!",
+            "canWander": true
+          },
+          {
+            "type": "enemy",
+            "emoji": "🦇",
+            "chance": 0.01,
+            "dialogue": "A bat swoops down!",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "👴",
+            "chance": 0.01,
+            "dialogue": "Welcome to the forest, traveler!",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "🧙‍♂️",
+            "chance": 0.005,
+            "dialogue": "The forest magic is strong here!",
+            "canWander": true
+          },
+          {
+            "type": "portal",
+            "emoji": "🌀",
+            "chance": 0.0015,
+            "destination": "wraith",
+            "canWander": false
+          },
+          {
+            "type": "portal",
+            "emoji": "✨",
+            "chance": 0.0015,
+            "destination": "fairy",
+            "canWander": false
+          }
+        ]
       },
-      entities: [
-        { type: 'object', emoji: '🌲', chance: 0.12, solid: true },
-        { type: 'object', emoji: '🪨', chance: 0.06, solid: true },
-        { type: 'enemy', emoji: '🐍', chance: 0.03, dialogue: 'A wild snake appears!' },
-        { type: 'enemy', emoji: '🦇', chance: 0.02, dialogue: 'A bat swoops down!' },
-        { type: 'npc', emoji: '👴', chance: 0.02, dialogue: 'Welcome to the forest, traveler!' },
-        { type: 'npc', emoji: '🧙‍♂️', chance: 0.01, dialogue: 'The forest magic is strong here!' },
-        { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'wraith' },
-        { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
-      ]
-    },
-    wraith: {
-      name: "Wraith Realm", 
-      music: "audio/the-wraiths-of-winter.mp3",
-      terrain: {
-        primary: { color: "#2F2F2F", weight: 0.6 },   // Dark gray
-        secondary: { color: "#1C1C1C", weight: 0.3 }, // Very dark gray
-        accent: { color: "#4B0082", weight: 0.1 }     // Dark purple
+      "wraith": {
+        "name": "Wraith Realm",
+        "terrain": {
+          "primary": {
+            "color": "#2F2F2F",
+            "weight": 0.6
+          },
+          "secondary": {
+            "color": "#1C1C1C",
+            "weight": 0.3
+          },
+          "accent": {
+            "color": "#4B0082",
+            "weight": 0.1
+          }
+        },
+        "entities": [
+          {
+            "type": "object",
+            "emoji": "🪦",
+            "chance": 0.04,
+            "solid": true,
+            "canWander": false
+          },
+          {
+            "type": "object",
+            "emoji": "🌙",
+            "chance": 0.015,
+            "solid": false,
+            "canWander": false
+          },
+          {
+            "type": "enemy",
+            "emoji": "💀",
+            "chance": 0.02,
+            "dialogue": "A skull rattles menacingly!",
+            "canWander": true
+          },
+          {
+            "type": "enemy",
+            "emoji": "🧟",
+            "chance": 0.015,
+            "dialogue": "A zombie groans and approaches!",
+            "canWander": true
+          },
+          {
+            "type": "enemy",
+            "emoji": "👻",
+            "chance": 0.01,
+            "dialogue": "A wraith materializes before you!",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "🧙‍♀️",
+            "chance": 0.005,
+            "dialogue": "The dead whisper secrets here...",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "🔮",
+            "chance": 0.0025,
+            "dialogue": "The crystal shows visions of other realms...",
+            "canWander": true
+          },
+          {
+            "type": "portal",
+            "emoji": "🌀",
+            "chance": 0.0015,
+            "destination": "forest",
+            "canWander": false
+          },
+          {
+            "type": "portal",
+            "emoji": "✨",
+            "chance": 0.0015,
+            "destination": "fairy",
+            "canWander": false
+          }
+        ]
       },
-      entities: [
-        { type: 'object', emoji: '🪦', chance: 0.08, solid: true },
-        { type: 'object', emoji: '🌙', chance: 0.03, solid: false },
-        { type: 'enemy', emoji: '💀', chance: 0.04, dialogue: 'A skull rattles menacingly!' },
-        { type: 'enemy', emoji: '🧟', chance: 0.03, dialogue: 'A zombie groans and approaches!' },
-        { type: 'enemy', emoji: '👻', chance: 0.02, dialogue: 'A wraith materializes before you!' },
-        { type: 'npc', emoji: '🧙‍♀️', chance: 0.01, dialogue: 'The dead whisper secrets here...' },
-        { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
-        { type: 'npc', emoji: '🔮', chance: 0.005, dialogue: 'The crystal shows visions of other realms...' },
-        { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
-        { type: 'portal', emoji: '✨', chance: 0.003, destination: 'fairy' }
-      ]
-    },
-    fairy: {
-      name: "Fairy Realm",
-      music: "audio/epic-orchestral-fantasy.mp3", 
-      terrain: {
-        primary: { color: "#FFB6C1", weight: 0.4 },   // Light pink
-        secondary: { color: "#E6E6FA", weight: 0.3 }, // Lavender
-        accent: { color: "#98FB98", weight: 0.3 }     // Pale green
-      },
-      entities: [
-        { type: 'object', emoji: '🌸', chance: 0.15, solid: false },
-        { type: 'object', emoji: '🌺', chance: 0.08, solid: false },
-        { type: 'object', emoji: '🍄', chance: 0.1, solid: true },
-        { type: 'object', emoji: '🦋', chance: 0.06, solid: false },
-        { type: 'enemy', emoji: '🐝', chance: 0.02, dialogue: 'A magical bee buzzes around you!' },
-        { type: 'enemy', emoji: '🦄', chance: 0.01, dialogue: 'A unicorn prances nearby, but seems wary!' },
-        { type: 'npc', emoji: '🧚‍♀️', chance: 0.04, dialogue: 'Welcome to our enchanted realm!' },
-        { type: 'npc', emoji: '🧚‍♂️', chance: 0.03, dialogue: 'The fairy magic flows strong here!' },
-        { type: 'npc', emoji: '👑', chance: 0.005, dialogue: 'I am the Fairy Queen. You are welcome in my domain.' },
-        { type: 'portal', emoji: '🌀', chance: 0.003, destination: 'forest' },
-        { type: 'portal', emoji: '🌫️', chance: 0.003, destination: 'wraith' }
-      ]
+      "fairy": {
+        "name": "Fairy Realm",
+        "terrain": {
+          "primary": {
+            "color": "#FFB6C1",
+            "weight": 0.4
+          },
+          "secondary": {
+            "color": "#E6E6FA",
+            "weight": 0.3
+          },
+          "accent": {
+            "color": "#98FB98",
+            "weight": 0.3
+          }
+        },
+        "entities": [
+          {
+            "type": "object",
+            "emoji": "🌸",
+            "chance": 0.075,
+            "solid": false,
+            "canWander": false
+          },
+          {
+            "type": "object",
+            "emoji": "🌺",
+            "chance": 0.04,
+            "solid": false,
+            "canWander": false
+          },
+          {
+            "type": "object",
+            "emoji": "🍄",
+            "chance": 0.05,
+            "solid": true,
+            "canWander": false
+          },
+          {
+            "type": "object",
+            "emoji": "🦋",
+            "chance": 0.03,
+            "solid": false,
+            "canWander": false
+          },
+          {
+            "type": "enemy",
+            "emoji": "🐝",
+            "chance": 0.01,
+            "dialogue": "A magical bee buzzes around you!",
+            "canWander": true
+          },
+          {
+            "type": "enemy",
+            "emoji": "🦄",
+            "chance": 0.005,
+            "dialogue": "A unicorn prances nearby, but seems wary!",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "🧚‍♀️",
+            "chance": 0.02,
+            "dialogue": "Welcome to our enchanted realm!",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "🧚‍♂️",
+            "chance": 0.015,
+            "dialogue": "The fairy magic flows strong here!",
+            "canWander": true
+          },
+          {
+            "type": "npc",
+            "emoji": "👑",
+            "chance": 0.0025,
+            "dialogue": "I am the Fairy Queen. You are welcome in my domain.",
+            "canWander": true
+          },
+          {
+            "type": "portal",
+            "emoji": "🌀",
+            "chance": 0.0015,
+            "destination": "forest",
+            "canWander": false
+          },
+          {
+            "type": "portal",
+            "emoji": "🌫️",
+            "chance": 0.0015,
+            "destination": "wraith",
+            "canWander": false
+          }
+        ]
+      }
     }
-  }
-
 
     class Entity {
-      constructor({ x, y, emoji, type = 'entity', solid = false, dialogue = null, destination = null, concept = null }) {
-        this.x = x
-        this.y = y
-        this.type = type
-        this.solid = solid
-        this.dialogue = dialogue
-        this.destination = destination
+        constructor({ x, y, emoji, canWander, type = 'entity', solid = false, dialogue = null, destination = null, concept = null }) {
+          this.x = x
+          this.y = y
+          this.type = type
+          this.solid = solid
+          this.dialogue = dialogue
+          this.destination = destination
+          this.canWander = canWander
 
-        if (Array.isArray(emoji)) {
-          this.emoji = emoji[Math.floor(Math.random() * emoji.length)]
-        } else {
-          this.emoji = emoji
+          if (Array.isArray(emoji)) {
+            this.emoji = emoji[Math.floor(Math.random() * emoji.length)]
+          } else {
+            this.emoji = emoji
+          }
+
+          this.concept = concept || this.getConceptFromEmoji(this.emoji)
+          this.conlangName = conlang.getWord(this.concept)
+
+          this.el = document.createElement('div')
+          this.el.className = `entity ${type}`
+          this.el.textContent = this.emoji
+          this.el.title = `${this.concept} (${this.conlangName})`
+
+          this.el.addEventListener('click', () => this.inspect())
+
+          const tile = tileElements[y][x]
+          if (tile) {
+            tile.appendChild(this.el)
+          }
+
+          entityGrid[y][x] = this
         }
 
-        this.concept = concept || this.getConceptFromEmoji(this.emoji)
-        this.conlangName = conlang.getWord(this.concept)
+    speak() {
+      if (!this.dialogue) return '...'
+      return translateGloss(this.dialogue)
+    }
 
-        this.el = document.createElement('div')
-        this.el.className = `entity ${type}`
-        this.el.textContent = this.emoji
-        this.el.title = `${this.concept} (${this.conlangName})`
+    getConceptFromEmoji(emoji) {
+      const emojiMap = {
+        '🌲': 'tree', '🪨': 'rock', '🐍': 'snake', '🦇': 'bat',
+        '👴': 'elder', '🧙‍♂️': 'wizard', '🌀': 'portal', '✨': 'portal',
+        '🌫️': 'portal', '🪦': 'grave', '🌙': 'moon', '💀': 'skull',
+        '🧟': 'zombie', '👻': 'ghost', '🧙‍♀️': 'witch', '🔮': 'crystal',
+        '🌸': 'flower', '🌺': 'flower', '🍄': 'mushroom', '🦋': 'butterfly',
+        '🐝': 'bee', '🦄': 'unicorn', '🧚‍♀️': 'fairy', '🧚‍♂️': 'fairy',
+        '👑': 'queen'
+      }
+      return emojiMap[emoji] || 'entity'
+    }
 
-        this.el.addEventListener('click', () => this.inspect())
+    inspect() {
+      const isKnown = knownWords.has(this.concept)
 
-        const tile = tileElements[y][x]
-        if (tile) {
-          tile.appendChild(this.el)
-        }
-
-        entityGrid[y][x] = this
+      addCommandOutput(`${getUIText('youSee')} ${this.emoji}`)
+      if (isKnown) {
+        addCommandOutput(`${this.conlangName}`, 'success')
+      } else {
+        addCommandOutput(`???`, 'error')
       }
 
-      speak() {
-        return this.dialogue || 'The entity makes no sound.'
+      selectedEntity = this
+    }
+
+    moveTo(newX, newY) {
+      if (this.el.parentElement) {
+        this.el.parentElement.removeChild(this.el)
       }
+      entityGrid[this.y][this.x] = null
 
-      getConceptFromEmoji(emoji) {
-        const emojiMap = {
-          '🌲': 'tree', '🪨': 'rock', '🐍': 'snake', '🦇': 'bat',
-          '👴': 'elder', '🧙‍♂️': 'wizard', '🌀': 'portal', '✨': 'portal',
-          '🌫️': 'portal', '🪦': 'grave', '🌙': 'moon', '💀': 'skull',
-          '🧟': 'zombie', '👻': 'ghost', '🧙‍♀️': 'witch', '🔮': 'crystal',
-          '🌸': 'flower', '🌺': 'flower', '🍄': 'mushroom', '🦋': 'butterfly',
-          '🐝': 'bee', '🦄': 'unicorn', '🧚‍♀️': 'fairy', '🧚‍♂️': 'fairy',
-          '👑': 'queen'
-        }
-        return emojiMap[emoji] || 'entity'
+      this.x = newX
+      this.y = newY
+      const tile = tileElements[newY][newX]
+      if (tile) {
+        tile.appendChild(this.el)
       }
+      entityGrid[newY][newX] = this
+    }
 
-      inspect() {
-        const isKnown = knownWords.has(this.concept)
-        
-        addCommandOutput(`${getUIText('youSee')} ${this.emoji}`)
-        if (isKnown) {
-          addCommandOutput(`${this.conlangName}`, 'success')
-        } else {
-          addCommandOutput(`???`, 'error')
+    wander() {
+      if (!this.canWander) return
+
+      const dirs = [
+        { dx: 0, dy: -1 }, // up
+        { dx: 1, dy: 0 },  // right
+        { dx: 0, dy: 1 },  // down
+        { dx: -1, dy: 0 }, // left
+      ]
+
+      const dir = dirs[Math.floor(Math.random() * dirs.length)]
+      const newX = this.x + dir.dx
+      const newY = this.y + dir.dy
+
+      // Stay in bounds
+      if (newX < 0 || newX >= COLS || newY < 0 || newY >= ROWS) return
+
+      const destination = entityGrid[newY][newX]
+      if (destination) return // Don't walk into something else
+
+      this.moveTo(newX, newY)
+    }
+
+    onInteract(player) {
+      if (this.type === 'portal') {
+        switchRealm(this.destination)
+      } else if (this.dialogue) {
+        const greeting = knownWords.has('hello') ? conlang.getWord('hello') : 'hello'
+        const spokenText = this.speak()
+        showDialogue(`${greeting}! ${spokenText}`, this)
+        if (this.concept === 'wizard') {
+          for (const word of ['what', 'this']) {
+            if (!knownWords.has(word)) {
+              knownWords.add(word)
+              const form = conlang.getWord(word)
+              addCommandOutput(`${form} = ${word.toUpperCase()}`, 'success')
+            }
+          }
         }
-
-        selectedEntity = this
       }
-
-      moveTo(newX, newY) {
-        if (this.el.parentElement) {
-          this.el.parentElement.removeChild(this.el)
-        }
-        entityGrid[this.y][this.x] = null
-
-        this.x = newX
-        this.y = newY
-        const tile = tileElements[newY][newX]
-        if (tile) {
-          tile.appendChild(this.el)
-        }
-        entityGrid[newY][newX] = this
-      }
-
-      onInteract(player) {
-        if (this.type === 'portal') {
-          switchRealm(this.destination)
-        } else if (this.dialogue) {
-          const greeting = knownWords.has('hello') ? conlang.getWord('hello') : 'hello'
-          const spokenText = this.speak()
-          showDialogue(`${greeting}! ${spokenText}`, this)
-        }
-      }
+    }
     }
 
     class Player extends Entity {
@@ -664,7 +902,8 @@
                 solid: entityDef.solid,
                 dialogue: entityDef.dialogue,
                 destination: entityDef.destination,
-                concept: entityDef.concept
+                concept: entityDef.concept,
+                canWander: entityDef.canWander ?? false
               })
               break
             }
@@ -674,10 +913,7 @@
     }
 
     function switchRealm(realmKey) {
-      console.log(`Switching to realm: ${realmKey}`)
-
       const newRealm = REALMS[realmKey]
-
       if (!newRealm || newRealm === currentRealm) return
 
       transition.classList.add('active')
@@ -695,11 +931,10 @@
         applyRealmTerrain(newRealm)
         generateEntities(newRealm)
 
-        console.log(`Applying terrain for realm: ${newRealm.name} with music ${newRealm.music}`)
+        // Skip audio for now since files don't exist
         backgroundMusic = new Audio(newRealm.music)
         backgroundMusic.loop = true
-        backgroundMusic.play().catch(e => console.log('Audio play failed:', e))
-        
+
         let newX = 2, newY = 2
         for (let attempts = 0; attempts < 50; attempts++) {
           const testX = Math.floor(Math.random() * COLS)
@@ -915,7 +1150,7 @@
     function initializeGame() {
       createTileGrid()
       player = new Player({ x: 2, y: 2, emoji: '🧝‍♂️' })
-      switchRealm('fairy') // Start in fairy realm
+      switchRealm('forest') // Start in fairy realm
 
       // Translate UI elements
       const consoleHeader = document.getElementById('consoleHeader')
@@ -935,26 +1170,31 @@
     initializeGame()
     resizeTiles()
 
+    setInterval(() => {
+      for (let y = 0; y < ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
+          const entity = entityGrid[y][x]
+          if (entity && entity.canWander) {
+            if (Math.random() < 0.7) { // 10% chance to wander each tick
+              entity.wander()
+            }
+          }
+        }
+      }
+    }, 1000) // Every second
+
     // Expose useful functions for debugging
     Object.assign(window, {
       player,
       conlang,
+      Entity, 
       knownWords,
       getUIText,
       translateGloss,
       addCommandOutput,
+      ConlangEngine,
+      entityGrid,
       showDialogue
-    })
-
-
-    Object.assign(window, {
-      switchRealm,
-      updateCamera,
-      updateInventory,
-      applyRealmTerrain,
-      generateEntities,
-      clearEntities,
-      backgroundMusic,
     })
   </script>
 </body>
