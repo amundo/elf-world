@@ -258,6 +258,24 @@
       "category": "need",
       "type": "adjective",
       "form": ""
+    },
+    {
+      "emoji": "🧘",
+      "gloss": "MEDITATE",
+      "category": "spirituality",
+      "type": "verb"
+    },
+    {
+      "emoji": "🙏",
+      "gloss": "PRAY",
+      "category": "ritual",
+      "type": "verb"
+    },
+    {
+      "emoji": "☸️",
+      "gloss": "DHARMA",
+      "category": "religion",
+      "type": "noun"
     }
   ]
 }
