@@ -186,7 +186,6 @@ body {
   border-bottom: 1px solid #333;
   font-weight: bold;
   text-align: center;
-  text-shadow: 0 0 5px #00ff00;
 }
 
 .command-output {
@@ -241,7 +240,6 @@ body {
 .command-prompt {
   color: #00ff00;
   font-weight: bold;
-  text-shadow: 0 0 3px #00ff00;
 }
 
 .command-input {
@@ -252,7 +250,6 @@ body {
   font-family: 'Courier New', monospace;
   font-size: 1rem;
   outline: none;
-  text-shadow: 0 0 2px #00ff00;
 }
 
 .command-input::placeholder {
