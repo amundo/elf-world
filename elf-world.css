@@ -1,0 +1,360 @@
+/* Elf World Game Styles */
+
+/* Reset and base styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* Layout containers */
+.view {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
+
+.game-pane {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.console-pane {
+  width: 400px;
+  background: rgba(0, 0, 0, 0.95);
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid #333;
+}
+
+/* Game world */
+.world {
+  position: absolute;
+  display: grid;
+  transition: transform 0.3s ease-out;
+  width: 100%;
+  height: 100%;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Entity styles */
+.entity {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.entity:hover {
+  transform: scale(1.1);
+}
+
+.player {
+  z-index: 15;
+}
+
+.portal {
+  z-index: 12;
+  animation: portal-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes portal-glow {
+  from {
+    filter: brightness(1) drop-shadow(0 0 5px currentColor);
+  }
+  to {
+    filter: brightness(1.3) drop-shadow(0 0 15px currentColor);
+  }
+}
+
+/* UI overlays */
+.ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 20;
+  border-radius: 0 0 8px 0;
+  backdrop-filter: blur(5px);
+}
+
+.realm-info {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  z-index: 20;
+  border-radius: 0 0 8px 8px;
+  backdrop-filter: blur(5px);
+}
+
+.audio-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 20;
+  font-size: 1.2rem;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 0 0 0 8px;
+  backdrop-filter: blur(5px);
+  transition: background-color 0.2s ease;
+}
+
+.audio-controls:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Dialogue system */
+.dialogue {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1rem;
+  font-size: 1.2rem;
+  display: none;
+  z-index: 20;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.speech-bubble {
+  position: absolute;
+  left: 50%;
+  top: -0.2em;
+  background: white;
+  border: 1px solid black;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 30;
+  white-space: nowrap;
+  transform: translate(-50%, -120%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: speech-appear 0.2s ease-out;
+}
+
+@keyframes speech-appear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -120%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -120%) scale(1);
+  }
+}
+
+/* Console interface */
+.console-header {
+  background: rgba(0, 0, 0, 0.8);
+  color: #00ff00;
+  padding: 0.5rem;
+  border-bottom: 1px solid #333;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.command-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  font-size: 0.9rem;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #00ff00 #333;
+}
+
+.command-output::-webkit-scrollbar {
+  width: 6px;
+}
+
+.command-output::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.command-output::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 3px;
+}
+
+.command-output div {
+  margin: 2px 0;
+  line-height: 1.4;
+  animation: command-appear 0.3s ease-out;
+}
+
+@keyframes command-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.command-input-area {
+  padding: 0.5rem;
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.command-prompt {
+  color: #00ff00;
+  font-weight: bold;
+  text-shadow: 0 0 3px #00ff00;
+}
+
+.command-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  outline: none;
+  text-shadow: 0 0 2px #00ff00;
+}
+
+.command-input::placeholder {
+  color: #006600;
+}
+
+/* Message types */
+.error {
+  color: #ff6666;
+  text-shadow: 0 0 3px #ff6666;
+}
+
+.success {
+  color: #66ff66;
+  text-shadow: 0 0 3px #66ff66;
+}
+
+.info {
+  color: #6666ff;
+  text-shadow: 0 0 3px #6666ff;
+}
+
+.warning {
+  color: #ffff66;
+  text-shadow: 0 0 3px #ffff66;
+}
+
+/* Transitions */
+.realm-transition {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 0%, black 70%);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.realm-transition.active {
+  opacity: 1;
+}
+
+/* Loading states */
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #00ff00;
+  font-size: 1.5rem;
+  z-index: 200;
+  text-align: center;
+}
+
+.loading::after {
+  content: '';
+  animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .console-pane {
+    width: 100%;
+    height: 40vh;
+    border-left: none;
+    border-top: 2px solid #333;
+  }
+  
+  .view {
+    flex-direction: column;
+  }
+  
+  .game-pane {
+    height: 60vh;
+  }
+  
+  .tile {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ui, .realm-info, .audio-controls {
+    font-size: 1rem;
+    padding: 0.3rem;
+  }
+  
+  .tile {
+    font-size: 1.2rem;
+  }
+  
+  .command-output {
+    font-size: 0.8rem;
+  }
+}
