@@ -81,7 +81,8 @@ export class GameWorld {
       this.repositionPlayer()
       this.updateCamera()
 
-      this.backgroundMusic = new Audio(newRealm.music)
+      // Load new music (skip for now since files don't exist)
+      // this.backgroundMusic = new Audio(newRealm.music)
 
       setTimeout(() => transition.classList.remove('active'), 250)
     }, 250)
@@ -119,6 +120,7 @@ export class GameWorld {
   }
 
   generateEntities(realm) {
+    // First, generate random entities
     for (let y = 0; y < this.config.rows; y++) {
       for (let x = 0; x < this.config.cols; x++) {
         if (this.gameState.player && x === this.gameState.player.x && y === this.gameState.player.y) continue
@@ -136,6 +138,56 @@ export class GameWorld {
         }
       }
     }
+
+    // Then, place guaranteed portals in random locations
+    this.placePortals(realm)
+  }
+
+  placePortals(realm) {
+    if (!realm.portals || realm.portals.length === 0) {
+      console.log('📍 No portals defined for', realm.name)
+      return
+    }
+
+    console.log('🌀 Placing', realm.portals.length, 'portals for', realm.name)
+
+    for (const portalDef of realm.portals) {
+      const position = this.findEmptyPosition()
+      if (position) {
+        console.log(`📍 Placing ${portalDef.emoji} portal to ${portalDef.destination} at (${position.x}, ${position.y})`)
+        
+        new Entity({
+          x: position.x,
+          y: position.y,
+          entityDef: {
+            type: 'portal',
+            emoji: portalDef.emoji,
+            concept: portalDef.concept,
+            destination: portalDef.destination,
+            description: portalDef.description,
+            solid: false
+          },
+          gameState: this.gameState,
+          world: this
+        })
+      } else {
+        console.warn('⚠️ Could not find empty position for portal', portalDef.emoji)
+      }
+    }
+  }
+
+  findEmptyPosition(maxAttempts = 100) {
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const x = Math.floor(Math.random() * this.config.cols)
+      const y = Math.floor(Math.random() * this.config.rows)
+
+      // Check if position is empty
+      if (!this.entityGrid[y][x] && 
+          !(this.gameState.player && x === this.gameState.player.x && y === this.gameState.player.y)) {
+        return { x, y }
+      }
+    }
+    return null // Could not find empty position
   }
 
   repositionPlayer() {
