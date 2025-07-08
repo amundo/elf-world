@@ -73,7 +73,13 @@ export class GameWorld {
       }
 
       this.gameState.currentRealm = newRealm
-      document.getElementById('realmInfo').textContent = newRealm.name
+      
+      // Generate conlang realm name
+      const conlangName = newRealm.nameConlang 
+        ? newRealm.nameConlang.map(word => this.gameState.conlang.getWord(word.toLowerCase())).join(' ')
+        : newRealm.name
+      
+      document.getElementById('realmInfo').textContent = conlangName
 
       this.clearEntities()
       this.applyTerrain(newRealm)

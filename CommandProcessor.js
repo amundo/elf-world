@@ -43,19 +43,12 @@ export class CommandProcessor {
       case 'know':
         this.handleKnowCommand()
         break
-      case 'lexicon':
-        this.handleLexiconCommand()
-        break
-      case 'export':
-        this.handleExportCommand()
-        break
-      case 'realm':
-        this.handleRealmCommand()
-        break
       default:
         this.handleDefaultCommand(conlangWord)
     }
   }
+
+  // Remove all the debug command handlers since they're browser-only now
 
   handleWhatCommand() {
     if (this.gameState.focusedEntity) {
@@ -102,38 +95,14 @@ export class CommandProcessor {
       const wordForm = this.gameState.conlang.getWord(word)
       this.gameState.ui.addMessage(`  ${word} = ${wordForm}`, 'success')
     }
-  }
-
-  handleLexiconCommand() {
-    if (this.gameState.knownWords.has('lexicon')) {
-      const stats = this.gameState.conlang.getStats()
-      this.gameState.ui.addMessage(`Words in lexicon: ${stats.lexicon.totalWords}`, 'info')
-      this.gameState.ui.addMessage(`Phonology: ${stats.phonology.totalWords} words analyzed`, 'info')
-    }
-  }
-
-  handleExportCommand() {
-    if (this.gameState.knownWords.has('export')) {
-      const exportData = this.gameState.conlang.exportLexicon()
-      console.log('Lexicon export:', exportData)
-      this.gameState.ui.addMessage(this.gameState.ui.getUIText('exported'), 'info')
-    }
-  }
-
-  handleRealmCommand() {
-    if (this.gameState.knownWords.has('realm')) {
-      const currentRealm = this.gameState.currentRealm?.name || 'Unknown'
-      const availableRealms = Object.keys(this.gameState.realms).join(', ')
-      this.gameState.ui.addMessage(`Current: ${currentRealm}`, 'info')
-      this.gameState.ui.addMessage(`Available: ${availableRealms}`, 'info')
-      
-      // Show portal connections
-      if (this.gameState.currentRealm?.portals) {
-        this.gameState.ui.addMessage('Portals:', 'info')
-        for (const portal of this.gameState.currentRealm.portals) {
-          this.gameState.ui.addMessage(`  ${portal.emoji} → ${portal.destination}`, 'success')
-        }
-      }
+    
+    // Show current realm name if in a realm
+    if (this.gameState.currentRealm?.nameConlang) {
+      const realmNameGloss = this.gameState.currentRealm.nameConlang.join(' ').toLowerCase()
+      const realmNameConlang = this.gameState.currentRealm.nameConlang
+        .map(word => this.gameState.conlang.getWord(word.toLowerCase()))
+        .join(' ')
+      this.gameState.ui.addMessage(`Current realm: ${realmNameGloss} = ${realmNameConlang}`, 'info')
     }
   }
 

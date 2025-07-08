@@ -41,28 +41,28 @@
         "emoji": "🐍",
         "concept": "snake",
         "chance": 0.03,
-        "dialogue": "A wild snake appears!"
+        "dialogue": ["GREETINGS", "STRANGER", "!"]
       },
       {
         "type": "enemy",
         "emoji": "🦇",
         "concept": "bat",
         "chance": 0.02,
-        "dialogue": "A bat swoops down!"
+        "dialogue": ["WHO", "IS", "HERE", "?"]
       },
       {
         "type": "npc",
         "emoji": "👴",
         "concept": "elder",
         "chance": 0.02,
-        "dialogue": "Welcome to the forest, traveler!"
+        "dialogue": ["HELLO", "VISITOR", ".", "WELCOME", "HERE", "."]
       },
       {
         "type": "npc",
         "emoji": "🧙‍♂️",
         "concept": "wizard",
         "chance": 0.01,
-        "dialogue": "The forest magic is strong here!"
+        "dialogue": ["GOOD", "DAY", "FRIEND", ".", "MAGIC", "IS", "STRONG", "HERE", "."]
       }
     ]
   },
@@ -108,35 +108,35 @@
         "emoji": "💀",
         "concept": "skull",
         "chance": 0.04,
-        "dialogue": "A skull rattles menacingly!"
+        "dialogue": ["WHO", "DISTURBS", "THE", "DEAD", "?"]
       },
       {
         "type": "enemy",
         "emoji": "🧟",
         "concept": "zombie",
         "chance": 0.03,
-        "dialogue": "A zombie groans and approaches!"
+        "dialogue": ["HUNGRY", ".", "SO", "HUNGRY", "..."]
       },
       {
         "type": "enemy",
         "emoji": "👻",
         "concept": "ghost",
         "chance": 0.02,
-        "dialogue": "A wraith materializes before you!"
+        "dialogue": ["YOU", "NOT", "BELONG", "HERE", "!"]
       },
       {
         "type": "npc",
         "emoji": "🧙‍♀️",
         "concept": "witch",
         "chance": 0.01,
-        "dialogue": "The dead whisper secrets here..."
+        "dialogue": ["THE", "DEAD", "WHISPER", "SECRETS", "..."]
       },
       {
         "type": "npc",
         "emoji": "🔮",
         "concept": "crystal",
         "chance": 0.005,
-        "dialogue": "The crystal shows visions of other realms..."
+        "dialogue": ["I", "SEE", "OTHER", "WORLDS", "IN", "THE", "CRYSTAL", "."]
       }
     ]
   },
@@ -196,35 +196,35 @@
         "emoji": "🐝",
         "concept": "bee",
         "chance": 0.02,
-        "dialogue": "A magical bee buzzes around you!"
+        "dialogue": ["BUSY", "BUSY", "!", "NO", "TIME", "FOR", "TALK", "."]
       },
       {
         "type": "enemy",
         "emoji": "🦄",
         "concept": "unicorn",
         "chance": 0.01,
-        "dialogue": "A unicorn prances nearby, but seems wary!"
+        "dialogue": ["PURE", "HEART", "ONLY", ".", "YOU", "ARE", "WELCOME", "?"]
       },
       {
         "type": "npc",
         "emoji": "🧚‍♀️",
         "concept": "fairy",
         "chance": 0.04,
-        "dialogue": "Welcome to our enchanted realm!"
+        "dialogue": ["GREETINGS", "!", "WELCOME", "TO", "OUR", "REALM", "."]
       },
       {
         "type": "npc",
         "emoji": "🧚‍♂️",
         "concept": "fairy",
         "chance": 0.03,
-        "dialogue": "The fairy magic flows strong here!"
+        "dialogue": ["MAGIC", "FLOWS", "STRONG", "HERE", "!", "FEEL", "IT", "?"]
       },
       {
         "type": "npc",
         "emoji": "👑",
         "concept": "queen",
         "chance": 0.005,
-        "dialogue": "I am the Fairy Queen. You are welcome in my domain."
+        "dialogue": ["I", "AM", "QUEEN", ".", "YOU", "ARE", "WELCOME", "IN", "MY", "DOMAIN", "."]
       }
     ]
   }

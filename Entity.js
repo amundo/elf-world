@@ -10,8 +10,7 @@ export class Entity {
     this.destination = entityDef.destination || null
     this.gameState = gameState
     this.world = world
-    this.canWander = entityDef.canWander || false
-    
+
     this.emoji = Array.isArray(entityDef.emoji) 
       ? entityDef.emoji[Math.floor(Math.random() * entityDef.emoji.length)]
       : entityDef.emoji
@@ -44,7 +43,20 @@ export class Entity {
   }
 
   speak() {
-    return this.dialogue || 'The entity makes no sound.'
+    if (!this.dialogue) return 'The entity makes no sound.'
+    
+    // If dialogue is an array of concepts, translate to conlang
+    if (Array.isArray(this.dialogue)) {
+      return this.dialogue.map(word => {
+        // Keep punctuation as-is
+        if (word.match(/^[.!?,:;]$/)) return word
+        // Translate concepts to conlang
+        return this.gameState.conlang.getWord(word.toLowerCase())
+      }).join(' ')
+    }
+    
+    // Legacy support for English dialogue
+    return this.dialogue
   }
 
   getConceptFromEmoji(emoji) {
@@ -58,23 +70,6 @@ export class Entity {
       '👑': 'queen'
     }
     return emojiMap[emoji] || 'entity'
-  }
-
-  wander(){
-    const directions = [
-      { dx: 0, dy: -1 }, // Up
-      { dx: 1, dy: 0 }, // Right
-      { dx: 0, dy: 1 }, // Down
-      { dx: -1, dy: 0 } // Left
-    ]
-    
-    const randomDirection = directions[Math.floor(Math.random() * directions.length)]
-    const newX = this.x + randomDirection.dx
-    const newY = this.y + randomDirection.dy
-
-    if (this.world.isValidPosition(newX, newY) && !this.world.entityGrid[newY][newX]) {
-      this.moveTo(newX, newY)
-    }
   }
 
   inspect() {
@@ -109,10 +104,9 @@ export class Entity {
     if (this.type === 'portal') {
       this.world.switchRealm(this.destination)
     } else if (this.dialogue) {
-      const greeting = this.gameState.knownWords.has('hello') 
-        ? this.gameState.conlang.getWord('hello') 
-        : 'hello'
-      this.gameState.ui.showDialogue(`${greeting}! ${this.speak()}`, this)
+      // NPCs now speak entirely in conlang
+      const spokenText = this.speak()
+      this.gameState.ui.showDialogue(spokenText, this)
     }
   }
 }

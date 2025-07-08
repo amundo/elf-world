@@ -17,7 +17,26 @@ const CONFIG = {
     seed: Math.floor(Math.random() * 1000),
     consonants: ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j'],
     vowels: ['a', 'e', 'i', 'o', 'u'],
-    syllableStructures: ['CV', 'CVC', 'V', 'VC']
+    syllableStructures: ['CV', 'CVC', 'V', 'VC'],
+    seedWords: [
+      // Core command words
+      "GO", "HAVE", "HEAR", "HELLO", "HERE", "HOW", "KNOW", "LEARN", 
+      "NEAR", "NOT", "OPEN", "SAY", "SEE", "TAKE", "THING", "THIS", 
+      "USE", "WHAT", "WHERE", "WHO", "WORD", "WORLD",
+      // Politeness and social phrases
+      "GOOD", "DAY", "NIGHT", "MORNING", "WELCOME", "THANK", "PLEASE",
+      "YES", "NO", "SORRY", "EXCUSE", "FRIEND", "STRANGER", "VISITOR",
+      "GREETINGS", "FAREWELL", "PEACE", "BLESSING", "HONOR", "RESPECT",
+      // Common conversational words
+      "YOU", "I", "WE", "THEY", "IS", "ARE", "WAS", "WILL", "CAN", "MAY",
+      // Additional words for NPC dialogue
+      "THE", "TO", "OUR", "MY", "IN", "DISTURBS", "DEAD", "HUNGRY", "SO",
+      "BELONG", "WHISPER", "SECRETS", "OTHER", "WORLDS", "CRYSTAL", "BUSY",
+      "TIME", "FOR", "TALK", "PURE", "HEART", "ONLY", "MAGIC", "FLOWS",
+      "STRONG", "FEEL", "IT", "AM", "QUEEN", "DOMAIN",
+      // Realm names
+      "FOREST", "SHADOW", "REALM"
+    ]
   },
   game: {
     startingRealm: 'fairy',
@@ -231,6 +250,15 @@ function exposeDebugAPI() {
         const realm = gameState.currentRealm
         if (realm) {
           console.log('🌍 Current realm:', realm.name)
+          if (realm.nameConlang) {
+            const conlangName = realm.nameConlang.map(word => 
+              gameState.conlang.getWord(word.toLowerCase())
+            ).join(' ')
+            console.log('🗣️ Conlang name:', conlangName)
+            console.log('📝 Breakdown:', realm.nameConlang.map(word => 
+              `${word.toLowerCase()} = ${gameState.conlang.getWord(word.toLowerCase())}`
+            ).join(', '))
+          }
           console.log('📍 Portals:')
           realm.portals?.forEach(portal => {
             console.log(`  ${portal.emoji} → ${portal.destination}`)
