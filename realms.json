@@ -2,400 +2,229 @@
   "forest": {
     "name": "Forest Realm",
     "description": "A lush woodland filled with ancient trees and forest creatures",
-    "music": "./audio/forest-ambient.mp3",
     "terrain": {
       "primary": { "color": "#90EE90", "weight": 0.7 },
       "secondary": { "color": "#228B22", "weight": 0.2 },
       "accent": { "color": "#4169E1", "weight": 0.1 }
     },
+    "portals": [
+      {
+        "emoji": "🌀",
+        "concept": "portal",
+        "destination": "wraith",
+        "description": "A swirling vortex to darker realms"
+      },
+      {
+        "emoji": "✨",
+        "concept": "portal", 
+        "destination": "fairy",
+        "description": "Sparkling gateway to magical lands"
+      }
+    ],
     "entities": [
       {
         "type": "object",
         "emoji": "🌲",
         "concept": "tree",
         "chance": 0.12,
-        "solid": true,
-        "description": "A towering ancient tree"
+        "solid": true
       },
       {
         "type": "object",
         "emoji": "🪨",
         "concept": "rock",
         "chance": 0.06,
-        "solid": true,
-        "description": "A moss-covered boulder"
-      },
-      {
-        "type": "object",
-        "emoji": "🌿",
-        "concept": "plant",
-        "chance": 0.08,
-        "solid": false,
-        "description": "Wild forest herbs"
+        "solid": true
       },
       {
         "type": "enemy",
         "emoji": "🐍",
         "concept": "snake",
         "chance": 0.03,
-        "dialogue": "A wild snake appears!",
-        "description": "A venomous forest serpent"
+        "dialogue": "A wild snake appears!"
       },
       {
         "type": "enemy",
         "emoji": "🦇",
         "concept": "bat",
         "chance": 0.02,
-        "dialogue": "A bat swoops down!",
-        "description": "A nocturnal cave dweller"
-      },
-      {
-        "type": "enemy",
-        "emoji": "🐺",
-        "concept": "wolf",
-        "chance": 0.01,
-        "dialogue": "A wolf howls in the distance!",
-        "description": "A fierce pack hunter"
+        "dialogue": "A bat swoops down!"
       },
       {
         "type": "npc",
         "emoji": "👴",
         "concept": "elder",
         "chance": 0.02,
-        "dialogue": "Welcome to the forest, traveler!",
-        "description": "A wise forest elder"
+        "dialogue": "Welcome to the forest, traveler!"
       },
       {
         "type": "npc",
         "emoji": "🧙‍♂️",
         "concept": "wizard",
         "chance": 0.01,
-        "dialogue": "The forest magic is strong here!",
-        "description": "A nature wizard"
-      },
-      {
-        "type": "npc",
-        "emoji": "🧝‍♀️",
-        "concept": "elf",
-        "chance": 0.005,
-        "dialogue": "The trees speak of ancient secrets...",
-        "description": "A forest elf guardian"
-      },
-      {
-        "type": "portal",
-        "emoji": "🌀",
-        "concept": "portal",
-        "chance": 0.003,
-        "destination": "wraith",
-        "description": "A swirling vortex to darker realms"
-      },
-      {
-        "type": "portal",
-        "emoji": "✨",
-        "concept": "portal",
-        "chance": 0.003,
-        "destination": "fairy",
-        "description": "Sparkling gateway to magical lands"
+        "dialogue": "The forest magic is strong here!"
       }
     ]
   },
   "wraith": {
     "name": "Wraith Realm",
     "description": "A haunted shadowland where the undead roam freely",
-    "music": "./audio/wraith-ambient.mp3",
     "terrain": {
       "primary": { "color": "#2F2F2F", "weight": 0.6 },
       "secondary": { "color": "#1C1C1C", "weight": 0.3 },
       "accent": { "color": "#4B0082", "weight": 0.1 }
     },
+    "portals": [
+      {
+        "emoji": "🌀",
+        "concept": "portal",
+        "destination": "forest",
+        "description": "A dark vortex leading to living lands"
+      },
+      {
+        "emoji": "🌫️",
+        "concept": "portal",
+        "destination": "fairy",
+        "description": "Misty passage to brighter realms"
+      }
+    ],
     "entities": [
       {
         "type": "object",
         "emoji": "🪦",
         "concept": "grave",
         "chance": 0.08,
-        "solid": true,
-        "description": "An ancient weathered tombstone"
+        "solid": true
       },
       {
         "type": "object",
         "emoji": "🌙",
         "concept": "moon",
         "chance": 0.03,
-        "solid": false,
-        "description": "Pale moonlight piercing the gloom"
-      },
-      {
-        "type": "object",
-        "emoji": "⚱️",
-        "concept": "urn",
-        "chance": 0.04,
-        "solid": true,
-        "description": "A funeral urn containing ashes"
-      },
-      {
-        "type": "object",
-        "emoji": "🕯️",
-        "concept": "candle",
-        "chance": 0.05,
-        "solid": false,
-        "description": "A flickering spectral flame"
+        "solid": false
       },
       {
         "type": "enemy",
         "emoji": "💀",
         "concept": "skull",
         "chance": 0.04,
-        "dialogue": "A skull rattles menacingly!",
-        "description": "Animated remains of the long dead"
+        "dialogue": "A skull rattles menacingly!"
       },
       {
         "type": "enemy",
         "emoji": "🧟",
         "concept": "zombie",
         "chance": 0.03,
-        "dialogue": "A zombie groans and approaches!",
-        "description": "A shambling undead corpse"
+        "dialogue": "A zombie groans and approaches!"
       },
       {
         "type": "enemy",
         "emoji": "👻",
         "concept": "ghost",
         "chance": 0.02,
-        "dialogue": "A wraith materializes before you!",
-        "description": "A tormented spirit seeking rest"
-      },
-      {
-        "type": "enemy",
-        "emoji": "🦴",
-        "concept": "skeleton",
-        "chance": 0.025,
-        "dialogue": "Bones clatter as it moves!",
-        "description": "A walking skeleton warrior"
+        "dialogue": "A wraith materializes before you!"
       },
       {
         "type": "npc",
         "emoji": "🧙‍♀️",
         "concept": "witch",
         "chance": 0.01,
-        "dialogue": "The dead whisper secrets here...",
-        "description": "A necromancer communing with spirits"
+        "dialogue": "The dead whisper secrets here..."
       },
       {
         "type": "npc",
         "emoji": "🔮",
         "concept": "crystal",
         "chance": 0.005,
-        "dialogue": "The crystal shows visions of other realms...",
-        "description": "A scrying crystal ball"
-      },
-      {
-        "type": "npc",
-        "emoji": "⚰️",
-        "concept": "coffin",
-        "chance": 0.003,
-        "dialogue": "Something stirs within...",
-        "description": "An ornate burial coffin"
-      },
-      {
-        "type": "portal",
-        "emoji": "🌀",
-        "concept": "portal",
-        "chance": 0.003,
-        "destination": "forest",
-        "description": "A dark vortex leading to living lands"
-      },
-      {
-        "type": "portal",
-        "emoji": "✨",
-        "concept": "portal",
-        "chance": 0.003,
-        "destination": "fairy",
-        "description": "Faint sparkles offering escape to light"
+        "dialogue": "The crystal shows visions of other realms..."
       }
     ]
   },
   "fairy": {
     "name": "Fairy Realm",
     "description": "An enchanted wonderland of perpetual spring and magic",
-    "music": "./audio/fairy-ambient.mp3",
     "terrain": {
       "primary": { "color": "#FFB6C1", "weight": 0.4 },
       "secondary": { "color": "#E6E6FA", "weight": 0.3 },
       "accent": { "color": "#98FB98", "weight": 0.3 }
     },
+    "portals": [
+      {
+        "emoji": "🌈",
+        "concept": "portal",
+        "destination": "forest",
+        "description": "A rainbow bridge to natural lands"
+      },
+      {
+        "emoji": "🌫️",
+        "concept": "portal",
+        "destination": "wraith",
+        "description": "Ominous mist leading to shadow realms"
+      }
+    ],
     "entities": [
       {
         "type": "object",
         "emoji": "🌸",
         "concept": "flower",
         "chance": 0.15,
-        "solid": false,
-        "description": "Delicate cherry blossoms"
+        "solid": false
       },
       {
         "type": "object",
         "emoji": "🌺",
         "concept": "flower",
         "chance": 0.08,
-        "solid": false,
-        "description": "Vibrant magical blooms"
+        "solid": false
       },
       {
         "type": "object",
         "emoji": "🍄",
         "concept": "mushroom",
         "chance": 0.1,
-        "solid": true,
-        "description": "Glowing fairy ring mushrooms"
+        "solid": true
       },
       {
         "type": "object",
         "emoji": "🦋",
         "concept": "butterfly",
         "chance": 0.06,
-        "solid": false,
-        "description": "Iridescent butterfly"
-      },
-      {
-        "type": "object",
-        "emoji": "🌈",
-        "concept": "rainbow",
-        "chance": 0.02,
-        "solid": false,
-        "description": "A shimmering rainbow arc"
-      },
-      {
-        "type": "object",
-        "emoji": "💎",
-        "concept": "gem",
-        "chance": 0.03,
-        "solid": true,
-        "description": "A crystalline fairy gem"
+        "solid": false
       },
       {
         "type": "enemy",
         "emoji": "🐝",
         "concept": "bee",
         "chance": 0.02,
-        "dialogue": "A magical bee buzzes around you!",
-        "description": "An enchanted honey bee"
+        "dialogue": "A magical bee buzzes around you!"
       },
       {
         "type": "enemy",
         "emoji": "🦄",
         "concept": "unicorn",
         "chance": 0.01,
-        "dialogue": "A unicorn prances nearby, but seems wary!",
-        "description": "A majestic but cautious unicorn"
-      },
-      {
-        "type": "enemy",
-        "emoji": "🐉",
-        "concept": "dragon",
-        "chance": 0.005,
-        "dialogue": "A small dragon breathes sparkles!",
-        "description": "A playful fairy dragon"
+        "dialogue": "A unicorn prances nearby, but seems wary!"
       },
       {
         "type": "npc",
         "emoji": "🧚‍♀️",
         "concept": "fairy",
         "chance": 0.04,
-        "dialogue": "Welcome to our enchanted realm!",
-        "description": "A graceful fairy maiden"
+        "dialogue": "Welcome to our enchanted realm!"
       },
       {
         "type": "npc",
         "emoji": "🧚‍♂️",
         "concept": "fairy",
         "chance": 0.03,
-        "dialogue": "The fairy magic flows strong here!",
-        "description": "A mischievous fairy sprite"
+        "dialogue": "The fairy magic flows strong here!"
       },
       {
         "type": "npc",
         "emoji": "👑",
         "concept": "queen",
         "chance": 0.005,
-        "dialogue": "I am the Fairy Queen. You are welcome in my domain.",
-        "description": "The radiant Fairy Queen"
-      },
-      {
-        "type": "npc",
-        "emoji": "🦢",
-        "concept": "swan",
-        "chance": 0.01,
-        "dialogue": "The swan glides gracefully across the water.",
-        "description": "An elegant fairy swan"
-      },
-      {
-        "type": "portal",
-        "emoji": "🌀",
-        "concept": "portal",
-        "chance": 0.003,
-        "destination": "forest",
-        "description": "A gentle whirlpool to natural lands"
-      },
-      {
-        "type": "portal",
-        "emoji": "🌫️",
-        "concept": "portal",
-        "chance": 0.003,
-        "destination": "wraith",
-        "description": "Ominous mist leading to shadow realms"
-      }
-    ]
-  },
-  "crystal": {
-    "name": "Crystal Caverns",
-    "description": "Underground caverns filled with luminescent crystals",
-    "music": "./audio/crystal-ambient.mp3",
-    "terrain": {
-      "primary": { "color": "#B19CD9", "weight": 0.5 },
-      "secondary": { "color": "#87CEEB", "weight": 0.3 },
-      "accent": { "color": "#FFE4E1", "weight": 0.2 }
-    },
-    "entities": [
-      {
-        "type": "object",
-        "emoji": "💎",
-        "concept": "crystal",
-        "chance": 0.15,
-        "solid": true,
-        "description": "A glowing crystal formation"
-      },
-      {
-        "type": "object",
-        "emoji": "⚡",
-        "concept": "energy",
-        "chance": 0.05,
-        "solid": false,
-        "description": "Crackling magical energy"
-      },
-      {
-        "type": "enemy",
-        "emoji": "🐉",
-        "concept": "dragon",
-        "chance": 0.02,
-        "dialogue": "A crystal dragon guards its hoard!",
-        "description": "An ancient crystal dragon"
-      },
-      {
-        "type": "npc",
-        "emoji": "🧙‍♂️",
-        "concept": "mage",
-        "chance": 0.01,
-        "dialogue": "The crystals hold immense power...",
-        "description": "A crystal mage"
-      },
-      {
-        "type": "portal",
-        "emoji": "🌟",
-        "concept": "portal",
-        "chance": 0.004,
-        "destination": "fairy",
-        "description": "A starlight portal to magical realms"
+        "dialogue": "I am the Fairy Queen. You are welcome in my domain."
       }
     ]
   }
