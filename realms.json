@@ -1,6 +1,7 @@
 {
   "forest": {
     "name": "Forest Realm",
+    "nameConlang": ["FOREST", "REALM"],
     "description": "A lush woodland filled with ancient trees and forest creatures",
     "terrain": {
       "primary": { "color": "#90EE90", "weight": 0.7 },
@@ -68,6 +69,7 @@
   },
   "wraith": {
     "name": "Wraith Realm",
+    "nameConlang": ["SHADOW", "REALM"],
     "description": "A haunted shadowland where the undead roam freely",
     "terrain": {
       "primary": { "color": "#2F2F2F", "weight": 0.6 },
@@ -142,12 +144,14 @@
   },
   "fairy": {
     "name": "Fairy Realm",
+    "nameConlang": ["MAGIC", "REALM"],
     "description": "An enchanted wonderland of perpetual spring and magic",
     "terrain": {
       "primary": { "color": "#FFB6C1", "weight": 0.4 },
       "secondary": { "color": "#E6E6FA", "weight": 0.3 },
       "accent": { "color": "#98FB98", "weight": 0.3 }
     },
+    "customTerrain": null,
     "portals": [
       {
         "emoji": "🌈",

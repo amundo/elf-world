@@ -3,6 +3,7 @@
 import { Entity } from './Entity.js'
 import { Player } from './Player.js'
 
+
 export class GameWorld {
   constructor(config, gameState) {
     this.config = config
@@ -108,7 +109,26 @@ export class GameWorld {
   }
 
   applyTerrain(realm) {
-    const terrain = realm.terrain
+    // Check if realm has custom terrain data
+    if (realm.customTerrain) {
+      this.applyCustomTerrain(realm.customTerrain)
+    } else {
+      this.applyProceduralTerrain(realm.terrain)
+    }
+  }
+
+  applyCustomTerrain(customTerrain) {
+    console.log('🎨 Applying custom terrain design')
+    for (let y = 0; y < this.config.rows && y < customTerrain.length; y++) {
+      for (let x = 0; x < this.config.cols && x < customTerrain[y].length; x++) {
+        const tile = this.tileElements[y][x]
+        tile.style.backgroundColor = customTerrain[y][x]
+      }
+    }
+  }
+
+  applyProceduralTerrain(terrain) {
+    console.log('🎲 Generating procedural terrain')
     for (let y = 0; y < this.config.rows; y++) {
       for (let x = 0; x < this.config.cols; x++) {
         const tile = this.tileElements[y][x]
