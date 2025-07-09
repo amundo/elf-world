@@ -231,5 +231,81 @@
         "dialogue": ["I", "AM", "QUEEN", ".", "YOU", "ARE", "WELCOME", "IN", "MY", "DOMAIN", "."]
       }
     ]
+  },
+  "crystal": {
+    "name": "Crystal Caverns",
+    "nameConlang": ["CRYSTAL", "CAVERNS"],
+    "description": "Underground caverns filled with luminescent crystals and ancient magic",
+    "terrain": {
+      "primary": { "color": "#B19CD9", "weight": 0.5 },
+      "secondary": { "color": "#87CEEB", "weight": 0.3 },
+      "accent": { "color": "#FFE4E1", "weight": 0.2 }
+    },
+    "customTerrain": null,
+    "portals": [
+      {
+        "emoji": "🌟",
+        "concept": "portal",
+        "destination": "fairy",
+        "description": "A starlight portal to magical realms"
+      },
+      {
+        "emoji": "🌀",
+        "concept": "portal",
+        "destination": "wraith",
+        "description": "A dark vortex to the shadow realm"
+      }
+    ],
+    "entities": [
+      {
+        "type": "object",
+        "emoji": "💎",
+        "concept": "crystal",
+        "chance": 0.15,
+        "solid": true
+      },
+      {
+        "type": "object",
+        "emoji": "⚡",
+        "concept": "energy",
+        "chance": 0.05,
+        "solid": false
+      },
+      {
+        "type": "object",
+        "emoji": "🪨",
+        "concept": "rock",
+        "chance": 0.08,
+        "solid": true
+      },
+      {
+        "type": "enemy",
+        "emoji": "🐉",
+        "concept": "dragon",
+        "chance": 0.02,
+        "dialogue": ["ANCIENT", "GUARDIAN", "OF", "CRYSTALS", "!"]
+      },
+      {
+        "type": "enemy",
+        "emoji": "👹",
+        "concept": "demon",
+        "chance": 0.015,
+        "dialogue": ["WHO", "DISTURBS", "THE", "DEEP", "PLACES", "?"]
+      },
+      {
+        "type": "npc",
+        "emoji": "🧙‍♂️",
+        "concept": "mage",
+        "chance": 0.01,
+        "dialogue": ["THE", "CRYSTALS", "HOLD", "ANCIENT", "POWER", "..."]
+      },
+      {
+        "type": "npc",
+        "emoji": "⛏️",
+        "concept": "miner",
+        "chance": 0.008,
+        "dialogue": ["BEEN", "MINING", "HERE", "FOR", "YEARS", ".", "STRANGE", "MAGIC", "..."]
+      }
+    ]
   }
 }

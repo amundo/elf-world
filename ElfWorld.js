@@ -35,7 +35,10 @@ const CONFIG = {
       "TIME", "FOR", "TALK", "PURE", "HEART", "ONLY", "MAGIC", "FLOWS",
       "STRONG", "FEEL", "IT", "AM", "QUEEN", "DOMAIN",
       // Realm names
-      "FOREST", "SHADOW", "REALM"
+      "FOREST", "SHADOW", "REALM", "CRYSTAL", "CAVERNS",
+      // Additional words for crystal realm
+      "ANCIENT", "GUARDIAN", "CRYSTALS", "DEEP", "PLACES", "POWER",
+      "BEEN", "MINING", "YEARS", "STRANGE"
     ]
   },
   game: {
