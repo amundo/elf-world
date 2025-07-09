@@ -38,7 +38,9 @@ const CONFIG = {
       "FOREST", "SHADOW", "REALM", "CRYSTAL", "CAVERNS",
       // Additional words for crystal realm
       "ANCIENT", "GUARDIAN", "CRYSTALS", "DEEP", "PLACES", "POWER",
-      "BEEN", "MINING", "YEARS", "STRANGE"
+      "BEEN", "MINING", "YEARS", "STRANGE",
+      // Additional dialogue words for custom entities
+      "TRAVELER", "GOES", "THERE"
     ]
   },
   game: {
@@ -102,37 +104,170 @@ async function initializeGame() {
   }
 }
 
-// Load realms data
+// Load realms data from new modular system
 async function loadRealms() {
   try {
-    const response = await fetch('./realms.json')
+    // Load realm index
+    const indexResponse = await fetch('./realms/index.json')
+    if (!indexResponse.ok) {
+      throw new Error(`Failed to load realm index: ${indexResponse.status}`)
+    }
+    const realmIndex = await indexResponse.json()
+    
+    // Load individual realm files
+    const realms = {}
+    const entityCatalog = await loadEntityCatalog()
+    
+    for (const realmInfo of realmIndex.realms) {
+      try {
+        const realmResponse = await fetch(`./realms/${realmInfo.file}`)
+        if (realmResponse.ok) {
+          const realmData = await realmResponse.json()
+          
+          // Process entity references using catalog
+          realms[realmInfo.id] = processRealmData(realmData, entityCatalog)
+          console.log(`✅ Loaded realm: ${realmInfo.name}`)
+        } else {
+          console.warn(`⚠️ Failed to load realm file: ${realmInfo.file}`)
+        }
+      } catch (error) {
+        console.error(`❌ Error loading realm ${realmInfo.id}:`, error)
+      }
+    }
+    
+    return Object.keys(realms).length > 0 ? realms : getFallbackRealms()
+  } catch (error) {
+    console.error('Failed to load realm system:', error)
+    return getFallbackRealms()
+  }
+}
+
+// Load entity catalog
+async function loadEntityCatalog() {
+  try {
+    const response = await fetch('./entities/index.json')
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      throw new Error(`Failed to load entity catalog: ${response.status}`)
     }
     return await response.json()
   } catch (error) {
-    console.error('Failed to load realms:', error)
-    // Fallback to minimal realm data
-    return {
-      fairy: {
-        name: "Fairy Realm",
-        description: "A magical fairy realm",
-        terrain: {
-          primary: { color: "#FFB6C1", weight: 0.4 },
-          secondary: { color: "#E6E6FA", weight: 0.3 },
-          accent: { color: "#98FB98", weight: 0.3 }
-        },
-        portals: [],
-        entities: [
-          {
-            type: 'npc',
-            emoji: '🧚‍♀️',
-            concept: 'fairy',
-            chance: 0.05,
-            dialogue: 'Welcome to the fairy realm!'
-          }
-        ]
+    console.error('Failed to load entity catalog:', error)
+    return getDefaultEntityCatalog()
+  }
+}
+
+// Process realm data, resolving entity references
+function processRealmData(realmData, entityCatalog) {
+  const processedRealm = { ...realmData }
+  
+  // Convert entity references to full entity definitions
+  if (realmData.entities && realmData.entities.type === 'procedural' && realmData.entities.spawns) {
+    processedRealm.entities = realmData.entities.spawns.map(spawn => {
+      const entityRef = findEntityInCatalog(spawn.entity, entityCatalog)
+      if (entityRef) {
+        return {
+          type: entityRef.category.slice(0, -1), // Remove 's' from category
+          emoji: entityRef.emoji,
+          concept: entityRef.gloss,
+          chance: spawn.chance,
+          solid: entityRef.solid !== undefined ? entityRef.solid : true,
+          dialogue: entityRef.dialogue || null
+        }
+      } else {
+        console.warn(`Unknown entity reference: ${spawn.entity}`)
+        return null
       }
+    }).filter(Boolean)
+  } else if (realmData.entities && Array.isArray(realmData.entities)) {
+    // Already processed or in legacy format
+    processedRealm.entities = realmData.entities
+  } else {
+    // No entities or invalid format
+    console.warn(`No valid entities found for realm ${realmData.name}`)
+    processedRealm.entities = []
+  }
+  
+  // Process custom entities if present
+  if (realmData.customEntities) {
+    // Custom entities are already in the correct format
+    processedRealm.customEntities = realmData.customEntities
+  }
+  
+  // Process portals
+  if (realmData.portals && Array.isArray(realmData.portals)) {
+    processedRealm.portals = realmData.portals.map(portal => {
+      if (portal.position === 'custom') {
+        // Portal positions are defined in customEntities
+        return null // Skip, handled by custom entity placement
+      } else {
+        const portalRef = findEntityInCatalog(portal.entity, entityCatalog)
+        return {
+          emoji: portalRef?.emoji || '🌀',
+          concept: portalRef?.gloss || 'portal',
+          destination: portal.destination,
+          description: portal.description || `Portal to ${portal.destination}`
+        }
+      }
+    }).filter(Boolean)
+  } else {
+    // No portals or invalid format
+    processedRealm.portals = []
+  }
+  
+  return processedRealm
+}
+
+// Find entity in catalog by ID
+function findEntityInCatalog(entityId, catalog) {
+  for (const [category, entities] of Object.entries(catalog)) {
+    if (entities[entityId]) {
+      return { ...entities[entityId], category }
+    }
+  }
+  return null
+}
+
+// Default entity catalog fallback
+function getDefaultEntityCatalog() {
+  return {
+    objects: {
+      tree: { emoji: '🌲', gloss: 'tree', solid: true },
+      rock: { emoji: '🪨', gloss: 'rock', solid: true }
+    },
+    npcs: {
+      fairy: { emoji: '🧚‍♀️', gloss: 'fairy', solid: false }
+    },
+    enemies: {
+      snake: { emoji: '🐍', gloss: 'snake', solid: false }
+    },
+    portals: {
+      swirl: { emoji: '🌀', gloss: 'portal', solid: false }
+    }
+  }
+}
+
+// Fallback realms
+function getFallbackRealms() {
+  return {
+    fairy: {
+      name: "Fairy Realm",
+      nameConlang: ["MAGIC", "REALM"],
+      terrain: {
+        primary: { color: "#FFB6C1", weight: 0.4 },
+        secondary: { color: "#E6E6FA", weight: 0.3 },
+        accent: { color: "#98FB98", weight: 0.3 }
+      },
+      portals: [],
+      entities: [
+        {
+          type: 'npc',
+          emoji: '🧚‍♀️',
+          concept: 'fairy',
+          chance: 0.05,
+          solid: false,
+          dialogue: ["GREETINGS", "!", "WELCOME", "TO", "OUR", "REALM", "."]
+        }
+      ]
     }
   }
 }

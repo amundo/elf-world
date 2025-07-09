@@ -1,0 +1,213 @@
+{
+  "objects": {
+    "tree": {
+      "emoji": "🌲",
+      "gloss": "tree",
+      "solid": true,
+      "category": "nature",
+      "description": "A tall forest tree"
+    },
+    "rock": {
+      "emoji": "🪨", 
+      "gloss": "rock",
+      "solid": true,
+      "category": "nature",
+      "description": "A large stone boulder"
+    },
+    "flower": {
+      "emoji": "🌸",
+      "gloss": "flower", 
+      "solid": false,
+      "category": "nature",
+      "description": "A delicate blossom"
+    },
+    "mushroom": {
+      "emoji": "🍄",
+      "gloss": "mushroom",
+      "solid": true,
+      "category": "nature", 
+      "description": "A magical toadstool"
+    },
+    "crystal": {
+      "emoji": "💎",
+      "gloss": "crystal",
+      "solid": true,
+      "category": "magical",
+      "description": "A glowing crystal formation"
+    },
+    "butterfly": {
+      "emoji": "🦋",
+      "gloss": "butterfly",
+      "solid": false,
+      "category": "nature",
+      "description": "A colorful flying insect"
+    },
+    "moon": {
+      "emoji": "🌙",
+      "gloss": "moon", 
+      "solid": false,
+      "category": "celestial",
+      "description": "Pale moonlight"
+    },
+    "grave": {
+      "emoji": "🪦",
+      "gloss": "grave",
+      "solid": true,
+      "category": "undead",
+      "description": "An ancient tombstone"
+    }
+  },
+  "npcs": {
+    "fairy": {
+      "emoji": "🧚‍♀️",
+      "gloss": "fairy",
+      "solid": false,
+      "category": "magical",
+      "description": "A graceful fairy maiden",
+      "dialogue": ["GREETINGS", "!", "WELCOME", "TO", "OUR", "REALM", "."]
+    },
+    "elder": {
+      "emoji": "👴",
+      "gloss": "elder",
+      "solid": false,
+      "category": "human",
+      "description": "A wise old man",
+      "dialogue": ["HELLO", "VISITOR", ".", "WELCOME", "HERE", "."]
+    },
+    "wizard": {
+      "emoji": "🧙‍♂️",
+      "gloss": "wizard",
+      "solid": false,
+      "category": "magical",
+      "description": "A powerful mage",
+      "dialogue": ["GOOD", "DAY", "FRIEND", ".", "MAGIC", "IS", "STRONG", "HERE", "."]
+    },
+    "witch": {
+      "emoji": "🧙‍♀️",
+      "gloss": "witch",
+      "solid": false,
+      "category": "magical",
+      "description": "A mysterious sorceress",
+      "dialogue": ["THE", "DEAD", "WHISPER", "SECRETS", "..."]
+    },
+    "queen": {
+      "emoji": "👑",
+      "gloss": "queen",
+      "solid": false,
+      "category": "royal",
+      "description": "The Fairy Queen",
+      "dialogue": ["I", "AM", "QUEEN", ".", "YOU", "ARE", "WELCOME", "IN", "MY", "DOMAIN", "."]
+    },
+    "miner": {
+      "emoji": "⛏️",
+      "gloss": "miner",
+      "solid": false,
+      "category": "human",
+      "description": "A hardworking crystal miner",
+      "dialogue": ["BEEN", "MINING", "HERE", "FOR", "YEARS", ".", "STRANGE", "MAGIC", "..."]
+    }
+  },
+  "enemies": {
+    "snake": {
+      "emoji": "🐍",
+      "gloss": "snake",
+      "solid": false,
+      "category": "nature",
+      "description": "A venomous forest serpent",
+      "dialogue": ["GREETINGS", "STRANGER", "!"]
+    },
+    "bat": {
+      "emoji": "🦇",
+      "gloss": "bat",
+      "solid": false,
+      "category": "nature",
+      "description": "A nocturnal cave dweller",
+      "dialogue": ["WHO", "IS", "HERE", "?"]
+    },
+    "skull": {
+      "emoji": "💀",
+      "gloss": "skull",
+      "solid": false,
+      "category": "undead",
+      "description": "Animated remains of the long dead",
+      "dialogue": ["WHO", "DISTURBS", "THE", "DEAD", "?"]
+    },
+    "zombie": {
+      "emoji": "🧟",
+      "gloss": "zombie", 
+      "solid": false,
+      "category": "undead",
+      "description": "A shambling undead corpse",
+      "dialogue": ["HUNGRY", ".", "SO", "HUNGRY", "..."]
+    },
+    "ghost": {
+      "emoji": "👻",
+      "gloss": "ghost",
+      "solid": false,
+      "category": "undead", 
+      "description": "A tormented spirit",
+      "dialogue": ["YOU", "NOT", "BELONG", "HERE", "!"]
+    },
+    "dragon": {
+      "emoji": "🐉",
+      "gloss": "dragon",
+      "solid": false,
+      "category": "magical",
+      "description": "An ancient crystal guardian",
+      "dialogue": ["ANCIENT", "GUARDIAN", "OF", "CRYSTALS", "!"]
+    },
+    "bee": {
+      "emoji": "🐝",
+      "gloss": "bee",
+      "solid": false,
+      "category": "nature",
+      "description": "An enchanted honey bee",
+      "dialogue": ["BUSY", "BUSY", "!", "NO", "TIME", "FOR", "TALK", "."]
+    },
+    "unicorn": {
+      "emoji": "🦄",
+      "gloss": "unicorn",
+      "solid": false,
+      "category": "magical",
+      "description": "A majestic but cautious unicorn",
+      "dialogue": ["PURE", "HEART", "ONLY", ".", "YOU", "ARE", "WELCOME", "?"]
+    }
+  },
+  "portals": {
+    "swirl": {
+      "emoji": "🌀",
+      "gloss": "portal",
+      "solid": false,
+      "category": "portal",
+      "description": "A swirling magical vortex"
+    },
+    "sparkle": {
+      "emoji": "✨",
+      "gloss": "portal",
+      "solid": false,
+      "category": "portal", 
+      "description": "Sparkling magical gateway"
+    },
+    "mist": {
+      "emoji": "🌫️",
+      "gloss": "portal",
+      "solid": false,
+      "category": "portal",
+      "description": "Misty passage between realms"
+    },
+    "star": {
+      "emoji": "🌟",
+      "gloss": "portal",
+      "solid": false,
+      "category": "portal",
+      "description": "A starlight portal"
+    },
+    "rainbow": {
+      "emoji": "🌈",
+      "gloss": "portal",
+      "solid": false,
+      "category": "portal",
+      "description": "A rainbow bridge between worlds"
+    }
+  }
+}

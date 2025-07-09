@@ -1,0 +1,75 @@
+{
+    "name": "Wraith Realm",
+    "nameConlang": ["SHADOW", "REALM"],
+    "description": "A haunted shadowland where the undead roam freely",
+    "terrain": {
+      "primary": { "color": "#2F2F2F", "weight": 0.6 },
+      "secondary": { "color": "#1C1C1C", "weight": 0.3 },
+      "accent": { "color": "#4B0082", "weight": 0.1 }
+    },
+    "portals": [
+      {
+        "emoji": "🌀",
+        "concept": "portal",
+        "destination": "forest",
+        "description": "A dark vortex leading to living lands"
+      },
+      {
+        "emoji": "🌫️",
+        "concept": "portal",
+        "destination": "fairy",
+        "description": "Misty passage to brighter realms"
+      }
+    ],
+    "entities": [
+      {
+        "type": "object",
+        "emoji": "🪦",
+        "concept": "grave",
+        "chance": 0.08,
+        "solid": true
+      },
+      {
+        "type": "object",
+        "emoji": "🌙",
+        "concept": "moon",
+        "chance": 0.03,
+        "solid": false
+      },
+      {
+        "type": "enemy",
+        "emoji": "💀",
+        "concept": "skull",
+        "chance": 0.04,
+        "dialogue": ["WHO", "DISTURBS", "THE", "DEAD", "?"]
+      },
+      {
+        "type": "enemy",
+        "emoji": "🧟",
+        "concept": "zombie",
+        "chance": 0.03,
+        "dialogue": ["HUNGRY", ".", "SO", "HUNGRY", "..."]
+      },
+      {
+        "type": "enemy",
+        "emoji": "👻",
+        "concept": "ghost",
+        "chance": 0.02,
+        "dialogue": ["YOU", "NOT", "BELONG", "HERE", "!"]
+      },
+      {
+        "type": "npc",
+        "emoji": "🧙‍♀️",
+        "concept": "witch",
+        "chance": 0.01,
+        "dialogue": ["THE", "DEAD", "WHISPER", "SECRETS", "..."]
+      },
+      {
+        "type": "npc",
+        "emoji": "🔮",
+        "concept": "crystal",
+        "chance": 0.005,
+        "dialogue": ["I", "SEE", "OTHER", "WORLDS", "IN", "THE", "CRYSTAL", "."]
+      }
+    ]
+  }

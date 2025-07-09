@@ -59,8 +59,22 @@ export class GameWorld {
   }
 
   async switchRealm(realmKey) {
+    console.log('🌍 Attempting to switch to realm:', realmKey)
+    console.log('🔍 Available realms:', Object.keys(this.gameState.realms))
+    
     const newRealm = this.gameState.realms[realmKey]
-    if (!newRealm || newRealm === this.gameState.currentRealm) return
+    if (!newRealm) {
+      console.error('❌ Realm not found:', realmKey)
+      console.log('Available realms:', Object.keys(this.gameState.realms))
+      return
+    }
+    
+    if (newRealm === this.gameState.currentRealm) {
+      console.log('⏭️ Already in realm:', realmKey)
+      return
+    }
+
+    console.log('✅ Switching to realm:', newRealm.name)
 
     // Transition effect
     const transition = document.getElementById('transition')
@@ -88,8 +102,7 @@ export class GameWorld {
       this.repositionPlayer()
       this.updateCamera()
 
-      // Load new music (skip for now since files don't exist)
-      // this.backgroundMusic = new Audio(newRealm.music)
+      this.backgroundMusic = new Audio(newRealm.music)
 
       setTimeout(() => transition.classList.remove('active'), 250)
     }, 250)
@@ -146,7 +159,61 @@ export class GameWorld {
   }
 
   generateEntities(realm) {
-    // First, generate random entities
+    console.log('🎯 Generating entities for realm:', realm.name)
+    console.log('🔍 Realm entities:', realm.entities)
+    console.log('🔍 Custom entities:', realm.customEntities)
+    
+    // Check if realm has custom entity placement
+    if (realm.customEntities) {
+      this.placeCustomEntities(realm.customEntities)
+    } else if (realm.entities && Array.isArray(realm.entities)) {
+      // Handle processed realm entities (array format)
+      this.generateRandomEntities(realm)
+    } else if (realm.entities && realm.entities.spawns) {
+      // Handle unprocessed realm entities (object with spawns array)
+      console.warn('⚠️ Realm entities not processed correctly, attempting fallback')
+      this.generateFromSpawns(realm.entities.spawns)
+    } else {
+      console.warn('⚠️ No entities found for realm, using empty generation')
+    }
+
+    // Always place guaranteed portals last
+    this.placePortals(realm)
+  }
+
+  generateFromSpawns(spawns) {
+    console.log('🎲 Generating from spawn definitions')
+    // This is a fallback for unprocessed realm data
+    for (let y = 0; y < this.config.rows; y++) {
+      for (let x = 0; x < this.config.cols; x++) {
+        if (this.gameState.player && x === this.gameState.player.x && y === this.gameState.player.y) continue
+
+        for (const spawn of spawns) {
+          if (Math.random() < spawn.chance) {
+            // Create a basic entity from spawn definition
+            new Entity({
+              x, y,
+              entityDef: {
+                type: 'object', // Default type
+                emoji: '❓', // Placeholder
+                concept: spawn.entity,
+                solid: true,
+                dialogue: null
+              },
+              gameState: this.gameState,
+              world: this
+            })
+            break
+          }
+        }
+      }
+    }
+  }
+
+  generateRandomEntities(realm) {
+    console.log('🎲 Generating random entities')
+    console.log('🔍 Available entities:', realm.entities.length)
+    
     for (let y = 0; y < this.config.rows; y++) {
       for (let x = 0; x < this.config.cols; x++) {
         if (this.gameState.player && x === this.gameState.player.x && y === this.gameState.player.y) continue
@@ -164,9 +231,124 @@ export class GameWorld {
         }
       }
     }
+  }
 
-    // Then, place guaranteed portals in random locations
-    this.placePortals(realm)
+  placeCustomEntities(customEntities) {
+    console.log('🎯 Placing custom entities')
+    for (let y = 0; y < this.config.rows && y < customEntities.length; y++) {
+      for (let x = 0; x < this.config.cols && x < customEntities[y].length; x++) {
+        const entityData = customEntities[y][x]
+        if (entityData && entityData.category !== 'erase') {
+          // Handle portals specially
+          if (entityData.category === 'portals' && entityData.destination) {
+            new Entity({
+              x, y,
+              entityDef: {
+                type: 'portal',
+                emoji: entityData.emoji,
+                concept: entityData.gloss,
+                destination: entityData.destination,
+                solid: false,
+                dialogue: null
+              },
+              gameState: this.gameState,
+              world: this
+            })
+          } else {
+            // Regular entities with dialogue
+            new Entity({
+              x, y,
+              entityDef: {
+                type: this.getEntityType(entityData.category),
+                emoji: entityData.emoji,
+                concept: entityData.gloss,
+                solid: this.getEntitySolidity(entityData.category, entityData.gloss),
+                dialogue: this.getEntityDialogue(entityData.category, entityData.gloss)
+              },
+              gameState: this.gameState,
+              world: this
+            })
+          }
+        }
+      }
+    }
+  }
+
+  getEntityType(category) {
+    const typeMap = {
+      'objects': 'object',
+      'npcs': 'npc', 
+      'enemies': 'enemy',
+      'portals': 'portal'
+    }
+    return typeMap[category] || 'object'
+  }
+
+  generateRandomEntities(realm) {
+    console.log('🎲 Generating random entities')
+    for (let y = 0; y < this.config.rows; y++) {
+      for (let x = 0; x < this.config.cols; x++) {
+        if (this.gameState.player && x === this.gameState.player.x && y === this.gameState.player.y) continue
+
+        for (const entityDef of realm.entities) {
+          if (Math.random() < entityDef.chance) {
+            new Entity({
+              x, y,
+              entityDef,
+              gameState: this.gameState,
+              world: this
+            })
+            break
+          }
+        }
+      }
+    }
+  }
+
+  getEntitySolidity(type, concept) {
+    const solidEntities = ['tree', 'rock', 'crystal', 'mushroom']
+    return solidEntities.includes(concept) || type === 'object'
+  }
+
+  getEntityDialogue(category, concept) {
+    const dialogues = {
+      // NPCs
+      fairy: ["GREETINGS", "!", "WELCOME", "TO", "OUR", "REALM", "."],
+      elder: ["HELLO", "VISITOR", ".", "WELCOME", "HERE", "."],
+      wizard: ["GOOD", "DAY", "FRIEND", ".", "MAGIC", "IS", "STRONG", "HERE", "."],
+      witch: ["THE", "DEAD", "WHISPER", "SECRETS", "..."],
+      queen: ["I", "AM", "QUEEN", ".", "YOU", "ARE", "WELCOME", "IN", "MY", "DOMAIN", "."],
+      miner: ["BEEN", "MINING", "HERE", "FOR", "YEARS", ".", "STRANGE", "MAGIC", "..."],
+      
+      // Enemies
+      snake: ["GREETINGS", "STRANGER", "!"],
+      dragon: ["ANCIENT", "GUARDIAN", "OF", "CRYSTALS", "!"],
+      skull: ["WHO", "DISTURBS", "THE", "DEAD", "?"],
+      zombie: ["HUNGRY", ".", "SO", "HUNGRY", "..."],
+      ghost: ["YOU", "NOT", "BELONG", "HERE", "!"],
+      bat: ["WHO", "IS", "HERE", "?"],
+      bee: ["BUSY", "BUSY", "!", "NO", "TIME", "FOR", "TALK", "."],
+      unicorn: ["PURE", "HEART", "ONLY", ".", "YOU", "ARE", "WELCOME", "?"],
+      
+      // Generic dialogues by category
+      _npc_default: ["HELLO", "TRAVELER", ".", "WELCOME", "."],
+      _enemy_default: ["WHO", "GOES", "THERE", "?"],
+      _object_default: null // Objects don't speak
+    }
+    
+    // Try specific concept first
+    if (dialogues[concept]) {
+      return dialogues[concept]
+    }
+    
+    // Try category default
+    if (category === 'npcs') {
+      return dialogues._npc_default
+    } else if (category === 'enemies') {
+      return dialogues._enemy_default
+    } else {
+      return dialogues._object_default
+    }
   }
 
   placePortals(realm) {
@@ -190,7 +372,7 @@ export class GameWorld {
             emoji: portalDef.emoji,
             concept: portalDef.concept,
             destination: portalDef.destination,
-            description: portalDef.description,
+            description: portalDef.description || `Portal to ${portalDef.destination}`,
             solid: false
           },
           gameState: this.gameState,
