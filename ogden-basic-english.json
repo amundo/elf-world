@@ -1,0 +1,5924 @@
+{
+  "metadata": {
+    "title": "Ogden Basic English Vocabulary",
+    "url": "https://web.archive.org/web/20121119030314/http://ogden.basic-english.org/words.html",
+    "source": "http://ogden.basic-english.org",
+    "notes": ["dead url"]
+  },
+  "words": [
+  {
+    "pos": "verb",
+    "gloss": "come",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "get",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "give",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "go",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "keep",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "let",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "make",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "put",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "seem",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "take",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "be",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "do",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "have",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "say",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "see",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "send",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "may",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "verb",
+    "gloss": "will",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "about",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "across",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "after",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "against",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "among",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "at",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "before",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "between",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "by",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "down",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "from",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "in",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "off",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "on",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "over",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "through",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "to",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "under",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "up",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "preposition",
+    "gloss": "with",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "and",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "because",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "but",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "or",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "if",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "though",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "conjunction",
+    "gloss": "while",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "how",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "when",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "where",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "why",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "again",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "ever",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "far",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "forward",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "here",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "near",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "now",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "out",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "still",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "then",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "there",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "together",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "well",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "almost",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "enough",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "even",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "not",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "only",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "quite",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "so",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "very",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "tomorrow",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "adverb",
+    "gloss": "yesterday",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "article",
+    "gloss": "a",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "article",
+    "gloss": "the",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "all",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "any",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "every",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "little",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "much",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "no",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "other",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "some",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "such",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "that",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "determiner",
+    "gloss": "this",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "pronoun",
+    "gloss": "I",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "pronoun",
+    "gloss": "he",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "pronoun",
+    "gloss": "you",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "pronoun",
+    "gloss": "who",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "north",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "south",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "east",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "west",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "please",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "yes",
+    "tags": [
+      "OPERATIONS"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "account",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "act",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "addition",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "adjustment",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "advertisement",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "agreement",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "air",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "amount",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "amusement",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "animal",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "answer",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "apparatus",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "approval",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "argument",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "art",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "attack",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "attempt",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "attention",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "attraction",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "authority",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "back",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "balance",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "base",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "behavior",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "belief",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "birth",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bit",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bite",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "blood",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "blow",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "body",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "brass",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bread",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "breath",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "brother",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "building",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "burn",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "burst",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "business",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "butter",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "canvas",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "care",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cause",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "chalk",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "chance",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "change",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cloth",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "coal",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "color",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "comfort",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "committee",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "company",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "comparison",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "competition",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "condition",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "connection",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "control",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cook",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "copper",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "copy",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cork",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cotton",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cough",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "country",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cover",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "crack",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "credit",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "crime",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "crush",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cry",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "current",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "curve",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "damage",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "danger",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "daughter",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "day",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "death",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "debt",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "decision",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "degree",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "design",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "desire",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "destruction",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "detail",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "development",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "digestion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "direction",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "discovery",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "discussion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "disease",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "disgust",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "distance",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "distribution",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "division",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "doubt",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "drink",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "driving",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "dust",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "earth",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "edge",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "education",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "effect",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "end",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "error",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "event",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "example",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "exchange",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "existence",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "expansion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "experience",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "expert",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fact",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fall",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "family",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "father",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fear",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "feeling",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fiction",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "field",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fight",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fire",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "flame",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "flight",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "flower",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fold",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "food",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "force",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "form",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "friend",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "front",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fruit",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "glass",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "gold",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "government",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "grain",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "grass",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "grip",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "group",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "growth",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "guide",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "harbor",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "harmony",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hate",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hearing",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "heat",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "help",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "history",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hole",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hope",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hour",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "humor",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ice",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "idea",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "impulse",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "increase",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "industry",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ink",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "insect",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "instrument",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "insurance",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "interest",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "invention",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "iron",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "jelly",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "join",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "journey",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "judge",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "jump",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "kick",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "kiss",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "knowledge",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "land",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "language",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "laugh",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "law",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "lead",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "learning",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "leather",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "letter",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "level",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "lift",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "light",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "limit",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "linen",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "liquid",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "list",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "look",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "loss",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "love",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "machine",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "man",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "manager",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mark",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "market",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mass",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "meal",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "measure",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "meat",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "meeting",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "memory",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "metal",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "middle",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "milk",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mind",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mine",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "minute",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mist",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "money",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "month",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "morning",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mother",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "motion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mountain",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "move",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "music",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "name",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "nation",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "need",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "news",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "night",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "noise",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "note",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "number",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "observation",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "offer",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "oil",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "operation",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "opinion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "order",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "organization",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ornament",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "owner",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "page",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pain",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "paint",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "paper",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "part",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "paste",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "payment",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "peace",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "person",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "place",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "plant",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "play",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pleasure",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "point",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "poison",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "polish",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "porter",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "position",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "powder",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "power",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "price",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "print",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "process",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "produce",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "profit",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "property",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "prose",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "protest",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pull",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "punishment",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "purpose",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "push",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "quality",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "question",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rain",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "range",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rate",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ray",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "reaction",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "reading",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "reason",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "record",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "regret",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "relation",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "religion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "representative",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "request",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "respect",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rest",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "reward",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rhythm",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rice",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "river",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "road",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "roll",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "room",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rub",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rule",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "run",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "salt",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sand",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "scale",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "science",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sea",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "seat",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "secretary",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "selection",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "self",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sense",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "servant",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sex",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shade",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shake",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shame",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shock",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "side",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sign",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "silk",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "silver",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sister",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "size",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sky",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sleep",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "slip",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "slope",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "smash",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "smell",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "smile",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "smoke",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sneeze",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "snow",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "soap",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "society",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "son",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "song",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sort",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sound",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "soup",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "space",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stage",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "start",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "statement",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "steam",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "steel",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "step",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stitch",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stone",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stop",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "story",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stretch",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "structure",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "substance",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sugar",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "suggestion",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "summer",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "support",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "surprise",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "swim",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "system",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "talk",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "taste",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tax",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "teaching",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tendency",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "test",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "theory",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "thing",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "thought",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "thunder",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "time",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tin",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "top",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "touch",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "trade",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "transport",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "trick",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "trouble",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "turn",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "twist",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "unit",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "use",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "value",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "verse",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "vessel",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "view",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "voice",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "walk",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "war",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wash",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "waste",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "water",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wave",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wax",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "way",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "weather",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "week",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "weight",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wind",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wine",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "winter",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "woman",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wood",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wool",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "word",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "work",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wound",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "writing",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "year",
+    "tags": [
+      "THINGS - General"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "angle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ant",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "apple",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "arch",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "arm",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "army",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "baby",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bag",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ball",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "band",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "basin",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "basket",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bath",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bed",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bee",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bell",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "berry",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bird",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "blade",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "board",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "boat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bone",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "book",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "boot",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bottle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "box",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "boy",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "brain",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "brake",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "branch",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "brick",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bridge",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "brush",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bucket",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "bulb",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "button",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cake",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "camera",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "card",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cart",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "carriage",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "chain",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cheese",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "chest",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "chin",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "church",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "circle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "clock",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cloud",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "coat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "collar",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "comb",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cord",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cow",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cup",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "curtain",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "cushion",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "dog",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "door",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "drain",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "drawer",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "dress",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "drop",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ear",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "egg",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "engine",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "eye",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "face",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "farm",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "feather",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "finger",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fish",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "flag",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "floor",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fly",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "foot",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fork",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "fowl",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "frame",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "garden",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "girl",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "glove",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "goat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "gun",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hair",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hammer",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hand",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "head",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "heart",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hook",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "horn",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "horse",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "hospital",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "house",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "island",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "jewel",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "kettle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "key",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "knee",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "knife",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "knot",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "leaf",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "leg",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "library",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "line",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "lip",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "lock",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "map",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "match",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "monkey",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "moon",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "mouth",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "muscle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "nail",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "neck",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "needle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "nerve",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "net",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "nose",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "nut",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "office",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "orange",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "oven",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "parcel",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pen",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pencil",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "picture",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pig",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pin",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pipe",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "plane",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "plate",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "plough",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pocket",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pot",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "potato",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "prison",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "pump",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rail",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "receipt",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ring",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "rod",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "roof",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "root",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sail",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "school",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "scissors",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "screw",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "seed",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sheep",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shelf",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ship",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shirt",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "shoe",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "skin",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "skirt",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "snake",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sock",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "spade",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sponge",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "spoon",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "spring",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "square",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stamp",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "star",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "station",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stem",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stick",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stocking",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "stomach",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "store",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "street",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "sun",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "table",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tail",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "thread",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "throat",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "thumb",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "ticket",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "toe",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tongue",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tooth",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "town",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "train",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tray",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "tree",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "trousers",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "umbrella",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wall",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "watch",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wheel",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "whip",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "whistle",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "window",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wing",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "wire",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "noun",
+    "gloss": "worm",
+    "tags": [
+      "THINGS - Picturable"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "able",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "acid",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "angry",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "automatic",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "beautiful",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "black",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "boiling",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "bright",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "broken",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "brown",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "cheap",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "chemical",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "chief",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "clean",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "clear",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "common",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "complex",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "conscious",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "cut",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "deep",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "dependent",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "early",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "elastic",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "electric",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "equal",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "fat",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "fertile",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "first",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "fixed",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "flat",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "free",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "frequent",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "full",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "general",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "good",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "great",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "grey",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "hanging",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "happy",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "hard",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "healthy",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "high",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "hollow",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "important",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "kind",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "like",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "living",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "long",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "male",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "married",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "material",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "medical",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "military",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "natural",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "necessary",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "new",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "normal",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "open",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "parallel",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "past",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "physical",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "political",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "poor",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "possible",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "present",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "private",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "probable",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "quick",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "quiet",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "ready",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "red",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "regular",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "responsible",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "right",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "round",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "same",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "second",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "separate",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "serious",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "sharp",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "smooth",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "sticky",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "stiff",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "straight",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "strong",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "sudden",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "sweet",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "tall",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "thick",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "tight",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "tired",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "true",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "violent",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "waiting",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "warm",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "wet",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "wide",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "wise",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "yellow",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "young",
+    "tags": [
+      "QUALITIES - General"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "awake",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "bad",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "bent",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "bitter",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "blue",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "certain",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "cold",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "complete",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "cruel",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "dark",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "dead",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "dear",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "delicate",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "different",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "dirty",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "dry",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "false",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "feeble",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "female",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "foolish",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "future",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "green",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "ill",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "last",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "late",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "left",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "loose",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "loud",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "low",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "mixed",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "narrow",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "old",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "opposite",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "public",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "rough",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "sad",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "safe",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "secret",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "short",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "shut",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "simple",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "slow",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "small",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "soft",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "solid",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "special",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "strange",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "thin",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "white",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  },
+  {
+    "pos": "adjective",
+    "gloss": "wrong",
+    "tags": [
+      "QUALITIES - Opposites"
+    ]
+  }
+]}

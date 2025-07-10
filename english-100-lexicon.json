@@ -1,0 +1,1210 @@
+{
+  "metadata": {
+    "title": "100 most frequent English words",
+    "url": "https://en.wikipedia.org/wiki/Most_common_words_in_English",
+    "source": "Wikipedia",
+    "notes": ["don't really care about the frequency data but didn't want to throw it away"]
+  },
+  "words": [
+    {
+      "gloss": "the",
+      "pos": "article",
+      "metadata": {
+        "frequency": {
+          "oec": "1",
+          "coca": "1",
+          "dolch": "Pre-primer",
+          "polysemy": "12"
+        }
+      }
+    },
+    {
+      "gloss": "be",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "2",
+          "coca": "2",
+          "dolch": "Primer",
+          "polysemy": "21"
+        }
+      }
+    },
+    {
+      "gloss": "to",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "3",
+          "coca": "7, 9",
+          "dolch": "Pre-primer",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "of",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "4",
+          "coca": "4",
+          "dolch": "Grade 1",
+          "polysemy": "12"
+        }
+      }
+    },
+    {
+      "gloss": "and",
+      "pos": "coordinator",
+      "metadata": {
+        "frequency": {
+          "oec": "5",
+          "coca": "3",
+          "dolch": "Pre-primer",
+          "polysemy": "16"
+        }
+      }
+    },
+    {
+      "gloss": "a",
+      "pos": "article",
+      "metadata": {
+        "frequency": {
+          "oec": "6",
+          "coca": "5",
+          "dolch": "Pre-primer",
+          "polysemy": "20"
+        }
+      }
+    },
+    {
+      "gloss": "in",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "7",
+          "coca": "6, 128, 3038",
+          "dolch": "Pre-primer",
+          "polysemy": "23"
+        }
+      }
+    },
+    {
+      "gloss": "that",
+      "pos": "subordinator",
+      "metadata": {
+        "frequency": {
+          "oec": "8",
+          "coca": "12, 27, 903",
+          "dolch": "Primer",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "have",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "9",
+          "coca": "8",
+          "dolch": "Primer",
+          "polysemy": "25"
+        }
+      }
+    },
+    {
+      "gloss": "I",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "10",
+          "coca": "11",
+          "dolch": "Pre-primer",
+          "polysemy": "7"
+        }
+      }
+    },
+    {
+      "gloss": "it",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "11",
+          "coca": "10",
+          "dolch": "Pre-primer",
+          "polysemy": "18"
+        }
+      }
+    },
+    {
+      "gloss": "for",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "12",
+          "coca": "13, 2339",
+          "dolch": "Pre-primer",
+          "polysemy": "19"
+        }
+      }
+    },
+    {
+      "gloss": "not",
+      "pos": "adverb et al.",
+      "metadata": {
+        "frequency": {
+          "oec": "13",
+          "coca": "28, 2929",
+          "dolch": "Pre-primer",
+          "polysemy": "5"
+        }
+      }
+    },
+    {
+      "gloss": "on",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "14",
+          "coca": "17, 155",
+          "dolch": "Primer",
+          "polysemy": "43"
+        }
+      }
+    },
+    {
+      "gloss": "with",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "15",
+          "coca": "16",
+          "dolch": "Primer",
+          "polysemy": "11"
+        }
+      }
+    },
+    {
+      "gloss": "he",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "16",
+          "coca": "15",
+          "dolch": "Primer",
+          "polysemy": "7"
+        }
+      }
+    },
+    {
+      "gloss": "as",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "17",
+          "coca": "33, 49, 129",
+          "dolch": "Grade 1",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "you",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "18",
+          "coca": "14",
+          "dolch": "Pre-primer",
+          "polysemy": "9"
+        }
+      }
+    },
+    {
+      "gloss": "do",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "19",
+          "coca": "18",
+          "dolch": "Primer",
+          "polysemy": "38"
+        }
+      }
+    },
+    {
+      "gloss": "at",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "20",
+          "coca": "22",
+          "dolch": "Primer",
+          "polysemy": "14"
+        }
+      }
+    },
+    {
+      "gloss": "this",
+      "pos": "determiner",
+      "metadata": {
+        "frequency": {
+          "oec": "21",
+          "coca": "20, 4665",
+          "dolch": "Primer",
+          "polysemy": "9"
+        }
+      }
+    },
+    {
+      "gloss": "but",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "22",
+          "coca": "23, 1715",
+          "dolch": "Primer",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "his",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "23",
+          "coca": "25, 1887",
+          "dolch": "Grade 1",
+          "polysemy": "6"
+        }
+      }
+    },
+    {
+      "gloss": "by",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "24",
+          "coca": "30, 1190",
+          "dolch": "Grade 1",
+          "polysemy": "19"
+        }
+      }
+    },
+    {
+      "gloss": "from",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "25",
+          "coca": "26",
+          "dolch": "Grade 1",
+          "polysemy": "4"
+        }
+      }
+    },
+    {
+      "gloss": "they",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "26",
+          "coca": "21",
+          "dolch": "Primer",
+          "polysemy": "6"
+        }
+      }
+    },
+    {
+      "gloss": "we",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "27",
+          "coca": "24",
+          "dolch": "Pre-primer",
+          "polysemy": "6"
+        }
+      }
+    },
+    {
+      "gloss": "say",
+      "pos": "verb et al.",
+      "metadata": {
+        "frequency": {
+          "oec": "28",
+          "coca": "19",
+          "dolch": "Primer",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "her",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "29, 106",
+          "coca": "42",
+          "dolch": "Grade 1",
+          "polysemy": "3"
+        }
+      }
+    },
+    {
+      "gloss": "she",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "30",
+          "coca": "31",
+          "dolch": "Primer",
+          "polysemy": "7"
+        }
+      }
+    },
+    {
+      "gloss": "or",
+      "pos": "coordinator",
+      "metadata": {
+        "frequency": {
+          "oec": "31",
+          "coca": "32",
+          "dolch": "Grade 2",
+          "polysemy": "11"
+        }
+      }
+    },
+    {
+      "gloss": "an",
+      "pos": "article",
+      "metadata": {
+        "frequency": {
+          "oec": "32",
+          "coca": "(a)",
+          "dolch": "Grade 1",
+          "polysemy": "6"
+        }
+      }
+    },
+    {
+      "gloss": "will",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "33",
+          "coca": "48, 1506",
+          "dolch": "Primer",
+          "polysemy": "16"
+        }
+      }
+    },
+    {
+      "gloss": "my",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "34",
+          "coca": "44",
+          "dolch": "Pre-primer",
+          "polysemy": "5"
+        }
+      }
+    },
+    {
+      "gloss": "one",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "35",
+          "coca": "51, 104, 839",
+          "dolch": "Pre-primer",
+          "polysemy": "24"
+        }
+      }
+    },
+    {
+      "gloss": "all",
+      "pos": "adjective",
+      "metadata": {
+        "frequency": {
+          "oec": "36",
+          "coca": "43, 222",
+          "dolch": "Primer",
+          "polysemy": "15"
+        }
+      }
+    },
+    {
+      "gloss": "would",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "37",
+          "coca": "41",
+          "dolch": "Grade 2",
+          "polysemy": "13"
+        }
+      }
+    },
+    {
+      "gloss": "there",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "38",
+          "coca": "53, 116",
+          "dolch": "Primer",
+          "polysemy": "14"
+        }
+      }
+    },
+    {
+      "gloss": "their",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "39",
+          "coca": "36",
+          "dolch": "Grade 2",
+          "polysemy": "2"
+        }
+      }
+    },
+    {
+      "gloss": "what",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "40",
+          "coca": "34",
+          "dolch": "Primer",
+          "polysemy": "19"
+        }
+      }
+    },
+    {
+      "gloss": "so",
+      "pos": "coordinator",
+      "metadata": {
+        "frequency": {
+          "oec": "41",
+          "coca": "55, 196",
+          "dolch": "Primer",
+          "polysemy": "18"
+        }
+      }
+    },
+    {
+      "gloss": "up",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "42",
+          "coca": "50, 456",
+          "dolch": "Pre-primer",
+          "polysemy": "50"
+        }
+      }
+    },
+    {
+      "gloss": "out",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "43",
+          "coca": "64, 149",
+          "dolch": "Primer",
+          "polysemy": "38"
+        }
+      }
+    },
+    {
+      "gloss": "if",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "44",
+          "coca": "40",
+          "dolch": "Grade 3",
+          "polysemy": "9"
+        }
+      }
+    },
+    {
+      "gloss": "about",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "45",
+          "coca": "46, 179",
+          "dolch": "Grade 3",
+          "polysemy": "18"
+        }
+      }
+    },
+    {
+      "gloss": "who",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "46",
+          "coca": "38",
+          "dolch": "Primer",
+          "polysemy": "5"
+        }
+      }
+    },
+    {
+      "gloss": "get",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "47",
+          "coca": "39",
+          "dolch": "Primer",
+          "polysemy": "37"
+        }
+      }
+    },
+    {
+      "gloss": "which",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "48",
+          "coca": "58",
+          "dolch": "Grade 2",
+          "polysemy": "7"
+        }
+      }
+    },
+    {
+      "gloss": "go",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "49",
+          "coca": "35",
+          "dolch": "Pre-primer",
+          "polysemy": "54"
+        }
+      }
+    },
+    {
+      "gloss": "me",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "50",
+          "coca": "61",
+          "dolch": "Pre-primer",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "when",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "51",
+          "coca": "57, 136",
+          "dolch": "Grade 1",
+          "polysemy": "11"
+        }
+      }
+    },
+    {
+      "gloss": "make",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "52",
+          "coca": "45",
+          "dolch": "Grade 2 [as \"made\"]",
+          "polysemy": "48"
+        }
+      }
+    },
+    {
+      "gloss": "can",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "53",
+          "coca": "37, 2973",
+          "dolch": "Pre-primer",
+          "polysemy": "18"
+        }
+      }
+    },
+    {
+      "gloss": "like",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "54",
+          "coca": "74, 208, 1123, 1684, 2702",
+          "dolch": "Primer",
+          "polysemy": "26"
+        }
+      }
+    },
+    {
+      "gloss": "time",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "55",
+          "coca": "52",
+          "dolch": "Dolch list of 95 nouns",
+          "polysemy": "14"
+        }
+      }
+    },
+    {
+      "gloss": "no",
+      "pos": "determiner",
+      "metadata": {
+        "frequency": {
+          "oec": "56",
+          "coca": "93, 699, 916, 1111, 4555",
+          "dolch": "Primer",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "just",
+      "pos": "adjective",
+      "metadata": {
+        "frequency": {
+          "oec": "57",
+          "coca": "66, 1823",
+          "dolch": "Grade 1",
+          "polysemy": "14"
+        }
+      }
+    },
+    {
+      "gloss": "him",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "58",
+          "coca": "68",
+          "dolch": "Grade 1",
+          "polysemy": "5"
+        }
+      }
+    },
+    {
+      "gloss": "know",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "59",
+          "coca": "47",
+          "dolch": "Grade 1",
+          "polysemy": "13"
+        }
+      }
+    },
+    {
+      "gloss": "take",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "60",
+          "coca": "63",
+          "dolch": "Grade 1",
+          "polysemy": "66"
+        }
+      }
+    },
+    {
+      "gloss": "people",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "61",
+          "coca": "62",
+          "dolch": "",
+          "polysemy": "9"
+        }
+      }
+    },
+    {
+      "gloss": "into",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "62",
+          "coca": "65",
+          "dolch": "Primer",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "year",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "63",
+          "coca": "54",
+          "dolch": "",
+          "polysemy": "7"
+        }
+      }
+    },
+    {
+      "gloss": "your",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "64",
+          "coca": "69",
+          "dolch": "Grade 2",
+          "polysemy": "4"
+        }
+      }
+    },
+    {
+      "gloss": "good",
+      "pos": "adjective",
+      "metadata": {
+        "frequency": {
+          "oec": "65",
+          "coca": "110, 2280",
+          "dolch": "Primer",
+          "polysemy": "32"
+        }
+      }
+    },
+    {
+      "gloss": "some",
+      "pos": "determiner",
+      "metadata": {
+        "frequency": {
+          "oec": "66",
+          "coca": "60",
+          "dolch": "Grade 1",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "could",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "67",
+          "coca": "71",
+          "dolch": "Grade 1",
+          "polysemy": "6"
+        }
+      }
+    },
+    {
+      "gloss": "them",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "68",
+          "coca": "59",
+          "dolch": "Grade 1",
+          "polysemy": "3"
+        }
+      }
+    },
+    {
+      "gloss": "see",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "69",
+          "coca": "67",
+          "dolch": "",
+          "polysemy": "25"
+        }
+      }
+    },
+    {
+      "gloss": "other",
+      "pos": "adjective",
+      "metadata": {
+        "frequency": {
+          "oec": "70",
+          "coca": "75, 715, 2355",
+          "dolch": "",
+          "polysemy": "12"
+        }
+      }
+    },
+    {
+      "gloss": "than",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "71",
+          "coca": "73, 712",
+          "dolch": "",
+          "polysemy": "4"
+        }
+      }
+    },
+    {
+      "gloss": "then",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "72",
+          "coca": "77",
+          "dolch": "Grade 1",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "now",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "73",
+          "coca": "72, 1906",
+          "dolch": "Primer",
+          "polysemy": "13"
+        }
+      }
+    },
+    {
+      "gloss": "look",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "74",
+          "coca": "85, 604",
+          "dolch": "Pre-primer",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "only",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "75",
+          "coca": "101, 329",
+          "dolch": "Grade 3",
+          "polysemy": "11"
+        }
+      }
+    },
+    {
+      "gloss": "come",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "76",
+          "coca": "70",
+          "dolch": "Pre-primer",
+          "polysemy": "20"
+        }
+      }
+    },
+    {
+      "gloss": "its",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "77",
+          "coca": "78",
+          "dolch": "Grade 2",
+          "polysemy": "2"
+        }
+      }
+    },
+    {
+      "gloss": "over",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "78",
+          "coca": "124, 182",
+          "dolch": "Grade 1",
+          "polysemy": "19"
+        }
+      }
+    },
+    {
+      "gloss": "think",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "79",
+          "coca": "56",
+          "dolch": "Grade 1",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "also",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "80",
+          "coca": "87",
+          "dolch": "",
+          "polysemy": "2"
+        }
+      }
+    },
+    {
+      "gloss": "back",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "81",
+          "coca": "108, 323, 1877",
+          "dolch": "Dolch list of 95 nouns",
+          "polysemy": "36"
+        }
+      }
+    },
+    {
+      "gloss": "after",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "82",
+          "coca": "120, 260",
+          "dolch": "Grade 1",
+          "polysemy": "14"
+        }
+      }
+    },
+    {
+      "gloss": "use",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "83",
+          "coca": "92, 429",
+          "dolch": "Grade 2",
+          "polysemy": "17"
+        }
+      }
+    },
+    {
+      "gloss": "two",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "84",
+          "coca": "80",
+          "dolch": "Pre-primer",
+          "polysemy": "6"
+        }
+      }
+    },
+    {
+      "gloss": "how",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "85",
+          "coca": "76",
+          "dolch": "Grade 1",
+          "polysemy": "11"
+        }
+      }
+    },
+    {
+      "gloss": "our",
+      "pos": "possessive pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "86",
+          "coca": "79",
+          "dolch": "Primer",
+          "polysemy": "3"
+        }
+      }
+    },
+    {
+      "gloss": "work",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "87",
+          "coca": "117, 199",
+          "dolch": "Grade 2",
+          "polysemy": "28"
+        }
+      }
+    },
+    {
+      "gloss": "first",
+      "pos": "adjective",
+      "metadata": {
+        "frequency": {
+          "oec": "88",
+          "coca": "86, 2064",
+          "dolch": "Grade 2",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "well",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "89",
+          "coca": "100, 644",
+          "dolch": "Primer",
+          "polysemy": "30"
+        }
+      }
+    },
+    {
+      "gloss": "way",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "90",
+          "coca": "84, 4090",
+          "dolch": "Dolch list of 95 nouns",
+          "polysemy": "16"
+        }
+      }
+    },
+    {
+      "gloss": "even",
+      "pos": "adjective",
+      "metadata": {
+        "frequency": {
+          "oec": "91",
+          "coca": "107, 484",
+          "dolch": "",
+          "polysemy": "23"
+        }
+      }
+    },
+    {
+      "gloss": "new",
+      "pos": "adjective et al.",
+      "metadata": {
+        "frequency": {
+          "oec": "92",
+          "coca": "88",
+          "dolch": "Primer",
+          "polysemy": "18"
+        }
+      }
+    },
+    {
+      "gloss": "want",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "93",
+          "coca": "83",
+          "dolch": "Primer",
+          "polysemy": "10"
+        }
+      }
+    },
+    {
+      "gloss": "because",
+      "pos": "preposition",
+      "metadata": {
+        "frequency": {
+          "oec": "94",
+          "coca": "89, 509",
+          "dolch": "Grade 2",
+          "polysemy": "7"
+        }
+      }
+    },
+    {
+      "gloss": "any",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "95",
+          "coca": "109, 4720",
+          "dolch": "Grade 1",
+          "polysemy": "4"
+        }
+      }
+    },
+    {
+      "gloss": "these",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "96",
+          "coca": "82",
+          "dolch": "Grade 2",
+          "polysemy": "2"
+        }
+      }
+    },
+    {
+      "gloss": "give",
+      "pos": "verb",
+      "metadata": {
+        "frequency": {
+          "oec": "97",
+          "coca": "98",
+          "dolch": "Grade 1",
+          "polysemy": "19"
+        }
+      }
+    },
+    {
+      "gloss": "day",
+      "pos": "noun",
+      "metadata": {
+        "frequency": {
+          "oec": "98",
+          "coca": "90",
+          "dolch": "Dolch list of 95 nouns",
+          "polysemy": "9"
+        }
+      }
+    },
+    {
+      "gloss": "most",
+      "pos": "adverb",
+      "metadata": {
+        "frequency": {
+          "oec": "99",
+          "coca": "144, 187",
+          "dolch": "",
+          "polysemy": "12"
+        }
+      }
+    },
+    {
+      "gloss": "us",
+      "pos": "pronoun",
+      "metadata": {
+        "frequency": {
+          "oec": "100",
+          "coca": "113",
+          "dolch": "Grade 2",
+          "polysemy": "6"
+        }
+      }
+    }
+  ]
+}
