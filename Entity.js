@@ -1,5 +1,13 @@
 // Entity.js - Entity and Player classes
 
+/*
+
+* Represent game entities (NPCs, objects, portals) with properties and behaviors
+* Handle entity interactions, movement, and dialogue
+* Integrate with the game world and UI for displaying and interacting with entities
+
+*/
+
 export class Entity {
   constructor({ x, y, entityDef, gameState, world }) {
     this.x = x
@@ -101,11 +109,19 @@ export class Entity {
   }
 
   onInteract(player) {
+    console.log('🎯 Entity interaction:', this.type, this.concept, this.destination)
+    
     if (this.type === 'portal') {
-      this.world.switchRealm(this.destination)
+      console.log('🌀 Portal activated! Destination:', this.destination)
+      if (this.destination) {
+        this.world.switchRealm(this.destination)
+      } else {
+        console.error('❌ Portal has no destination!')
+      }
     } else if (this.dialogue) {
       // NPCs now speak entirely in conlang
       const spokenText = this.speak()
+      console.log('💬 NPC speaking:', spokenText)
       this.gameState.ui.showDialogue(spokenText, this)
     }
   }

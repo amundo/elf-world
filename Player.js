@@ -1,5 +1,14 @@
 import { Entity } from './Entity.js'
 
+/*
+
+* Represent the player character with unique properties and behaviors
+* Handle player input, movement, and interactions
+* Manage the player's inventory and equipment
+
+*/
+
+
 export class Player extends Entity {
   constructor({ x, y, world, gameState }) {
     super({ 

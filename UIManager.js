@@ -3,6 +3,11 @@
 // UIManager.js - UI state and translation
 // ========================================
 
+/*
+This module is responsible for managing the UI state and translating UI text using the constructed conlang.
+It handles displaying messages, updating the inventory display, and showing speech bubbles for entities.
+*/
+
 export class UIManager {
   constructor(gameState) {
     this.gameState = gameState

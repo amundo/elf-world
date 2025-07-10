@@ -5,6 +5,16 @@ import { GameWorld } from './GameWorld.js'
 import { UIManager } from './UIManager.js'
 import { CommandProcessor } from './CommandProcessor.js'
 
+/*
+
+* Load external resources (realms, entities)
+* Initialize core systems (conlang, world, UI, commands)
+* Set up event listeners for user input
+* Manage global game state
+* Expose debugging API to the browser console
+
+*/
+
 // Game configuration
 const CONFIG = {
   world: {

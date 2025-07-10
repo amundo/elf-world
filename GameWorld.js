@@ -3,6 +3,14 @@
 import { Entity } from './Entity.js'
 import { Player } from './Player.js'
 
+/*
+
+* Manage the game world grid, including tiles and entities
+* Handle realm switching, terrain generation, and entity placement
+* Control the camera view and resizing
+* Manage background music and audio toggling
+
+*/
 
 export class GameWorld {
   constructor(config, gameState) {
