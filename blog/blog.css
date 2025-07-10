@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Fira Sans, sans-serif;
+  max-width: calc(3 * 26ch + 4rem);
+  line-height: 1.5;
+}
+
+h2 {
+  border-bottom: 1px dotted dodgerblue;
+  color: dodgerblue;
+  text-transform: uppercase;
+}
+
+h3 {
+  
+}
+
+h5 {
+  font-style: italic;
+}
+
+figure {
+  text-align: center;
+  padding: .5rem;
+  img {
+    border: 1px solid lightgray;
+  }
+}

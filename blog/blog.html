@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Patrick Hall" />
+  <title>Designing a Conlang Game</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="blog.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Designing a Conlang Game</h1>
+<p class="author">Patrick Hall</p>
+</header>
+<h2 id="section">2025-07-10</h2>
+<h3 id="introduction">Introduction</h3>
+<p>I have been interested in designing a conlang-based game for some
+time. The idea is to create a world where players can explore and
+interact using a constructed language (conlang) that they learn as they
+play.</p>
+<p>A key feature of the game is that the language is actually linked in
+to the commands and functions of entities in the game. For instance,
+before being able to give an object to another entity, the player must
+learn the verb for “give” in the conlang. This creates a natural
+incentive for players to learn and use the language as they progress
+through the game.</p>
+<h3 id="procedural-world-generation">Procedural world generation</h3>
+<p>As always happens when I start working on this project, I end up
+getting drawn down rabbit holes related to procedural generation. It’s
+undeniably fun to work on, and using AI it is easy to make prototypes. I
+made some progress with various approaches, I will list them here, but I
+am going to back away from this topic to focus on the language part of
+the project next. Anyway, here are the prototypes:</p>
+<h4 id="elf-world-realm-editor">🧝‍♂️ Elf World Realm Editor</h4>
+<p>This was the first design. It’s based on a simple painting metaphor,
+but also has a procedural “base” generation functionality.</p>
+<figure>
+<a href=../editor/realm-editor.html>
+<img src=images/elf-world-realm-editor-screenshot.png alt="Realm Editor Screenshot" style="width: 400px;"/>
+</a>
+<figcaption>
+<a href=../editor/realm-editor.html>Realm Editor</a>
+</figcaption>
+</figure>
+<p>It uses a very simple noise function:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">noise</span>(x<span class="op">,</span> y<span class="op">,</span> scale) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> seed <span class="op">=</span> <span class="fl">123.456</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(x <span class="op">*</span> scale <span class="op">+</span> seed) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(y <span class="op">*</span> scale <span class="op">+</span> seed)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (n <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>} </span></code></pre></div>
+<p>I tried randomizing the seed (<code>Math.random() * 100</code>), but
+it made the results very chaotic. I’m not sure why the simple fixed seed
+works better, but it does.</p>
+<h5 id="pros"><strong>Pros</strong></h5>
+<ul>
+<li>Entity panel is nice, and adding entities is fun.</li>
+<li>Portals are cool, but I think they might be too complex for a first
+version of the game.</li>
+<li>Entities are ok</li>
+<li>The concept of combining procedural and manual design is a
+keeper.</li>
+</ul>
+<h5 id="cons"><strong>Cons</strong></h5>
+<ul>
+<li>Doesn’t do much in the way of procedural generation. The noise
+function is too simple.</li>
+<li>“Biomes” are starkly defined, and the transitions are abrupt.</li>
+<li>There’s not really “biomes” here, just entities and terrains.</li>
+</ul>
+<p><a href="sample-realm-editor-data.json">Sample data structure
+output</a></p>
+<h4 id="biome-painter">Biome Painter</h4>
+<p>This prototype has a more sophisticated approach to procedural
+generation. It uses Simplex Noise to create a more natural-looking
+terrain. The biomes are defined with multiple colors, allowing for
+smoother transitions between them.</p>
+<figure>
+<a href=../editor/biome-painter.html>
+<img src=images/biome-painter-screenshot.png alt="Biome Painter Screenshot" style="width: 400px;"/>
+</a>
+<figcaption>
+<a href=../editor/biome-painter.html>Biome Painter</a>
+</figcaption>
+</figure>
+<h5 id="pros-1"><strong>Pros</strong></h5>
+<ul>
+<li>Simplex Noise is working</li>
+<li>Brush is pretty neat</li>
+<li>Has a good representation of “biomes” with color gradients and
+biome-specific entities with probabilities and emojis</li>
+<li>Very easy to fill up a map fast</li>
+</ul>
+<h5 id="cons-1"><strong>Cons</strong></h5>
+<ul>
+<li>Zoom is wonky</li>
+<li>Feathered brushes are converted to stark boundaries when terrain
+noise is applied</li>
+</ul>
+<h4 id="perlin-map-editor">Perlin map Editor</h4>
+<p>Actually the first one I built, still looks pretty good.</p>
+<figure>
+<a href=../editor/perlin-map-editor.html>
+<img src=images/perlin-map-editor-screenshot.png alt="Perlin Map Editor Screenshot" style="width: 400px;"/>
+</a>
+<figcaption>
+<a href=../editor/perlin-map-editor.html>Perlin Map Editor</a>
+</figcaption>
+</figure>
+<h5 id="pros-2"><strong>Pros</strong></h5>
+<ul>
+<li>Perlin noise works pretty well</li>
+<li>Generated terrain looks nice</li>
+<li>Colors are stark but pretty pleasant</li>
+</ul>
+<h5 id="cons-2"><strong>Cons</strong></h5>
+<ul>
+<li>No editing or painting, only procedural generation</li>
+<li>Emoji probabilities are not biome-specific</li>
+<li>No export yet</li>
+</ul>
+<h4 id="biome-generator">Biome generator</h4>
+<p>This design uses noise to generate elevation-related biomes.</p>
+<p>Here is the entirety of hte code:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { SimplexNoise } <span class="im">from</span> <span class="st">&#39;./simplex-noise.js&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> size <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> map <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;#map&#39;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> simplex <span class="op">=</span> <span class="kw">new</span> <span class="fu">SimplexNoise</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Normalize noise to [0, 1]</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">noise2d</span>(seed<span class="op">,</span> x<span class="op">,</span> y<span class="op">,</span> scale) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (simplex<span class="op">.</span><span class="fu">noise2D</span>(seed <span class="op">+</span> x <span class="op">*</span> scale<span class="op">,</span> seed <span class="op">+</span> y <span class="op">*</span> scale) <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getBiome</span>(elev<span class="op">,</span> moist<span class="op">,</span> temp) {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (elev <span class="op">&lt;</span> <span class="fl">0.3</span>) <span class="cf">return</span> <span class="st">&#39;🌊&#39;</span> <span class="co">// ocean</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (elev <span class="op">&gt;</span> <span class="fl">0.8</span> <span class="op">&amp;&amp;</span> temp <span class="op">&lt;</span> <span class="fl">0.3</span>) <span class="cf">return</span> <span class="st">&#39;🏔️&#39;</span> <span class="co">// snowy mountain</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (elev <span class="op">&gt;</span> <span class="fl">0.8</span> <span class="op">&amp;&amp;</span> moist <span class="op">&lt;</span> <span class="fl">0.3</span>) <span class="cf">return</span> <span class="st">&#39;⛰️&#39;</span> <span class="co">// rocky mountain</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (elev <span class="op">&gt;</span> <span class="fl">0.6</span> <span class="op">&amp;&amp;</span> moist <span class="op">&gt;</span> <span class="fl">0.6</span>) <span class="cf">return</span> <span class="st">&#39;🌲&#39;</span> <span class="co">// alpine forest</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (moist <span class="op">&gt;</span> <span class="fl">0.7</span> <span class="op">&amp;&amp;</span> temp <span class="op">&gt;</span> <span class="fl">0.5</span>) <span class="cf">return</span> <span class="st">&#39;🌳&#39;</span> <span class="co">// forest</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (moist <span class="op">&gt;</span> <span class="fl">0.4</span> <span class="op">&amp;&amp;</span> temp <span class="op">&gt;</span> <span class="fl">0.5</span>) <span class="cf">return</span> <span class="st">&#39;🌾&#39;</span> <span class="co">// grassland</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (moist <span class="op">&lt;</span> <span class="fl">0.3</span>) <span class="cf">return</span> <span class="st">&#39;🏜️&#39;</span> <span class="co">// desert</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="st">&#39;🌱&#39;</span> <span class="co">// plains</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> size<span class="op">;</span> y<span class="op">++</span>) {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> size<span class="op">;</span> x<span class="op">++</span>) {</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> elevation <span class="op">=</span> <span class="fu">noise2d</span>(<span class="fl">1.5</span><span class="op">,</span> x<span class="op">,</span> y<span class="op">,</span> <span class="fl">0.05</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> moisture <span class="op">=</span> <span class="fu">noise2d</span>(<span class="fl">2.5</span><span class="op">,</span> x<span class="op">,</span> y<span class="op">,</span> <span class="fl">0.05</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> temperature <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(y <span class="op">/</span> size <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">+</span> <span class="fu">noise2d</span>(<span class="fl">3.5</span><span class="op">,</span> x<span class="op">,</span> y<span class="op">,</span> <span class="fl">0.05</span>) <span class="op">*</span> <span class="fl">0.2</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> emoji <span class="op">=</span> <span class="fu">getBiome</span>(elevation<span class="op">,</span> moisture<span class="op">,</span> temperature)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> tile <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">createElement</span>(<span class="st">&#39;div&#39;</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    tile<span class="op">.</span><span class="at">className</span> <span class="op">=</span> <span class="st">&#39;tile&#39;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    tile<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> emoji</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    map<span class="op">.</span><span class="fu">appendChild</span>(tile)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure>
+<a href=../editor/realm-editor.html>
+<img src=images/biome-generation-screenshot-fullpage.png alt="Biome Generation Screenshot" style="width: 400px;"/>
+</a>
+<figcaption>
+<a href=../editor/biome-generation.html>Biome Generation</a>
+</figcaption>
+</figure>
+<h5 id="pros-3"><strong>Pros</strong></h5>
+<ul>
+<li>Simplex noise works well</li>
+<li>Biome shapes look good</li>
+<li>Uses multiple noise maps for elevation, moisture, and
+temperature</li>
+</ul>
+<h5 id="cons-3"><strong>Cons</strong></h5>
+<ul>
+<li>Colors not rendering</li>
+<li>Hard to evaluate, needs emoji scattering</li>
+<li>Might want to separate elevation from biomes</li>
+</ul>
+<p>Actually I think this is a workable approach for the first run. But
+needs terrains and entities added.</p>
+<h4 id="conclusion-and-plan">Conclusion and plan</h4>
+<p>All three of these have good features:</p>
+<ol type="1">
+<li>Brush is useful</li>
+<li>Biomes with terrain-specific entities with probabilities is a
+keeper</li>
+<li>Not sure I see any difference between Perlin and Simplex noise in
+this context, but Simplex is supposed to be better for 2D</li>
+<li>The painting interface with terrains, entities, and portals is very
+cool</li>
+</ol>
+<p>I think I will combine the brush and biome/entity panel from the
+Realm Editor with the Simplex noise and biome color gradients from the
+Biome Painter. I will also add biome-specific entity probabilities.</p>
+<p>Fancy future things to try:</p>
+<ol type="1">
+<li>More than one noise map, one for elevation, one for moisture, one
+for temperature</li>
+<li>More sophisticated biome definitions based on elevation, moisture,
+and temperature ranges</li>
+<li>Smoother transitions between biomes based on the above factors</li>
+</ol>
+<h3 id="code-review">Code review</h3>
+<p>Okay, enough of procedural generation for now. I will focus on the
+language part of the project next. But I will keep these prototypes
+around as a reference for when I want to improve the world generation
+later.</p>
+<p>But let’s review all the files (and posisble move things around to be
+neater):</p>
+<pre><code>Updated .tree.json with excludes: .*
+├── audio
+│   ├── fairy-ambient.mp3
+│   ├── woodland-fantasy.mp3
+│   └── wraith-ambient.mp3
+├── basic-lexicon.json
+├── blog
+│   ├── blog.css
+│   ├── blog.html
+│   ├── blog.md
+│   ├── header.html
+│   ├── images
+│   │   ├── biome-generation-screenshot-fullpage.png
+│   │   ├── biome-painter-screenshot.png
+│   │   ├── elf-world-realm-editor-screenshot.png
+│   │   └── perlin-map-editor-screenshot.png
+│   └── sample-realm-editor-data.json
+├── CommandProcessor.js
+├── conlang.html
+├── ConlangEngine.js
+├── css
+│   ├── colors.css
+│   ├── colors.html
+│   └── elf-world.css
+├── deno.json
+├── deno.lock
+├── editor
+│   ├── biome-generation.html
+│   ├── biome-painter.html
+│   ├── perlin-map-editor.html
+│   ├── realm-editor.html
+│   └── simplex-noise.js
+├── ElfWorld.js
+├── entities
+│   └── index.json
+├── Entity.js
+├── GameWorld.js
+├── Lexicon.js
+├── Player.js
+├── realms
+│   ├── crystal-caverns.json
+│   ├── fairy.json
+│   ├── forest.json
+│   ├── index.json
+│   ├── sealand.json
+│   ├── secrets.json
+│   └── wraith.json
+├── realms.json
+├── simplex-noise.ts
+├── TerrainGenerator.js
+└── UIManager.js</code></pre>
+<p>The stuff that I’m actually concerned with for now is, in order of
+importance:</p>
+<pre><code>├── conlang.html
+├── ElfWorld.js
+├── CommandProcessor.js
+├── ConlangEngine.js
+├── css
+│   ├── colors.css
+│   ├── colors.html
+│   └── elf-world.css
+├── entities
+│   └── index.json
+├── Entity.js
+├── GameWorld.js
+├── Lexicon.js
+├── Player.js
+├── simplex-noise.ts
+├── TerrainGenerator.js
+└── UIManager.js</code></pre>
+<p><code>conlang.html</code> is the point of entry for the game. It
+loads the CSS and JS files, and sets up the basic HTML structure.</p>
+<p>The markup looks like this:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;loading&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;loadingScreen&quot;</span><span class="dt">&gt;</span>Loading Elf World<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;view&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;gameView&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;display: none;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;game-pane&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;world&quot;</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;world&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;ui&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;inventory&quot;</span><span class="dt">&gt;</span>Inventory: 🍎<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;realm-info&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;realmInfo&quot;</span><span class="dt">&gt;</span>Loading...<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;audio-controls&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;audioToggle&quot;</span><span class="ot"> title</span><span class="op">=</span><span class="st">&quot;Toggle Audio&quot;</span><span class="dt">&gt;</span>🔇<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;dialogue&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;dialogueBox&quot;</span><span class="dt">&gt;</span>Hello!<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;realm-transition&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;transition&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;console-pane&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;console-header&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;consoleHeader&quot;</span><span class="dt">&gt;</span>WORD LEARN<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;command-output&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;commandOutput&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;command-input-area&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;command-prompt&quot;</span><span class="dt">&gt;</span>&gt;<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">input</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;text&quot;</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;command-input&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;commandInput&quot;</span><span class="ot"> placeholder</span><span class="op">=</span><span class="st">&quot;Type commands here...&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;module&quot;</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;./ElfWorld.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>So we’ve got a game pane and a console pane, which is really the
+conlang pane. There are also some UI controls like inventory, realm
+info, audio toggle, dialogue box, and realm transition. I think what I
+want to do for now is remove:</p>
+<ul>
+<li>Inventory</li>
+<li>Audio</li>
+<li>Transitions (just one realm for now)</li>
+<li>Dialogue box (not needed yet)</li>
+</ul>
+<p>This will leave us with a simpler interface to start with. The game
+pane will just show the world and the realm info, and the console pane
+will be for learning and using the conlang.</p>
+<p>Here’s the import graph for <code>ElfWorld.js</code>:</p>
+<pre><code>// ElfWorld.js - Main game module
+
+import { ConlangEngine } from &#39;./ConlangEngine.js&#39;
+import { GameWorld } from &#39;./GameWorld.js&#39;
+import { UIManager } from &#39;./UIManager.js&#39;
+import { CommandProcessor } from &#39;./CommandProcessor.js&#39;</code></pre>
+<p>And here’s what each of these modules does:</p>
+<ul>
+<li><code>ConlangEngine.js</code>: Manages the constructed language</li>
+<li><code>GameWorld.js</code>: Manages the game world, including the
+grid, camera, and entities.</li>
+<li><code>UIManager.js</code>: Manages the user interface, including
+rendering the world and handling user input.</li>
+<li><code>CommandProcessor.js</code>: Processes player commands,
+translating them into game actions.</li>
+</ul>
+</body>
+</html>
