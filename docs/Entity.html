@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Patrick Hall" />
+  <meta name="description" content="Defines game entities (NPCs, portals, objects), their behaviors, and interactions" />
+  <title>Entity Documentation</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Entity Documentation</h1>
+<p class="author">Patrick Hall</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#entity.js" id="toc-entity.js">Entity.js</a>
+<ul>
+<li><a href="#class-entity" id="toc-class-entity">Class:
+<code>Entity</code></a>
+<ul>
+<li><a href="#constructor" id="toc-constructor">Constructor</a></li>
+<li><a href="#method-createelement"
+id="toc-method-createelement">Method:
+<code>createElement()</code></a></li>
+<li><a href="#method-addtoworld" id="toc-method-addtoworld">Method:
+<code>addToWorld()</code></a></li>
+<li><a href="#method-speak" id="toc-method-speak">Method:
+<code>speak()</code></a></li>
+<li><a href="#method-getconceptfromemojiemoji"
+id="toc-method-getconceptfromemojiemoji">Method:
+<code>getConceptFromEmoji(emoji)</code></a></li>
+<li><a href="#method-inspect" id="toc-method-inspect">Method:
+<code>inspect()</code></a></li>
+<li><a href="#method-movetonewx-newy"
+id="toc-method-movetonewx-newy">Method:
+<code>moveTo(newX, newY)</code></a></li>
+<li><a href="#method-oninteractplayer"
+id="toc-method-oninteractplayer">Method:
+<code>onInteract(player)</code></a></li>
+</ul></li>
+<li><a href="#dom-integration" id="toc-dom-integration">DOM
+Integration</a></li>
+<li><a href="#example-usage" id="toc-example-usage">Example
+Usage</a></li>
+<li><a href="#supported-entity-types"
+id="toc-supported-entity-types">Supported Entity Types</a></li>
+<li><a href="#summary-of-responsibilities"
+id="toc-summary-of-responsibilities">Summary of
+Responsibilities</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="entity.js" class="level1">
+<h1>Entity.js</h1>
+<p>The <code>Entity</code> class represents interactable objects in the
+game world, including NPCs, portals, creatures, and objects. It handles
+rendering, movement, interactions, conlang naming, and dialogue.</p>
+<hr />
+<section id="class-entity" class="level2">
+<h2>Class: <code>Entity</code></h2>
+<section id="constructor" class="level3">
+<h3>Constructor</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="fu">Entity</span>({ x<span class="op">,</span> y<span class="op">,</span> entityDef<span class="op">,</span> gameState<span class="op">,</span> world })</span></code></pre></div>
+<ul>
+<li><strong>x, y</strong>: Initial position in the world grid</li>
+<li><strong>entityDef</strong>: Object with properties such as
+<code>emoji</code>, <code>concept</code>, <code>dialogue</code>,
+<code>destination</code>, and <code>type</code></li>
+<li><strong>gameState</strong>: The main game state object</li>
+<li><strong>world</strong>: The game world/grid this entity is part
+of</li>
+</ul>
+<p>Initializes:</p>
+<ul>
+<li>Emoji display</li>
+<li>Concept and conlang name</li>
+<li>HTML element and event handlers</li>
+<li>Placement in the world</li>
+</ul>
+<hr />
+</section>
+<section id="method-createelement" class="level3">
+<h3>Method: <code>createElement()</code></h3>
+<p>Creates the DOM element for the entity:</p>
+<ul>
+<li>Assigns <code>.entity</code> and <code>.type</code> class names</li>
+<li>Sets emoji as content</li>
+<li>Adds a tooltip showing the concept and conlang name</li>
+<li>Adds a click handler for inspection</li>
+</ul>
+<hr />
+</section>
+<section id="method-addtoworld" class="level3">
+<h3>Method: <code>addToWorld()</code></h3>
+<p>Places the entity in the world grid:</p>
+<ul>
+<li>Appends its element to the correct tile in the DOM</li>
+<li>Registers it in <code>entityGrid</code></li>
+</ul>
+<hr />
+</section>
+<section id="method-speak" class="level3">
+<h3>Method: <code>speak()</code></h3>
+<p>Returns dialogue from the entity:</p>
+<ul>
+<li>If dialogue is an array of glosses, each is translated using
+<code>conlang.getWord()</code></li>
+<li>Punctuation is preserved</li>
+<li>If a legacy string is used, returns it as-is</li>
+</ul>
+<p>Used for NPC interactions.</p>
+<hr />
+</section>
+<section id="method-getconceptfromemojiemoji" class="level3">
+<h3>Method: <code>getConceptFromEmoji(emoji)</code></h3>
+<p>Maps emoji to known concept strings. Examples:</p>
+<ul>
+<li><code>'🌲'</code> → <code>'tree'</code></li>
+<li><code>'🧙‍♂️'</code> → <code>'wizard'</code></li>
+<li><code>'✨'</code> → <code>'portal'</code></li>
+<li>Unknown emoji → <code>'entity'</code></li>
+</ul>
+<hr />
+</section>
+<section id="method-inspect" class="level3">
+<h3>Method: <code>inspect()</code></h3>
+<p>Handles clicking on the entity:</p>
+<ul>
+<li>Adds a message with the entity’s emoji</li>
+<li>Shows the conlang name if the concept is known</li>
+<li>Displays <code>???</code> if not</li>
+<li>Sets the selected entity in <code>gameState</code></li>
+</ul>
+<hr />
+</section>
+<section id="method-movetonewx-newy" class="level3">
+<h3>Method: <code>moveTo(newX, newY)</code></h3>
+<p>Moves the entity to a new position in the world:</p>
+<ul>
+<li>Removes element from old tile</li>
+<li>Updates internal coordinates and <code>entityGrid</code></li>
+<li>Appends to new tile</li>
+</ul>
+<hr />
+</section>
+<section id="method-oninteractplayer" class="level3">
+<h3>Method: <code>onInteract(player)</code></h3>
+<p>Triggered when a player interacts with the entity.</p>
+<ul>
+<li><p><strong>If <code>type === 'portal'</code></strong>:</p>
+<ul>
+<li>Switches to the destination realm (if defined)</li>
+</ul></li>
+<li><p><strong>If dialogue is defined</strong>:</p>
+<ul>
+<li>Calls <code>speak()</code> to get translated conlang dialogue</li>
+<li>Displays it via <code>UIManager.showDialogue()</code></li>
+</ul></li>
+</ul>
+<p>Also logs debug info to the console.</p>
+<hr />
+</section>
+</section>
+<section id="dom-integration" class="level2">
+<h2>DOM Integration</h2>
+<p>Each entity creates and manages its own DOM element with:</p>
+<ul>
+<li>CSS class <code>.entity</code></li>
+<li>Text content as its emoji</li>
+<li>Tooltip for concept and conlang name</li>
+<li>Click-to-inspect behavior</li>
+</ul>
+<hr />
+</section>
+<section id="example-usage" class="level2">
+<h2>Example Usage</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> elder <span class="op">=</span> <span class="kw">new</span> <span class="fu">Entity</span>({</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">entityDef</span><span class="op">:</span> {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;npc&#39;</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;👴&#39;</span><span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">concept</span><span class="op">:</span> <span class="st">&#39;elder&#39;</span><span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dialogue</span><span class="op">:</span> [<span class="st">&#39;hello&#39;</span><span class="op">,</span> <span class="st">&#39;child&#39;</span>]<span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">solid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  gameState<span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  world</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<hr />
+</section>
+<section id="supported-entity-types" class="level2">
+<h2>Supported Entity Types</h2>
+<p>Examples include:</p>
+<ul>
+<li><code>npc</code> — characters with dialogue</li>
+<li><code>portal</code> — teleport to other realms</li>
+<li><code>object</code> — static scenery</li>
+</ul>
+<hr />
+</section>
+<section id="summary-of-responsibilities" class="level2">
+<h2>Summary of Responsibilities</h2>
+<ul>
+<li>Visual representation via emoji and DOM</li>
+<li>Conlang naming and dialogue</li>
+<li>Movement and world placement</li>
+<li>Interaction (inspection, speaking, realm switching)</li>
+</ul>
+</section>
+</section>
+</body>
+</html>

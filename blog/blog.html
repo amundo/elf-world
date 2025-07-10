@@ -89,14 +89,30 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="blog.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'48'%20height%3D'48'%20viewBox%3D'0%200%2016%2016'%3E%3Ctext%20x%3D'0'%20y%3D'14'%3E%E2%9C%8D%EF%B8%8F%3C%2Ftext%3E%3C%2Fsvg%3E" />
 </head>
 <body>
 <header id="title-block-header">
 <h1 class="title">Designing a Conlang Game</h1>
 <p class="author">Patrick Hall</p>
 </header>
-<h2 id="section">2025-07-10</h2>
-<h3 id="introduction">Introduction</h3>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#section" id="toc-section">2025-07-10</a>
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#procedural-world-generation"
+id="toc-procedural-world-generation">Procedural world
+generation</a></li>
+<li><a href="#code-review" id="toc-code-review">Code review</a></li>
+<li><a href="#emoji-ideas" id="toc-emoji-ideas">Emoji ideas</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="section" class="level2">
+<h2>2025-07-10</h2>
+<section id="introduction" class="level3">
+<h3>Introduction</h3>
 <p>I have been interested in designing a conlang-based game for some
 time. The idea is to create a world where players can explore and
 interact using a constructed language (conlang) that they learn as they
@@ -107,14 +123,17 @@ before being able to give an object to another entity, the player must
 learn the verb for “give” in the conlang. This creates a natural
 incentive for players to learn and use the language as they progress
 through the game.</p>
-<h3 id="procedural-world-generation">Procedural world generation</h3>
+</section>
+<section id="procedural-world-generation" class="level3">
+<h3>Procedural world generation</h3>
 <p>As always happens when I start working on this project, I end up
 getting drawn down rabbit holes related to procedural generation. It’s
 undeniably fun to work on, and using AI it is easy to make prototypes. I
 made some progress with various approaches, I will list them here, but I
 am going to back away from this topic to focus on the language part of
 the project next. Anyway, here are the prototypes:</p>
-<h4 id="elf-world-realm-editor">🧝‍♂️ Elf World Realm Editor</h4>
+<section id="elf-world-realm-editor" class="level4">
+<h4>🧝‍♂️ Elf World Realm Editor</h4>
 <p>This was the first design. It’s based on a simple painting metaphor,
 but also has a procedural “base” generation functionality.</p>
 <figure>
@@ -134,7 +153,8 @@ but also has a procedural “base” generation functionality.</p>
 <p>I tried randomizing the seed (<code>Math.random() * 100</code>), but
 it made the results very chaotic. I’m not sure why the simple fixed seed
 works better, but it does.</p>
-<h5 id="pros"><strong>Pros</strong></h5>
+<section id="pros" class="level5">
+<h5><strong>Pros</strong></h5>
 <ul>
 <li>Entity panel is nice, and adding entities is fun.</li>
 <li>Portals are cool, but I think they might be too complex for a first
@@ -143,7 +163,9 @@ version of the game.</li>
 <li>The concept of combining procedural and manual design is a
 keeper.</li>
 </ul>
-<h5 id="cons"><strong>Cons</strong></h5>
+</section>
+<section id="cons" class="level5">
+<h5><strong>Cons</strong></h5>
 <ul>
 <li>Doesn’t do much in the way of procedural generation. The noise
 function is too simple.</li>
@@ -152,7 +174,10 @@ function is too simple.</li>
 </ul>
 <p><a href="sample-realm-editor-data.json">Sample data structure
 output</a></p>
-<h4 id="biome-painter">Biome Painter</h4>
+</section>
+</section>
+<section id="biome-painter" class="level4">
+<h4>Biome Painter</h4>
 <p>This prototype has a more sophisticated approach to procedural
 generation. It uses Simplex Noise to create a more natural-looking
 terrain. The biomes are defined with multiple colors, allowing for
@@ -165,7 +190,8 @@ smoother transitions between them.</p>
 <a href=../editor/biome-painter.html>Biome Painter</a>
 </figcaption>
 </figure>
-<h5 id="pros-1"><strong>Pros</strong></h5>
+<section id="pros-1" class="level5">
+<h5><strong>Pros</strong></h5>
 <ul>
 <li>Simplex Noise is working</li>
 <li>Brush is pretty neat</li>
@@ -173,13 +199,18 @@ smoother transitions between them.</p>
 biome-specific entities with probabilities and emojis</li>
 <li>Very easy to fill up a map fast</li>
 </ul>
-<h5 id="cons-1"><strong>Cons</strong></h5>
+</section>
+<section id="cons-1" class="level5">
+<h5><strong>Cons</strong></h5>
 <ul>
 <li>Zoom is wonky</li>
 <li>Feathered brushes are converted to stark boundaries when terrain
 noise is applied</li>
 </ul>
-<h4 id="perlin-map-editor">Perlin map Editor</h4>
+</section>
+</section>
+<section id="perlin-map-editor" class="level4">
+<h4>Perlin map Editor</h4>
 <p>Actually the first one I built, still looks pretty good.</p>
 <figure>
 <a href=../editor/perlin-map-editor.html>
@@ -189,19 +220,25 @@ noise is applied</li>
 <a href=../editor/perlin-map-editor.html>Perlin Map Editor</a>
 </figcaption>
 </figure>
-<h5 id="pros-2"><strong>Pros</strong></h5>
+<section id="pros-2" class="level5">
+<h5><strong>Pros</strong></h5>
 <ul>
 <li>Perlin noise works pretty well</li>
 <li>Generated terrain looks nice</li>
 <li>Colors are stark but pretty pleasant</li>
 </ul>
-<h5 id="cons-2"><strong>Cons</strong></h5>
+</section>
+<section id="cons-2" class="level5">
+<h5><strong>Cons</strong></h5>
 <ul>
 <li>No editing or painting, only procedural generation</li>
 <li>Emoji probabilities are not biome-specific</li>
 <li>No export yet</li>
 </ul>
-<h4 id="biome-generator">Biome generator</h4>
+</section>
+</section>
+<section id="biome-generator" class="level4">
+<h4>Biome generator</h4>
 <p>This design uses noise to generate elevation-related biomes.</p>
 <p>Here is the entirety of hte code:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { SimplexNoise } <span class="im">from</span> <span class="st">&#39;./simplex-noise.js&#39;</span></span>
@@ -247,14 +284,17 @@ noise is applied</li>
 <a href=../editor/biome-generation.html>Biome Generation</a>
 </figcaption>
 </figure>
-<h5 id="pros-3"><strong>Pros</strong></h5>
+<section id="pros-3" class="level5">
+<h5><strong>Pros</strong></h5>
 <ul>
 <li>Simplex noise works well</li>
 <li>Biome shapes look good</li>
 <li>Uses multiple noise maps for elevation, moisture, and
 temperature</li>
 </ul>
-<h5 id="cons-3"><strong>Cons</strong></h5>
+</section>
+<section id="cons-3" class="level5">
+<h5><strong>Cons</strong></h5>
 <ul>
 <li>Colors not rendering</li>
 <li>Hard to evaluate, needs emoji scattering</li>
@@ -262,7 +302,10 @@ temperature</li>
 </ul>
 <p>Actually I think this is a workable approach for the first run. But
 needs terrains and entities added.</p>
-<h4 id="conclusion-and-plan">Conclusion and plan</h4>
+</section>
+</section>
+<section id="conclusion-and-plan" class="level4">
+<h4>Conclusion and plan</h4>
 <p>All three of these have good features:</p>
 <ol type="1">
 <li>Brush is useful</li>
@@ -284,7 +327,10 @@ for temperature</li>
 and temperature ranges</li>
 <li>Smoother transitions between biomes based on the above factors</li>
 </ol>
-<h3 id="code-review">Code review</h3>
+</section>
+</section>
+<section id="code-review" class="level3">
+<h3>Code review</h3>
 <p>Okay, enough of procedural generation for now. I will focus on the
 language part of the project next. But I will keep these prototypes
 around as a reference for when I want to improve the world generation
@@ -418,5 +464,116 @@ rendering the world and handling user input.</li>
 <li><code>CommandProcessor.js</code>: Processes player commands,
 translating them into game actions.</li>
 </ul>
+</section>
+<section id="emoji-ideas" class="level3">
+<h3>Emoji ideas</h3>
+<p>It’s fun to think about how different emojis might be used in the
+game. Here are some ideas:</p>
+<section id="memories" class="level4">
+<h4>Memories</h4>
+<ul>
+<li>📽️ - projector that displays memories</li>
+<li>🎥 - film camera that records memories</li>
+<li>🎬 - clapper board to start recording</li>
+<li>📷 - camera for taking photos</li>
+<li>📸 - camera taking a photo</li>
+<li>🖼️ - framed picture to view photos</li>
+<li>🪞 - mirror to see self</li>
+<li>🔮 - crystal ball to see visions</li>
+<li>🪄 - magic wand to cast spells</li>
+<li>🧙‍♂️ - wizard to teach spells</li>
+<li>🧝‍♂️ - elf to teach language</li>
+</ul>
+</section>
+<section id="quests-and-quest-givers" class="level4">
+<h4>Quests and quest givers</h4>
+<ul>
+<li>🧚‍♀️ - fairy to give quests</li>
+<li>🧛‍♂️ - vampire to give dark quests</li>
+<li>🧟‍♂️ - zombie to give survival quests</li>
+<li>🧞‍♂️ - genie to grant wishes</li>
+<li>🧜‍♀️ - mermaid to give underwater quests</li>
+<li>🧚‍♂️ - pixie to give mischievous quests</li>
+<li>🧙‍♀️ - sorceress to teach advanced spells</li>
+<li>🧝‍♀️ - high elf to teach advanced language</li>
+</ul>
+</section>
+<section id="scrolls-writing-written-language" class="level4">
+<h4>Scrolls, writing, written language</h4>
+<ul>
+<li>📜 - scroll to read ancient texts</li>
+<li>📃 - page with curl to read notes</li>
+<li>📄 - page facing up to read documents</li>
+<li>📑 - bookmark tabs to mark important pages</li>
+<li>📚 - books to read multiple texts</li>
+<li>📖 - open book to read stories</li>
+<li>🖋️ - fountain pen to write elegantly</li>
+<li>✒️ - black nib to write formally</li>
+<li>🖊️ - pen to write casually</li>
+<li>🖌️ - paintbrush to create art</li>
+<li>📝 - memo to jot down quick notes</li>
+<li>🗒️ - spiral notepad to keep a journal</li>
+<li>🗓️ - spiral calendar to plan events</li>
+<li>📆 - tear-off calendar to track days</li>
+<li>📇 - card index to organize information</li>
+<li>📈 - chart increasing to track progress</li>
+<li>📉 - chart decreasing to track setbacks</li>
+<li>📊 - bar chart to visualize data</li>
+<li>📋 - clipboard to manage tasks</li>
+<li>📅 - calendar to schedule activities</li>
+<li>🗃️ - card file box to store documents</li>
+<li>🗄️ - file cabinet to organize files</li>
+<li>🗂️ - open file folder to access information</li>
+<li>🗞️ - rolled-up newspaper to read news</li>
+<li>📰 - newspaper to stay informed</li>
+<li>🏷️ - label to categorize items</li>
+<li>🔖 - bookmark to save important pages</li>
+<li>💼 - briefcase to carry important documents</li>
+<li>📁 - file folder to organize papers</li>
+<li>📂 - open file folder to access files</li>
+<li>🗑️ - wastebasket to discard unwanted items</li>
+</ul>
+</section>
+<section id="computers-and-technology" class="level4">
+<h4>Computers and technology</h4>
+<ul>
+<li>💻 - laptop to access digital world</li>
+<li>🖥️ - desktop computer to work on projects</li>
+<li>🖨️ - printer to produce physical copies</li>
+<li>🖱️ - computer mouse to navigate interfaces</li>
+<li>🖲️ - trackball to control cursor</li>
+<li>💾 - floppy disk to save progress</li>
+<li>💿 - optical disk to store data</li>
+<li>📀 - DVD to watch movies</li>
+<li>📼 - VHS tape to watch old recordings</li>
+<li>📷 - camera to capture moments</li>
+<li>📸 - camera with flash to take photos</li>
+<li>📹 - video camera to record videos</li>
+<li>🎥 - movie camera to create films</li>
+<li>📺 - television to watch shows</li>
+<li>📻 - radio to listen to broadcasts</li>
+</ul>
+</section>
+<section id="broadcasting-radio-and-communication" class="level4">
+<h4>broadcasting, radio, and communication</h4>
+<ul>
+<li>📡 - satellite antenna to receive signals</li>
+<li>📢 - loudspeaker to amplify sound</li>
+<li>📣 - megaphone to project voice</li>
+<li>📞 - telephone receiver to make calls</li>
+<li>☎️ - telephone to communicate</li>
+<li>📠 - fax machine to send documents</li>
+<li>📱 - mobile phone to stay connected</li>
+<li>🕹️ - joystick to control games</li>
+<li>🎮 - video game to play</li>
+<li>🎰 - slot machine to gamble</li>
+<li>🎲 - game die to play board games</li>
+<li>♟️ - chess pawn to strategize</li>
+<li>🎯 - direct hit to aim for goals</li>
+<li>🎳 - bowling to have fun</li>
+</ul>
+</section>
+</section>
+</section>
 </body>
 </html>

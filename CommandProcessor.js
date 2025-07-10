@@ -1,5 +1,14 @@
 // CommandProcessor.js - Command handling
 
+/*
+
+* Process player text commands and map them to game actions
+* Validate commands against known words in the conlang
+* Provide feedback via the UIManager
+* Handle learning new words and inspecting entities
+
+*/
+
 export class CommandProcessor {
   constructor(gameState) {
     this.gameState = gameState

@@ -332,3 +332,106 @@ And here’s what each of these modules does:
 * `UIManager.js`: Manages the user interface, including rendering the world and handling user input.
 * `CommandProcessor.js`: Processes player commands, translating them into game actions. 
 
+
+### Emoji ideas
+
+It’s fun to think about how different emojis might be used in the game. Here are some ideas:
+
+#### Memories 
+
+* 📽️ - projector that displays memories
+* 🎥 - film camera that records memories
+* 🎬 - clapper board to start recording
+* 📷 - camera for taking photos
+* 📸 - camera taking a photo
+* 🖼️ - framed picture to view photos
+* 🪞 - mirror to see self
+* 🔮 - crystal ball to see visions
+* 🪄 - magic wand to cast spells
+* 🧙‍♂️ - wizard to teach spells
+* 🧝‍♂️ - elf to teach language
+
+#### Quests and quest givers
+
+* 🧚‍♀️ - fairy to give quests
+* 🧛‍♂️ - vampire to give dark quests
+* 🧟‍♂️ - zombie to give survival quests
+* 🧞‍♂️ - genie to grant wishes
+* 🧜‍♀️ - mermaid to give underwater quests
+* 🧚‍♂️ - pixie to give mischievous quests
+* 🧙‍♀️ - sorceress to teach advanced spells
+* 🧝‍♀️ - high elf to teach advanced language
+
+
+#### Scrolls, writing, written language
+
+* 📜 - scroll to read ancient texts
+* 📃 - page with curl to read notes
+* 📄 - page facing up to read documents
+* 📑 - bookmark tabs to mark important pages
+* 📚 - books to read multiple texts
+* 📖 - open book to read stories
+* 🖋️ - fountain pen to write elegantly
+* ✒️ - black nib to write formally
+* 🖊️ - pen to write casually
+* 🖌️ - paintbrush to create art
+* 📝 - memo to jot down quick notes
+* 🗒️ - spiral notepad to keep a journal
+* 🗓️ - spiral calendar to plan events
+* 📆 - tear-off calendar to track days
+* 📇 - card index to organize information
+* 📈 - chart increasing to track progress
+* 📉 - chart decreasing to track setbacks
+* 📊 - bar chart to visualize data
+* 📋 - clipboard to manage tasks
+* 📅 - calendar to schedule activities
+* 🗃️ - card file box to store documents
+* 🗄️ - file cabinet to organize files
+* 🗂️ - open file folder to access information
+* 🗞️ - rolled-up newspaper to read news
+* 📰 - newspaper to stay informed
+* 🏷️ - label to categorize items
+* 🔖 - bookmark to save important pages
+* 💼 - briefcase to carry important documents
+* 📁 - file folder to organize papers
+* 📂 - open file folder to access files
+* 🗑️ - wastebasket to discard unwanted items
+
+#### Computers and technology
+
+* 💻 - laptop to access digital world
+* 🖥️ - desktop computer to work on projects
+* 🖨️ - printer to produce physical copies
+* 🖱️ - computer mouse to navigate interfaces
+* 🖲️ - trackball to control cursor
+* 💾 - floppy disk to save progress
+* 💿 - optical disk to store data
+* 📀 - DVD to watch movies
+* 📼 - VHS tape to watch old recordings
+* 📷 - camera to capture moments
+* 📸 - camera with flash to take photos
+* 📹 - video camera to record videos
+* 🎥 - movie camera to create films
+* 📺 - television to watch shows
+* 📻 - radio to listen to broadcasts
+
+
+#### broadcasting, radio, and communication
+
+* 📡 - satellite antenna to receive signals
+* 📢 - loudspeaker to amplify sound
+* 📣 - megaphone to project voice
+* 📞 - telephone receiver to make calls
+* ☎️ - telephone to communicate
+* 📠 - fax machine to send documents
+* 📱 - mobile phone to stay connected
+* 🕹️ - joystick to control games
+* 🎮 - video game to play
+* 🎰 - slot machine to gamble
+* 🎲 - game die to play board games
+* ♟️ - chess pawn to strategize
+* 🎯 - direct hit to aim for goals
+* 🎳 - bowling to have fun
+
+
+

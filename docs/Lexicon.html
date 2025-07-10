@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Patrick Hall" />
+  <meta name="description" content="Vocabulary manager for constructed languages with efficient lookup and metadata support" />
+  <title>Lexicon Documentation</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lexicon Documentation</h1>
+<p class="author">Patrick Hall</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lexicon.js" id="toc-lexicon.js">Lexicon.js</a>
+<ul>
+<li><a href="#overview" id="toc-overview">Overview</a></li>
+<li><a href="#class-lexicon" id="toc-class-lexicon">Class:
+<code>Lexicon</code></a>
+<ul>
+<li><a href="#constructor" id="toc-constructor">Constructor</a></li>
+</ul></li>
+<li><a href="#core-methods" id="toc-core-methods">Core Methods</a>
+<ul>
+<li><a href="#addwordgloss-form-metadata"
+id="toc-addwordgloss-form-metadata"><code>addWord(gloss, form, metadata = {})</code></a></li>
+<li><a href="#getbyglossgloss"
+id="toc-getbyglossgloss"><code>getByGloss(gloss)</code></a></li>
+<li><a href="#getbyformform"
+id="toc-getbyformform"><code>getByForm(form)</code></a></li>
+<li><a href="#hasglossgloss"
+id="toc-hasglossgloss"><code>hasGloss(gloss)</code></a></li>
+<li><a href="#hasformform"
+id="toc-hasformform"><code>hasForm(form)</code></a></li>
+<li><a href="#getformgloss"
+id="toc-getformgloss"><code>getForm(gloss)</code></a></li>
+<li><a href="#getglossform"
+id="toc-getglossform"><code>getGloss(form)</code></a></li>
+<li><a href="#removebyglossgloss"
+id="toc-removebyglossgloss"><code>removeByGloss(gloss)</code></a></li>
+<li><a href="#updatewordgloss-updates"
+id="toc-updatewordgloss-updates"><code>updateWord(gloss, updates)</code></a></li>
+</ul></li>
+<li><a href="#search-and-filter" id="toc-search-and-filter">Search and
+Filter</a>
+<ul>
+<li><a href="#getallwords"
+id="toc-getallwords"><code>getAllWords()</code></a></li>
+<li><a href="#getallglosses"
+id="toc-getallglosses"><code>getAllGlosses()</code></a></li>
+<li><a href="#getallforms"
+id="toc-getallforms"><code>getAllForms()</code></a></li>
+<li><a href="#filterpredicate"
+id="toc-filterpredicate"><code>filter(predicate)</code></a></li>
+<li><a href="#searchbyglosspartial"
+id="toc-searchbyglosspartial"><code>searchByGloss(partial)</code></a></li>
+<li><a href="#searchbyformpartial"
+id="toc-searchbyformpartial"><code>searchByForm(partial)</code></a></li>
+</ul></li>
+<li><a href="#serialization" id="toc-serialization">Serialization</a>
+<ul>
+<li><a href="#tojson" id="toc-tojson"><code>toJSON()</code></a></li>
+<li><a href="#fromjsonjsonstring"
+id="toc-fromjsonjsonstring"><code>fromJSON(jsonString)</code></a></li>
+</ul></li>
+<li><a href="#stats-info" id="toc-stats-info">Stats &amp; Info</a>
+<ul>
+<li><a href="#getstats"
+id="toc-getstats"><code>getStats()</code></a></li>
+<li><a href="#clear" id="toc-clear"><code>clear()</code></a></li>
+<li><a href="#size" id="toc-size"><code>size</code></a></li>
+<li><a href="#isempty" id="toc-isempty"><code>isEmpty</code></a></li>
+</ul></li>
+<li><a href="#example-usage" id="toc-example-usage">Example
+Usage</a></li>
+<li><a href="#exports" id="toc-exports">Exports</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="lexicon.js" class="level1">
+<h1>Lexicon.js</h1>
+<p>The <code>Lexicon</code> class manages vocabulary in a constructed
+language. It stores word entries, enables fast lookup by gloss or form,
+supports filtering and searching, and provides import/export
+functionality.</p>
+<hr />
+<section id="overview" class="level2">
+<h2>Overview</h2>
+<p><strong>Main features:</strong> - Efficient <code>O(1)</code> lookups
+via internal maps - Unique ID tracking - Metadata support per word -
+Search, filter, and statistics tools - JSON
+serialization/deserialization</p>
+<hr />
+</section>
+<section id="class-lexicon" class="level2">
+<h2>Class: <code>Lexicon</code></h2>
+<section id="constructor" class="level3">
+<h3>Constructor</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> lex <span class="op">=</span> <span class="kw">new</span> <span class="fu">Lexicon</span>()</span></code></pre></div>
+<p>Initializes an empty lexicon with lookup indices and ID counter.</p>
+<hr />
+</section>
+</section>
+<section id="core-methods" class="level2">
+<h2>Core Methods</h2>
+<section id="addwordgloss-form-metadata" class="level3">
+<h3><code>addWord(gloss, form, metadata = {})</code></h3>
+<p>Adds a new word to the lexicon.</p>
+<ul>
+<li><strong>gloss</strong>: English concept (string)</li>
+<li><strong>form</strong>: Conlang word form (string)</li>
+<li><strong>metadata</strong>: Optional metadata (object)</li>
+</ul>
+<p>Throws an error if the gloss or form already exists.</p>
+<hr />
+</section>
+<section id="getbyglossgloss" class="level3">
+<h3><code>getByGloss(gloss)</code></h3>
+<p>Returns the word object for a given gloss, or <code>null</code> if
+not found.</p>
+<hr />
+</section>
+<section id="getbyformform" class="level3">
+<h3><code>getByForm(form)</code></h3>
+<p>Returns the word object for a given form, or <code>null</code> if not
+found.</p>
+<hr />
+</section>
+<section id="hasglossgloss" class="level3">
+<h3><code>hasGloss(gloss)</code></h3>
+<p>Returns <code>true</code> if the gloss exists in the lexicon.</p>
+<hr />
+</section>
+<section id="hasformform" class="level3">
+<h3><code>hasForm(form)</code></h3>
+<p>Returns <code>true</code> if the form exists in the lexicon.</p>
+<hr />
+</section>
+<section id="getformgloss" class="level3">
+<h3><code>getForm(gloss)</code></h3>
+<p>Returns the conlang form for a gloss, or <code>null</code> if not
+found.</p>
+<hr />
+</section>
+<section id="getglossform" class="level3">
+<h3><code>getGloss(form)</code></h3>
+<p>Returns the English gloss for a conlang form, or <code>null</code> if
+not found.</p>
+<hr />
+</section>
+<section id="removebyglossgloss" class="level3">
+<h3><code>removeByGloss(gloss)</code></h3>
+<p>Removes the word entry for a gloss.</p>
+<p>Returns <code>true</code> if successful.</p>
+<hr />
+</section>
+<section id="updatewordgloss-updates" class="level3">
+<h3><code>updateWord(gloss, updates)</code></h3>
+<p>Updates metadata fields of a word. Protected fields (<code>id</code>,
+<code>gloss</code>, <code>form</code>, <code>created</code>) cannot be
+modified.</p>
+<p>Returns the updated word or <code>null</code> if not found.</p>
+<hr />
+</section>
+</section>
+<section id="search-and-filter" class="level2">
+<h2>Search and Filter</h2>
+<section id="getallwords" class="level3">
+<h3><code>getAllWords()</code></h3>
+<p>Returns a copy of the full array of word entries.</p>
+<hr />
+</section>
+<section id="getallglosses" class="level3">
+<h3><code>getAllGlosses()</code></h3>
+<p>Returns an array of all gloss strings.</p>
+<hr />
+</section>
+<section id="getallforms" class="level3">
+<h3><code>getAllForms()</code></h3>
+<p>Returns an array of all conlang forms.</p>
+<hr />
+</section>
+<section id="filterpredicate" class="level3">
+<h3><code>filter(predicate)</code></h3>
+<p>Returns an array of words matching the given predicate function.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lex<span class="op">.</span><span class="fu">filter</span>(w <span class="kw">=&gt;</span> w<span class="op">.</span><span class="at">seedWord</span>)</span></code></pre></div>
+<hr />
+</section>
+<section id="searchbyglosspartial" class="level3">
+<h3><code>searchByGloss(partial)</code></h3>
+<p>Returns all words with glosses that include the given partial
+string.</p>
+<hr />
+</section>
+<section id="searchbyformpartial" class="level3">
+<h3><code>searchByForm(partial)</code></h3>
+<p>Returns all words with forms that include the given partial
+string.</p>
+<hr />
+</section>
+</section>
+<section id="serialization" class="level2">
+<h2>Serialization</h2>
+<section id="tojson" class="level3">
+<h3><code>toJSON()</code></h3>
+<p>Exports the full lexicon as a JSON string, including timestamps and
+IDs.</p>
+<hr />
+</section>
+<section id="fromjsonjsonstring" class="level3">
+<h3><code>fromJSON(jsonString)</code></h3>
+<p>Replaces the lexicon contents with those from the given JSON
+string.</p>
+<p>Returns the number of words imported.</p>
+<hr />
+</section>
+</section>
+<section id="stats-info" class="level2">
+<h2>Stats &amp; Info</h2>
+<section id="getstats" class="level3">
+<h3><code>getStats()</code></h3>
+<p>Returns an object with basic statistics:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;totalWords&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;averageFormLength&quot;</span><span class="fu">:</span> <span class="fl">4.5</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;averageGlossLength&quot;</span><span class="fu">:</span> <span class="fl">5.1</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;oldestWord&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="er">...</span> <span class="fu">},</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;newestWord&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="er">...</span> <span class="fu">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<hr />
+</section>
+<section id="clear" class="level3">
+<h3><code>clear()</code></h3>
+<p>Removes all entries from the lexicon and resets ID counter.</p>
+<hr />
+</section>
+<section id="size" class="level3">
+<h3><code>size</code></h3>
+<p>Property: total number of words in the lexicon.</p>
+<hr />
+</section>
+<section id="isempty" class="level3">
+<h3><code>isEmpty</code></h3>
+<p>Property: <code>true</code> if no entries exist.</p>
+<hr />
+</section>
+</section>
+<section id="example-usage" class="level2">
+<h2>Example Usage</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> lex <span class="op">=</span> <span class="kw">new</span> <span class="fu">Lexicon</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Add words</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>lex<span class="op">.</span><span class="fu">addWord</span>(<span class="st">&#39;tree&#39;</span><span class="op">,</span> <span class="st">&#39;kelu&#39;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>lex<span class="op">.</span><span class="fu">addWord</span>(<span class="st">&#39;water&#39;</span><span class="op">,</span> <span class="st">&#39;ami&#39;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Lookups</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(lex<span class="op">.</span><span class="fu">getForm</span>(<span class="st">&#39;tree&#39;</span>))    <span class="co">// &#39;kelu&#39;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(lex<span class="op">.</span><span class="fu">getGloss</span>(<span class="st">&#39;ami&#39;</span>))    <span class="co">// &#39;water&#39;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Search</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(lex<span class="op">.</span><span class="fu">searchByGloss</span>(<span class="st">&#39;tr&#39;</span>))  <span class="co">// [tree]</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Export/Import</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json <span class="op">=</span> lex<span class="op">.</span><span class="fu">toJSON</span>()</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> newLex <span class="op">=</span> <span class="kw">new</span> <span class="fu">Lexicon</span>()</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>newLex<span class="op">.</span><span class="fu">fromJSON</span>(json)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">// Stats</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(lex<span class="op">.</span><span class="fu">getStats</span>())</span></code></pre></div>
+<hr />
+</section>
+<section id="exports" class="level2">
+<h2>Exports</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> { Lexicon }</span></code></pre></div>
+</section>
+</section>
+</body>
+</html>
