@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Biome Map (Stable, Tuned)</title>
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    #controls {
+      padding: 0.5em;
+      background: #f0f0f0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      align-items: center;
+    }
+
+    label {
+      font-size: 14px;
+    }
+
+    #map {
+      display: grid;
+      width: 100vw;
+      height: 100vh;
+      font-size: 10px;
+    }
+
+    .tile {
+      aspect-ratio: 1 / 1;
+
+      height: 100%;
+      width: 100%;
+      aspect-ratio: 1;
+      text-align: center;
+      line-height: 1;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="controls">
+    <label>
+      Detail Scale:
+      <input id="scaleSlider" type="range" min="0.5" max="5" step="0.1" value="2">
+      <span id="scaleValue">2.00</span>
+    </label>
+    <label>
+      Emoji %:
+      <input id="emojiSlider" type="range" min="0" max="1" step="0.05" value="0.25">
+      <span id="emojiValue">0.25</span>
+    </label>
+    <label>
+      Map Size:
+      <input id="sizeSlider" type="range" min="20" max="100" step="10" value="100">
+      <span id="sizeValue">100</span>
+    </label>
+  </div>
+
+  <div id="map"></div>
+
+  <script>
+    const Perlin = (() => {
+      const permutation = Array.from({ length: 256 }, (_, i) => i).sort(() => Math.random() - 0.5)
+      const p = permutation.concat(permutation)
+      const fade = t => t * t * t * (t * (t * 6 - 15) + 10)
+      const lerp = (t, a, b) => a + t * (b - a)
+      const grad = (hash, x, y) => {
+        const h = hash & 3
+        const u = h < 2 ? x : y
+        const v = h < 2 ? y : x
+        return ((h & 1) ? -u : u) + ((h & 2) ? -2 * v : 2 * v)
+      }
+      const noise = (x, y) => {
+        const X = Math.floor(x) & 255
+        const Y = Math.floor(y) & 255
+        x -= Math.floor(x)
+        y -= Math.floor(y)
+        const u = fade(x)
+        const v = fade(y)
+        const A = p[X] + Y, AA = p[A], AB = p[A + 1]
+        const B = p[X + 1] + Y, BA = p[B], BB = p[B + 1]
+        return lerp(v,
+          lerp(u, grad(p[AA], x, y), grad(p[BA], x - 1, y)),
+          lerp(u, grad(p[AB], x, y - 1), grad(p[BB], x - 1, y - 1))
+        )
+      }
+      return { noise }
+    })()
+
+    const biomes = [
+      {
+        name: "DESERT",
+        terrains: [
+          {
+            color: "#f4e2b4",
+            emojis: [
+              { emoji: "🌵", chance: 0.05 },
+              { emoji: "🦂", chance: 0.01 },
+              { emoji: "🪨", chance: 0.02 }
+            ]
+          },
+          {
+            color: "#e8d098",
+            emojis: [
+              { emoji: "🌵", chance: 0.02 }
+            ]
+          }
+        ]
+      },
+      {
+        name: "WATER",
+        terrains: [
+          {
+            color: "#7fc9f9",
+            emojis: [
+              { emoji: "🌊", chance: 0.05 },
+              { emoji: "💧", chance: 0.3 },
+              { emoji: "🐟", chance: 0.1 }
+            ]
+          },
+          {
+            color: "#a0dfff",
+            emojis: [
+              { emoji: "🪼", chance: 0.05 },
+              { emoji: "💧", chance: 0.2 }
+            ]
+          }
+        ]
+      },
+      {
+        name: "GRASSLAND",
+        terrains: [
+          {
+            color: "#a8d65e",
+            emojis: [
+              { emoji: "🌿", chance: 0.2 },
+              { emoji: "🌼", chance: 0.1 }
+            ]
+          },
+          {
+            color: "#b4e072",
+            emojis: [
+              { emoji: "🍀", chance: 0.1 },
+              { emoji: "🐞", chance: 0.05 }
+            ]
+          }
+        ]
+      },
+      {
+        name: "FOREST",
+        terrains: [
+          {
+            color: "#4b9f3a",
+            emojis: [
+              { emoji: "🌲", chance: 0.2 },
+              { emoji: "🌳", chance: 0.2 },
+              { emoji: "🦌", chance: 0.05 }
+            ]
+          },
+          {
+            color: "#397d2c",
+            emojis: [
+              { emoji: "🍄", chance: 0.2 },
+              { emoji: "🦊", chance: 0.05 }
+            ]
+          }
+        ]
+      },
+      {
+        name: "MOUNTAIN",
+        terrains: [
+          {
+            color: "#a9a9a9",
+            emojis: [
+              { emoji: "⛰️", chance: 0.1 },
+              { emoji: "🪨", chance: 0.1 }
+            ]
+          },
+          {
+            color: "#cccccc",
+            emojis: [
+              { emoji: "🏔️", chance: 0.1 },
+              { emoji: "🦅", chance: 0.05 }
+            ]
+          }
+        ]
+      }
+    ]
+
+    const mapEl = document.getElementById("map")
+    const scaleSlider = document.getElementById("scaleSlider")
+    const emojiSlider = document.getElementById("emojiSlider")
+    const sizeSlider = document.getElementById("sizeSlider")
+    const scaleValue = document.getElementById("scaleValue")
+    const emojiValue = document.getElementById("emojiValue")
+    const sizeValue = document.getElementById("sizeValue")
+
+    function getBiomeIndex(x, y, size) {
+      const nx = x / size
+      const ny = y / size
+      const value = Perlin.noise(nx * 2, ny * 2)
+      let index = Math.floor(value * biomes.length)
+      return Math.max(0, Math.min(biomes.length - 1, index))
+    }
+
+    function getTerrainVariant(x, y, biome, detailScale, mapSize) {
+      if (!biome || !biome.terrains || biome.terrains.length === 0) return null
+      const nx = x / mapSize
+      const ny = y / mapSize
+      const detailNoise = Perlin.noise(nx * detailScale, ny * detailScale)
+      const clamped = Math.max(0, Math.min(1, detailNoise))
+      const index = Math.floor(clamped * biome.terrains.length)
+      return biome.terrains[Math.min(index, biome.terrains.length - 1)]
+    }
+
+    function renderMap() {
+      const detailScale = parseFloat(scaleSlider.value)
+      const emojiChance = parseFloat(emojiSlider.value)
+      const size = parseInt(sizeSlider.value)
+
+      scaleValue.textContent = detailScale.toFixed(2)
+      emojiValue.textContent = emojiChance.toFixed(2)
+      sizeValue.textContent = size
+
+      mapEl.style.gridTemplateColumns = `repeat(${size}, 1fr)`
+      mapEl.innerHTML = ''
+
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const biomeIndex = getBiomeIndex(x, y, size)
+          const biome = biomes[biomeIndex]
+          const terrain = getTerrainVariant(x, y, biome, detailScale, size)
+          if (!terrain) continue
+
+          const tile = document.createElement("div")
+          tile.className = "tile"
+          tile.style.backgroundColor = terrain.color
+
+          for (const e of terrain.emojis) {
+            if (Math.random() < e.chance * emojiChance) {
+              tile.textContent = e.emoji
+              break
+            }
+          }
+
+          mapEl.appendChild(tile)
+        }
+      }
+    }
+
+    scaleSlider.addEventListener("input", renderMap)
+    emojiSlider.addEventListener("input", renderMap)
+    sizeSlider.addEventListener("input", renderMap)
+
+    renderMap()
+  </script>
+</body>
+</html>
