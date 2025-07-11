@@ -3,6 +3,22 @@
 import { Entity } from './Entity.js'
 import { Player } from './Player.js'
 
+import {SimplexNoise} from './editor/simplex-noise.js'
+
+const simplex = new SimplexNoise('wtf')
+
+window.simplex = simplex
+/* 
+Responsible for:
+
+* Creating and managing the tile grid
+* Loading and applying realm data (terrain, entities)
+* Managing the camera and view
+* Handling resizing and tile dimensions
+
+
+*/
+
 export class GameWorld {
   constructor(config, gameState) {
     this.config = config
@@ -48,6 +64,9 @@ export class GameWorld {
     }
   }
 
+  /*
+  Load realm data and apply terrain and entities
+  */
   loadRealm() {
     const realm = this.gameState.realm
     if (!realm) {
@@ -57,6 +76,7 @@ export class GameWorld {
 
     console.log('🌍 Loading realm:', realm.name)
     
+
     // Update realm name display
     const conlangName = realm.nameConlang 
       ? realm.nameConlang.map(word => this.gameState.conlang.getWord(word.toLowerCase())).join(' ')
@@ -71,20 +91,29 @@ export class GameWorld {
   }
 
   applyTerrain(realm) {
-    if (!realm.terrain) {
-      console.warn('⚠️ No terrain data for realm')
-      return
-    }
 
-    console.log('🎨 Applying terrain')
-    
-    for (let y = 0; y < this.config.rows && y < realm.terrain.length; y++) {
-      for (let x = 0; x < this.config.cols && x < realm.terrain[y].length; x++) {
-        const tile = this.tileElements[y][x]
-        const color = realm.terrain[y][x]
-        tile.style.backgroundColor = color
-      }
+
+const width = this.config.cols
+const height = this.config.rows
+const scale = 0.05
+for (let y = 0; y < height; y++) {
+  for (let x = 0; x < width; x++) {
+    const value = simplex.noise2D(x * scale, y * scale)
+    const normalized = (value + 1) / 2 // Normalize to [0, 1]
+    // terrain is an array of colors
+    let color = 'lightgreen' // default
+    if (Array.isArray(realm.terrain) && Array.isArray(realm.terrain[0])) {
+      const terrainColors = realm.terrain.flat()
+      const index = Math.floor(normalized * terrainColors.length)
+      color = terrainColors[Math.min(index, terrainColors.length - 1)]
+    } else if (typeof realm.terrain === 'string') {
+      color = realm.terrain
     }
+    const tile = this.tileElements[y][x]
+    tile.style.backgroundColor = color
+  }
+}
+
   }
 
   placeEntities(realm) {

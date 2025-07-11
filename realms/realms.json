@@ -1,26 +1,19 @@
 {
   "forest": {
     "name": "Forest Realm",
-    "nameConlang": ["FOREST", "REALM"],
+    "nameConlang": [
+      "FOREST",
+      "REALM"
+    ],
     "description": "A lush woodland filled with ancient trees and forest creatures",
-    "terrain": {
-      "primary": { "color": "#90EE90", "weight": 0.7 },
-      "secondary": { "color": "#228B22", "weight": 0.2 },
-      "accent": { "color": "#4169E1", "weight": 0.1 }
-    },
-    "portals": [
-      {
-        "emoji": "🌀",
-        "concept": "portal",
-        "destination": "wraith",
-        "description": "A swirling vortex to darker realms"
-      },
-      {
-        "emoji": "✨",
-        "concept": "portal", 
-        "destination": "fairy",
-        "description": "Sparkling gateway to magical lands"
-      }
+    "terrain": [
+      [
+        "hsl(114.2, 16.2%, 37.5%)",
+        "hsl(0, 0%, 46.3%)",
+        "hsl(186.9, 16.9%, 59.4%)",
+        "hsl(105.7, 36.6%, 64.1%)",
+        "hsl(63.9, 100%, 93.9%)"
+      ]
     ],
     "entities": [
       {
@@ -42,39 +35,77 @@
         "emoji": "🐍",
         "concept": "snake",
         "chance": 0.03,
-        "dialogue": ["GREETINGS", "STRANGER", "!"]
+        "dialogue": [
+          "GREETINGS",
+          "STRANGER",
+          "!"
+        ]
       },
       {
         "type": "enemy",
         "emoji": "🦇",
         "concept": "bat",
         "chance": 0.02,
-        "dialogue": ["WHO", "IS", "HERE", "?"]
+        "dialogue": [
+          "WHO",
+          "IS",
+          "HERE",
+          "?"
+        ]
       },
       {
         "type": "npc",
         "emoji": "👴",
         "concept": "elder",
         "chance": 0.02,
-        "dialogue": ["HELLO", "VISITOR", ".", "WELCOME", "HERE", "."]
+        "dialogue": [
+          "HELLO",
+          "VISITOR",
+          ".",
+          "WELCOME",
+          "HERE",
+          "."
+        ]
       },
       {
         "type": "npc",
         "emoji": "🧙‍♂️",
         "concept": "wizard",
         "chance": 0.01,
-        "dialogue": ["GOOD", "DAY", "FRIEND", ".", "MAGIC", "IS", "STRONG", "HERE", "."]
+        "dialogue": [
+          "GOOD",
+          "DAY",
+          "FRIEND",
+          ".",
+          "MAGIC",
+          "IS",
+          "STRONG",
+          "HERE",
+          "."
+        ]
       }
     ]
   },
   "wraith": {
     "name": "Wraith Realm",
-    "nameConlang": ["SHADOW", "REALM"],
+    "nameConlang": [
+      "SHADOW",
+      "REALM"
+    ],
     "description": "A haunted shadowland where the undead roam freely",
     "terrain": {
-      "primary": { "color": "#2F2F2F", "weight": 0.6 },
-      "secondary": { "color": "#1C1C1C", "weight": 0.3 },
-      "accent": { "color": "#4B0082", "weight": 0.1 }
+      "primary": {
+        "color": "#2F2F2F",
+        "weight": 0.6
+      },
+      "secondary": {
+        "color": "#1C1C1C",
+        "weight": 0.3
+      },
+      "accent": {
+        "color": "#4B0082",
+        "weight": 0.1
+      }
     },
     "portals": [
       {
@@ -110,46 +141,91 @@
         "emoji": "💀",
         "concept": "skull",
         "chance": 0.04,
-        "dialogue": ["WHO", "DISTURBS", "THE", "DEAD", "?"]
+        "dialogue": [
+          "WHO",
+          "DISTURBS",
+          "THE",
+          "DEAD",
+          "?"
+        ]
       },
       {
         "type": "enemy",
         "emoji": "🧟",
         "concept": "zombie",
         "chance": 0.03,
-        "dialogue": ["HUNGRY", ".", "SO", "HUNGRY", "..."]
+        "dialogue": [
+          "HUNGRY",
+          ".",
+          "SO",
+          "HUNGRY",
+          "..."
+        ]
       },
       {
         "type": "enemy",
         "emoji": "👻",
         "concept": "ghost",
         "chance": 0.02,
-        "dialogue": ["YOU", "NOT", "BELONG", "HERE", "!"]
+        "dialogue": [
+          "YOU",
+          "NOT",
+          "BELONG",
+          "HERE",
+          "!"
+        ]
       },
       {
         "type": "npc",
         "emoji": "🧙‍♀️",
         "concept": "witch",
         "chance": 0.01,
-        "dialogue": ["THE", "DEAD", "WHISPER", "SECRETS", "..."]
+        "dialogue": [
+          "THE",
+          "DEAD",
+          "WHISPER",
+          "SECRETS",
+          "..."
+        ]
       },
       {
         "type": "npc",
         "emoji": "🔮",
         "concept": "crystal",
         "chance": 0.005,
-        "dialogue": ["I", "SEE", "OTHER", "WORLDS", "IN", "THE", "CRYSTAL", "."]
+        "dialogue": [
+          "I",
+          "SEE",
+          "OTHER",
+          "WORLDS",
+          "IN",
+          "THE",
+          "CRYSTAL",
+          "."
+        ]
       }
     ]
   },
   "fairy": {
     "name": "Fairy Realm",
-    "nameConlang": ["MAGIC", "REALM"],
+    "nameConlang": [
+      "MAGIC",
+      "REALM"
+    ],
     "description": "An enchanted wonderland of perpetual spring and magic",
     "terrain": {
-      "primary": { "color": "#FFB6C1", "weight": 0.4 },
-      "secondary": { "color": "#E6E6FA", "weight": 0.3 },
-      "accent": { "color": "#98FB98", "weight": 0.3 }
+      "primary": {
+        "color": "#FFB6C1",
+        "weight": 0.4
+      },
+      "secondary": {
+        "color": "#E6E6FA",
+        "weight": 0.3
+      },
+      "accent": {
+        "color": "#98FB98",
+        "weight": 0.3
+      }
     },
     "customTerrain": null,
     "portals": [
@@ -200,46 +276,105 @@
         "emoji": "🐝",
         "concept": "bee",
         "chance": 0.02,
-        "dialogue": ["BUSY", "BUSY", "!", "NO", "TIME", "FOR", "TALK", "."]
+        "dialogue": [
+          "BUSY",
+          "BUSY",
+          "!",
+          "NO",
+          "TIME",
+          "FOR",
+          "TALK",
+          "."
+        ]
       },
       {
         "type": "enemy",
         "emoji": "🦄",
         "concept": "unicorn",
         "chance": 0.01,
-        "dialogue": ["PURE", "HEART", "ONLY", ".", "YOU", "ARE", "WELCOME", "?"]
+        "dialogue": [
+          "PURE",
+          "HEART",
+          "ONLY",
+          ".",
+          "YOU",
+          "ARE",
+          "WELCOME",
+          "?"
+        ]
       },
       {
         "type": "npc",
         "emoji": "🧚‍♀️",
         "concept": "fairy",
         "chance": 0.04,
-        "dialogue": ["GREETINGS", "!", "WELCOME", "TO", "OUR", "REALM", "."]
+        "dialogue": [
+          "GREETINGS",
+          "!",
+          "WELCOME",
+          "TO",
+          "OUR",
+          "REALM",
+          "."
+        ]
       },
       {
         "type": "npc",
         "emoji": "🧚‍♂️",
         "concept": "fairy",
         "chance": 0.03,
-        "dialogue": ["MAGIC", "FLOWS", "STRONG", "HERE", "!", "FEEL", "IT", "?"]
+        "dialogue": [
+          "MAGIC",
+          "FLOWS",
+          "STRONG",
+          "HERE",
+          "!",
+          "FEEL",
+          "IT",
+          "?"
+        ]
       },
       {
         "type": "npc",
         "emoji": "👑",
         "concept": "queen",
         "chance": 0.005,
-        "dialogue": ["I", "AM", "QUEEN", ".", "YOU", "ARE", "WELCOME", "IN", "MY", "DOMAIN", "."]
+        "dialogue": [
+          "I",
+          "AM",
+          "QUEEN",
+          ".",
+          "YOU",
+          "ARE",
+          "WELCOME",
+          "IN",
+          "MY",
+          "DOMAIN",
+          "."
+        ]
       }
     ]
   },
   "crystal": {
     "name": "Crystal Caverns",
-    "nameConlang": ["CRYSTAL", "CAVERNS"],
+    "nameConlang": [
+      "CRYSTAL",
+      "CAVERNS"
+    ],
     "description": "Underground caverns filled with luminescent crystals and ancient magic",
     "terrain": {
-      "primary": { "color": "#B19CD9", "weight": 0.5 },
-      "secondary": { "color": "#87CEEB", "weight": 0.3 },
-      "accent": { "color": "#FFE4E1", "weight": 0.2 }
+      "primary": {
+        "color": "#B19CD9",
+        "weight": 0.5
+      },
+      "secondary": {
+        "color": "#87CEEB",
+        "weight": 0.3
+      },
+      "accent": {
+        "color": "#FFE4E1",
+        "weight": 0.2
+      }
     },
     "customTerrain": null,
     "portals": [
@@ -283,28 +418,58 @@
         "emoji": "🐉",
         "concept": "dragon",
         "chance": 0.02,
-        "dialogue": ["ANCIENT", "GUARDIAN", "OF", "CRYSTALS", "!"]
+        "dialogue": [
+          "ANCIENT",
+          "GUARDIAN",
+          "OF",
+          "CRYSTALS",
+          "!"
+        ]
       },
       {
         "type": "enemy",
         "emoji": "👹",
         "concept": "demon",
         "chance": 0.015,
-        "dialogue": ["WHO", "DISTURBS", "THE", "DEEP", "PLACES", "?"]
+        "dialogue": [
+          "WHO",
+          "DISTURBS",
+          "THE",
+          "DEEP",
+          "PLACES",
+          "?"
+        ]
       },
       {
         "type": "npc",
         "emoji": "🧙‍♂️",
         "concept": "mage",
         "chance": 0.01,
-        "dialogue": ["THE", "CRYSTALS", "HOLD", "ANCIENT", "POWER", "..."]
+        "dialogue": [
+          "THE",
+          "CRYSTALS",
+          "HOLD",
+          "ANCIENT",
+          "POWER",
+          "..."
+        ]
       },
       {
         "type": "npc",
         "emoji": "⛏️",
         "concept": "miner",
         "chance": 0.008,
-        "dialogue": ["BEEN", "MINING", "HERE", "FOR", "YEARS", ".", "STRANGE", "MAGIC", "..."]
+        "dialogue": [
+          "BEEN",
+          "MINING",
+          "HERE",
+          "FOR",
+          "YEARS",
+          ".",
+          "STRANGE",
+          "MAGIC",
+          "..."
+        ]
       }
     ]
   }

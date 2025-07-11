@@ -1,4 +1,4 @@
-// Ultra-Simplified ElfWorld.js - Single realm, no portals
+// Ultra-Simplified ElfWorld.js
 
 import { ConlangEngine } from './ConlangEngine.js'
 import { GameWorld } from './GameWorld.js'
@@ -56,9 +56,10 @@ async function initializeGame() {
   try {
     // Load external resources
     const entityCatalogData = await loadEntityCatalog()
-    const realmData = await loadRealm()
-    console.log(realmData)
-    
+    let realmData = await loadRealm()
+
+    realmData = realmData.forest
+
     // Initialize core systems
     gameState.conlang = new ConlangEngine(CONFIG.conlang)
     gameState.entityCatalog = new EntityCatalog(entityCatalogData)
@@ -109,7 +110,7 @@ async function loadEntityCatalog() {
 // Load single realm
 async function loadRealm() {
   try {
-    const response = await fetch('./realms/forest.json')
+    const response = await fetch('./realms/realms.json')
     if (!response.ok) {
       throw new Error(`Failed to load realm: ${response.status}`)
     }
@@ -289,8 +290,6 @@ function exposeDebugAPI() {
             colorCounts[color] = (colorCounts[color] || 0) + 1
           })
         })
-        console.log('🎨 Terrain colors:')
-        console.table(colorCounts)
         
         // Count entities
         const entityCounts = {}
