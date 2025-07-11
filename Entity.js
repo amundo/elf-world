@@ -106,7 +106,6 @@ export class Entity {
     if (this.dialogue) {
       // NPCs and enemies speak in conlang
       const spokenText = this.speak()
-      console.log('💬 Entity speaking:', spokenText)
       this.gameState.ui.showDialogue(spokenText, this)
     }
   }
