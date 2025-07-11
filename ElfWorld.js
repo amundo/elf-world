@@ -57,6 +57,7 @@ async function initializeGame() {
     // Load external resources
     const entityCatalogData = await loadEntityCatalog()
     const realmData = await loadRealm()
+    console.log(realmData)
     
     // Initialize core systems
     gameState.conlang = new ConlangEngine(CONFIG.conlang)
@@ -94,7 +95,7 @@ async function initializeGame() {
 // Load entity catalog
 async function loadEntityCatalog() {
   try {
-    const response = await fetch('./entities.json')
+    const response = await fetch('./entities/index.json')
     if (!response.ok) {
       throw new Error(`Failed to load entity catalog: ${response.status}`)
     }
@@ -108,7 +109,7 @@ async function loadEntityCatalog() {
 // Load single realm
 async function loadRealm() {
   try {
-    const response = await fetch('./realm.json')
+    const response = await fetch('./realms/forest.json')
     if (!response.ok) {
       throw new Error(`Failed to load realm: ${response.status}`)
     }

@@ -7,20 +7,6 @@
       "secondary": { "color": "#228B22", "weight": 0.2 },
       "accent": { "color": "#4169E1", "weight": 0.1 }
     },
-    "portals": [
-      {
-        "emoji": "🌀",
-        "concept": "portal",
-        "destination": "wraith",
-        "description": "A swirling vortex to darker realms"
-      },
-      {
-        "emoji": "✨",
-        "concept": "portal", 
-        "destination": "fairy",
-        "description": "Sparkling gateway to magical lands"
-      }
-    ],
     "entities": [
       {
         "type": "object",

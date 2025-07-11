@@ -435,3 +435,26 @@ It’s fun to think about how different emojis might be used in the game. Here a
 
 
 
+## 2025-07-11
+
+### Procedural generation follow-up
+
+Well, guess who went back down the rabbit hole of procedural generation? This guy. I read about using temperature, moisture, and elevation to define biomes, and I thought it sounded like a good idea. So I have been toying with a biome generator that incorporates these factors.
+
+<figure>
+<a href=../editor/biomes-sidebar.html>
+<img src=images/biome-sidebar-screenshot.png alt="Biomes Sidebar Screenshot" style="width: 400px;"/>
+</a>
+<figcaption><a href=../editor/biomse-sidebar.html>Biome editor with Sidebar</a></figcaption>
+</figure>
+
+
+This thing is fun to play with, but probably not practical my purposes. Anyway, you can share links like:
+
+[../editor/biomes-sidebar.html#elev=1&moist=1.6&temp=0.8&noise=0.3&color=0.1&ocean=0.4&mount=0.6&desert=0.4&grid=50](../editor/biomes-sidebar.html#elev=1&moist=1.6&temp=0.8&noise=0.3&color=0.1&ocean=0.4&mount=0.6&desert=0.4&grid=50)
+
+Or
+
+[../editor/biomes-sidebar.html#elev=1.4&moist=0.8&temp=1.4&noise=0.06&color=0.5&ocean=0.3&mount=0.74&desert=0.12&grid=75](../editor/biomes-sidebar.html#elev=1.4&moist=0.8&temp=1.4&noise=0.06&color=0.5&ocean=0.3&mount=0.74&desert=0.12&grid=75)
+
+It’s not quite intuitive yet, but twiddling knobs is sort of interesting. 

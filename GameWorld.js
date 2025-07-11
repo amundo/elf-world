@@ -1,6 +1,7 @@
 // Ultra-Simplified GameWorld.js - Single realm, no portals
 
-import { Entity, Player } from './Entity.js'
+import { Entity } from './Entity.js'
+import { Player } from './Player.js'
 
 export class GameWorld {
   constructor(config, gameState) {

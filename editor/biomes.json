@@ -1,0 +1,390 @@
+[
+  {
+    "name": "ocean",
+    "elevation": [
+      0,
+      0.3
+    ],
+    "temperature": [
+      0,
+      1
+    ],
+    "moisture": [
+      0,
+      1
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.65,
+          0.85
+        ],
+        "chroma": [
+          0.12,
+          0.25
+        ],
+        "hue": 220
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🌊",
+        "probability": 0.02
+      },
+      {
+        "emoji": "🐟",
+        "probability": 0.008
+      },
+      {
+        "emoji": "🦈",
+        "probability": 0.002
+      },
+      {
+        "emoji": "🐙",
+        "probability": 0.001
+      }
+    ]
+  },
+  {
+    "name": "snowy mountain",
+    "elevation": [
+      0.8,
+      1
+    ],
+    "temperature": [
+      0,
+      0.3
+    ],
+    "moisture": [
+      0,
+      1
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.85,
+          0.95
+        ],
+        "chroma": [
+          0.03,
+          0.08
+        ],
+        "hue": 240
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🏔️",
+        "probability": 0.015
+      },
+      {
+        "emoji": "❄️",
+        "probability": 0.01
+      },
+      {
+        "emoji": "🐺",
+        "probability": 0.002
+      },
+      {
+        "emoji": "⛷️",
+        "probability": 0.001
+      }
+    ]
+  },
+  {
+    "name": "rocky mountain",
+    "elevation": [
+      0.8,
+      1
+    ],
+    "temperature": [
+      0.3,
+      1
+    ],
+    "moisture": [
+      0,
+      0.3
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.7,
+          0.85
+        ],
+        "chroma": [
+          0.08,
+          0.18
+        ],
+        "hue": 100
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "⛰️",
+        "probability": 0.015
+      },
+      {
+        "emoji": "🪨",
+        "probability": 0.01
+      },
+      {
+        "emoji": "🦅",
+        "probability": 0.003
+      },
+      {
+        "emoji": "🐐",
+        "probability": 0.002
+      }
+    ]
+  },
+  {
+    "name": "alpine forest",
+    "elevation": [
+      0.6,
+      0.8
+    ],
+    "temperature": [
+      0.2,
+      0.5
+    ],
+    "moisture": [
+      0.6,
+      1
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.6,
+          0.8
+        ],
+        "chroma": [
+          0.08,
+          0.16
+        ],
+        "hue": 135
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🌲",
+        "probability": 0.02
+      },
+      {
+        "emoji": "🪨",
+        "probability": 0.008
+      },
+      {
+        "emoji": "🐐",
+        "probability": 0.003
+      },
+      {
+        "emoji": "🦌",
+        "probability": 0.002
+      },
+      {
+        "emoji": "🏔️",
+        "probability": 0.001
+      }
+    ]
+  },
+  {
+    "name": "forest",
+    "elevation": [
+      0.3,
+      0.8
+    ],
+    "temperature": [
+      0.5,
+      1
+    ],
+    "moisture": [
+      0.7,
+      1
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.55,
+          0.75
+        ],
+        "chroma": [
+          0.1,
+          0.2
+        ],
+        "hue": 125
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🌳",
+        "probability": 0.025
+      },
+      {
+        "emoji": "🦋",
+        "probability": 0.008
+      },
+      {
+        "emoji": "🐿️",
+        "probability": 0.005
+      },
+      {
+        "emoji": "🦉",
+        "probability": 0.002
+      },
+      {
+        "emoji": "🍄",
+        "probability": 0.003
+      }
+    ]
+  },
+  {
+    "name": "grassland",
+    "elevation": [
+      0.3,
+      0.7
+    ],
+    "temperature": [
+      0.5,
+      1
+    ],
+    "moisture": [
+      0.4,
+      0.7
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.7,
+          0.88
+        ],
+        "chroma": [
+          0.12,
+          0.22
+        ],
+        "hue": 85
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🌾",
+        "probability": 0.02
+      },
+      {
+        "emoji": "🦆",
+        "probability": 0.008
+      },
+      {
+        "emoji": "🐰",
+        "probability": 0.005
+      },
+      {
+        "emoji": "🦗",
+        "probability": 0.01
+      },
+      {
+        "emoji": "🌻",
+        "probability": 0.003
+      }
+    ]
+  },
+  {
+    "name": "desert",
+    "elevation": [
+      0.3,
+      0.8
+    ],
+    "temperature": [
+      0.6,
+      1
+    ],
+    "moisture": [
+      0,
+      0.3
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.8,
+          0.92
+        ],
+        "chroma": [
+          0.1,
+          0.2
+        ],
+        "hue": 50
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🏜️",
+        "probability": 0.015
+      },
+      {
+        "emoji": "🌵",
+        "probability": 0.008
+      },
+      {
+        "emoji": "🦂",
+        "probability": 0.003
+      },
+      {
+        "emoji": "🐪",
+        "probability": 0.002
+      },
+      {
+        "emoji": "☀️",
+        "probability": 0.001
+      }
+    ]
+  },
+  {
+    "name": "plains",
+    "elevation": [
+      0.3,
+      0.6
+    ],
+    "temperature": [
+      0.3,
+      0.8
+    ],
+    "moisture": [
+      0.3,
+      0.7
+    ],
+    "palette": [
+      {
+        "lightness": [
+          0.72,
+          0.86
+        ],
+        "chroma": [
+          0.1,
+          0.18
+        ],
+        "hue": 105
+      }
+    ],
+    "emojis": [
+      {
+        "emoji": "🌱",
+        "probability": 0.015
+      },
+      {
+        "emoji": "🌸",
+        "probability": 0.008
+      },
+      {
+        "emoji": "🐝",
+        "probability": 0.005
+      },
+      {
+        "emoji": "🦋",
+        "probability": 0.003
+      },
+      {
+        "emoji": "🌼",
+        "probability": 0.004
+      }
+    ]
+  }
+]
