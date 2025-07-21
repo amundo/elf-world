@@ -1,28 +1,30 @@
-import { Entity } from './Entity.js'
+import { Entity } from "./Entity.js"
 
 /*
-
-* Represent the player character with unique properties and behaviors
-* Handle player input, movement, and interactions
-* Manage the player's inventory and equipment
-
-*/
-
+ * Represent the player character with unique properties and behaviors
+ * Handle player input, movement, and interactions
+ * Manage the player's inventory and equipment
+ */
 
 export class Player extends Entity {
   constructor({ x, y, world, gameState }) {
-    super({ 
-      x, y, 
-      entityDef: { 
-        type: 'player', 
-        emoji: '🧝‍♂️', 
-        concept: 'player',
-        solid: false 
-      }, 
-      gameState, 
-      world 
+    super({
+      x,
+      y,
+      entityDef: {
+        type: "player",
+        emoji: "🧝‍♂️",
+        concept: "player",
+        solid: false,
+      },
+      gameState,
+      world,
     })
-    this.inventory = ['🍎']
+    this.inventory = ["🍎"]
+  }
+
+  get position() {
+    return { x: this.x, y: this.y }
   }
 
   move(dx, dy) {
@@ -32,7 +34,7 @@ export class Player extends Entity {
 
     if (entity?.solid) return
 
-    if (entity?.type === 'portal') {
+    if (entity?.type === "portal") {
       entity.onInteract(this)
       return
     }
@@ -44,7 +46,10 @@ export class Player extends Entity {
 
   checkAdjacentInteractions() {
     const directions = [
-      { dx: -1, dy: 0 }, { dx: 1, dy: 0 }, { dx: 0, dy: -1 }, { dx: 0, dy: 1 }
+      { dx: -1, dy: 0 },
+      { dx: 1, dy: 0 },
+      { dx: 0, dy: -1 },
+      { dx: 0, dy: 1 },
     ]
 
     let closestEntity = null
@@ -54,8 +59,10 @@ export class Player extends Entity {
       const checkX = this.x + dir.dx
       const checkY = this.y + dir.dy
 
-      if (checkX >= 0 && checkX < this.world.config.cols && 
-          checkY >= 0 && checkY < this.world.config.rows) {
+      if (
+        checkX >= 0 && checkX < this.world.config.cols &&
+        checkY >= 0 && checkY < this.world.config.rows
+      ) {
         const entity = this.world.entityGrid[checkY][checkX]
         if (entity && entity !== this) {
           const distance = Math.abs(dir.dx) + Math.abs(dir.dy)
@@ -70,7 +77,11 @@ export class Player extends Entity {
     if (this.gameState.focusedEntity !== closestEntity) {
       this.gameState.focusedEntity = closestEntity
       if (this.gameState.focusedEntity) {
-        this.gameState.ui.addMessage(`${this.gameState.ui.getUIText('focus')} ${this.gameState.focusedEntity.emoji}`)
+        this.gameState.ui.addMessage(
+          `${
+            this.gameState.ui.getUIText("focus")
+          } ${this.gameState.focusedEntity.emoji}`,
+        )
       }
     }
 
@@ -79,10 +90,12 @@ export class Player extends Entity {
       const checkX = this.x + dir.dx
       const checkY = this.y + dir.dy
 
-      if (checkX >= 0 && checkX < this.world.config.cols && 
-          checkY >= 0 && checkY < this.world.config.rows) {
+      if (
+        checkX >= 0 && checkX < this.world.config.cols &&
+        checkY >= 0 && checkY < this.world.config.rows
+      ) {
         const entity = this.world.entityGrid[checkY][checkX]
-        if (entity && (entity.type === 'npc' || entity.type === 'enemy')) {
+        if (entity && (entity.type === "npc" || entity.type === "enemy")) {
           entity.onInteract(this)
           break
         }

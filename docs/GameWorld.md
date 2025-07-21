@@ -8,7 +8,10 @@ last_updated: 2025-07-10
 
 # GameWorld.js
 
-The `GameWorld` class is responsible for managing the entire visual and logical grid-based world of **Elf World**. This includes rendering the map, placing entities, handling realm switching, controlling the camera view, and managing background music.
+The `GameWorld` class is responsible for managing the entire visual and logical
+grid-based world of **Elf World**. This includes rendering the map, placing
+entities, handling realm switching, controlling the camera view, and managing
+background music.
 
 ---
 
@@ -27,17 +30,17 @@ The `GameWorld` class is responsible for managing the entire visual and logical 
 
 ```js
 new GameWorld(config, gameState)
-````
+```
 
-* **config**: World dimensions, view size
-* **gameState**: Shared game state object (player, conlang, UI, etc.)
+- **config**: World dimensions, view size
+- **gameState**: Shared game state object (player, conlang, UI, etc.)
 
 Initializes internal structures:
 
-* `tileElements` — DOM tiles
-* `entityGrid` — logical occupancy grid
-* `camera` — focused region
-* `backgroundMusic`, `tileWidth`, `tileHeight`
+- `tileElements` — DOM tiles
+- `entityGrid` — logical occupancy grid
+- `camera` — focused region
+- `backgroundMusic`, `tileWidth`, `tileHeight`
 
 ---
 
@@ -57,11 +60,11 @@ Generates a 2D DOM grid and stores tile elements in `tileElements`.
 
 ### `switchRealm(realmKey)`
 
-* Loads terrain and entities for the given realm
-* Clears old entities and regenerates layout
-* Updates realm name in conlang
-* Plays realm music (if defined)
-* Applies a visual transition effect
+- Loads terrain and entities for the given realm
+- Clears old entities and regenerates layout
+- Updates realm name in conlang
+- Plays realm music (if defined)
+- Applies a visual transition effect
 
 ---
 
@@ -77,7 +80,8 @@ Paints tiles with colors from a predefined 2D array.
 
 ### `applyProceduralTerrain(terrain)`
 
-Paints tiles probabilistically using `primary`, `secondary`, and `accent` terrain weights/colors.
+Paints tiles probabilistically using `primary`, `secondary`, and `accent`
+terrain weights/colors.
 
 ---
 
@@ -85,13 +89,14 @@ Paints tiles probabilistically using `primary`, `secondary`, and `accent` terrai
 
 ### `generateEntities(realm)`
 
-* Supports both custom and random entity placement
-* Falls back to spawn chance definitions if needed
-* Always places portals last
+- Supports both custom and random entity placement
+- Falls back to spawn chance definitions if needed
+- Always places portals last
 
 ### `placeCustomEntities(customEntities)`
 
-Places entities from a 2D grid of definitions, handling `portals` and assigning types/dialogue.
+Places entities from a 2D grid of definitions, handling `portals` and assigning
+types/dialogue.
 
 ### `generateRandomEntities(realm)`
 
@@ -105,9 +110,9 @@ Fallback generator for unprocessed realm data.
 
 ### Entity Helpers
 
-* `getEntityType(category)`
-* `getEntitySolidity(type, concept)`
-* `getEntityDialogue(category, concept)`
+- `getEntityType(category)`
+- `getEntitySolidity(type, concept)`
+- `getEntityDialogue(category, concept)`
 
 Provides derived values for entity attributes based on category or concept.
 
@@ -119,7 +124,8 @@ Places realm portals at random available positions, using `realm.portals[]`.
 
 ### `findEmptyPosition(maxAttempts)`
 
-Finds a random unoccupied tile (avoiding the player) to place entities or portals.
+Finds a random unoccupied tile (avoiding the player) to place entities or
+portals.
 
 ---
 
@@ -127,8 +133,8 @@ Finds a random unoccupied tile (avoiding the player) to place entities or portal
 
 ### `repositionPlayer()`
 
-* Creates a new `Player` instance if none exists
-* Moves player to a random open tile otherwise
+- Creates a new `Player` instance if none exists
+- Moves player to a random open tile otherwise
 
 ---
 
@@ -136,11 +142,13 @@ Finds a random unoccupied tile (avoiding the player) to place entities or portal
 
 ### `updateCamera()`
 
-Centers the viewport around the player, updating `camera.x` and `camera.y` and applying `translate()` to the `#world` container.
+Centers the viewport around the player, updating `camera.x` and `camera.y` and
+applying `translate()` to the `#world` container.
 
 ### `resizeView()`
 
-Calculates tile sizes based on `.game-pane` dimensions and updates the grid layout accordingly. Uses fixed fallback dimensions if the layout isn’t ready.
+Calculates tile sizes based on `.game-pane` dimensions and updates the grid
+layout accordingly. Uses fixed fallback dimensions if the layout isn’t ready.
 
 ---
 
@@ -164,11 +172,11 @@ Restricts a number to the `[min, max]` range.
 
 Requires the following elements to exist:
 
-* `#world` — container for the tile grid
-* `#realmInfo` — shows current realm name
-* `#transition` — transition effect element
-* `#audioToggle` — audio control button
-* `.game-pane` — container for calculating available screen space
+- `#world` — container for the tile grid
+- `#realmInfo` — shows current realm name
+- `#transition` — transition effect element
+- `#audioToggle` — audio control button
+- `.game-pane` — container for calculating available screen space
 
 ---
 
@@ -177,17 +185,18 @@ Requires the following elements to exist:
 ```js
 const world = new GameWorld(CONFIG.world, gameState)
 await world.initialize()
-await world.switchRealm('forest')
+await world.switchRealm("forest")
 ```
 
 ---
 
 ## Summary
 
-The `GameWorld` class orchestrates all visual and logical aspects of the game's environment, enabling dynamic and modular realm loading, responsive terrain rendering, and player–entity interaction. It works closely with:
+The `GameWorld` class orchestrates all visual and logical aspects of the game's
+environment, enabling dynamic and modular realm loading, responsive terrain
+rendering, and player–entity interaction. It works closely with:
 
-* `Entity`
-* `Player`
-* `ConlangEngine`
-* `UIManager`
-
+- `Entity`
+- `Player`
+- `ConlangEngine`
+- `UIManager`

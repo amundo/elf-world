@@ -1,6 +1,9 @@
 {
   "tasks": {
-    "blog": "cd blog; m2h --table-of-contents --section-divs --include-in-header=header.html --output ./blog.html blog.md"
+    "blog": "cd blog; m2h --table-of-contents --section-divs --include-in-header=header.html --output ./blog.html blog.md",
     "docs": "cd docs; m2h --table-of-contents --section-divs "
+  },
+  "fmt": {
+    "semiColons": false
   }
 }

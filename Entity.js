@@ -7,11 +7,10 @@ export class Entity {
     this.type = entityDef.type
     this.solid = entityDef.solid || false
     this.dialogue = entityDef.dialogue || null
-    this.destination = entityDef.destination || null
     this.gameState = gameState
     this.world = world
 
-    this.emoji = Array.isArray(entityDef.emoji) 
+    this.emoji = Array.isArray(entityDef.emoji)
       ? entityDef.emoji[Math.floor(Math.random() * entityDef.emoji.length)]
       : entityDef.emoji
 
@@ -19,7 +18,7 @@ export class Entity {
     this.conlangName = gameState.conlang.getWord(this.concept, {
       entityType: this.type,
       emoji: this.emoji,
-      realm: gameState.currentRealm?.name || 'unknown'
+      realm: gameState.currentRealm?.name || "unknown",
     })
 
     this.createElement()
@@ -27,11 +26,11 @@ export class Entity {
   }
 
   createElement() {
-    this.el = document.createElement('div')
+    this.el = document.createElement("div")
     this.el.className = `entity ${this.type}`
     this.el.textContent = this.emoji
     this.el.title = `${this.concept} (${this.conlangName})`
-    this.el.addEventListener('click', () => this.inspect())
+    this.el.addEventListener("click", () => this.inspect())
   }
 
   addToWorld() {
@@ -43,43 +42,63 @@ export class Entity {
   }
 
   speak() {
-    if (!this.dialogue) return 'The entity makes no sound.'
-    
+    if (!this.dialogue) return "The entity makes no sound."
+
     // If dialogue is an array of concepts, translate to conlang
     if (Array.isArray(this.dialogue)) {
-      return this.dialogue.map(word => {
+      return this.dialogue.map((word) => {
         // Keep punctuation as-is
         if (word.match(/^[.!?,:;]$/)) return word
         // Translate concepts to conlang
         return this.gameState.conlang.getWord(word.toLowerCase())
-      }).join(' ')
+      }).join(" ")
     }
-    
+
     // Legacy support for English dialogue
     return this.dialogue
   }
 
   getConceptFromEmoji(emoji) {
     const emojiMap = {
-      '🌲': 'tree', '🪨': 'rock', '🐍': 'snake', '🦇': 'bat',
-      '👴': 'elder', '🧙‍♂️': 'wizard', '🌀': 'portal', '✨': 'portal',
-      '🌫️': 'portal', '🪦': 'grave', '🌙': 'moon', '💀': 'skull',
-      '🧟': 'zombie', '👻': 'ghost', '🧙‍♀️': 'witch', '🔮': 'crystal',
-      '🌸': 'flower', '🌺': 'flower', '🍄': 'mushroom', '🦋': 'butterfly',
-      '🐝': 'bee', '🦄': 'unicorn', '🧚‍♀️': 'fairy', '🧚‍♂️': 'fairy',
-      '👑': 'queen'
+      "🌲": "tree",
+      "🪨": "rock",
+      "🐍": "snake",
+      "🦇": "bat",
+      "👴": "elder",
+      "🧙‍♂️": "wizard",
+      "🌀": "portal",
+      "✨": "portal",
+      "🌫️": "portal",
+      "🪦": "grave",
+      "🌙": "moon",
+      "💀": "skull",
+      "🧟": "zombie",
+      "👻": "ghost",
+      "🧙‍♀️": "witch",
+      "🔮": "crystal",
+      "🌸": "flower",
+      "🌺": "flower",
+      "🍄": "mushroom",
+      "🦋": "butterfly",
+      "🐝": "bee",
+      "🦄": "unicorn",
+      "🧚‍♀️": "fairy",
+      "🧚‍♂️": "fairy",
+      "👑": "queen",
     }
-    return emojiMap[emoji] || 'entity'
+    return emojiMap[emoji] || "entity"
   }
 
   inspect() {
     const isKnown = this.gameState.knownWords.has(this.concept)
-    
-    this.gameState.ui.addMessage(`${this.gameState.ui.getUIText('youSee')} ${this.emoji}`)
+
+    this.gameState.ui.addMessage(
+      `${this.gameState.ui.getUIText("youSee")} ${this.emoji}`,
+    )
     if (isKnown) {
-      this.gameState.ui.addMessage(`${this.conlangName}`, 'success')
+      this.gameState.ui.addMessage(`${this.conlangName}`, "success")
     } else {
-      this.gameState.ui.addMessage(`???`, 'error')
+      this.gameState.ui.addMessage(`???`, "error")
     }
 
     this.gameState.selectedEntity = this
@@ -101,8 +120,8 @@ export class Entity {
   }
 
   onInteract(player) {
-    console.log('🎯 Entity interaction:', this.type, this.concept)
-    
+    console.log("🎯 Entity interaction:", this.type, this.concept)
+
     if (this.dialogue) {
       // NPCs and enemies speak in conlang
       const spokenText = this.speak()

@@ -1,394 +1,605 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Patrick Hall" />
-  <meta name="description" content="Manages UI translation and state updates for game elements" />
-  <title>UIManager Documentation</title>
-  <style>
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta name="author" content="Patrick Hall" />
+    <meta
+      name="description"
+      content="Manages UI translation and state updates for game elements"
+    />
+    <title>UIManager Documentation</title>
+    <style>
       html {
-        background-color: white;
+        color: #1a1a1a;
+        background-color: #fdfdfd;
       }
       body {
+        margin: 0 auto;
+        max-width: 36em;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        hyphens: auto;
+        overflow-wrap: break-word;
+        text-rendering: optimizeLegibility;
+        font-kerning: normal;
+      }
+      @media (max-width: 600px) {
+        body {
+          font-size: 0.9em;
+          padding: 12px;
+        }
+        h1 {
+          font-size: 1.8em;
+        }
+      }
+      @media print {
+        html {
+          background-color: white;
+        }
+        body {
+          background-color: transparent;
+          color: black;
+          font-size: 12pt;
+        }
+        p, h2, h3 {
+          orphans: 3;
+          widows: 3;
+        }
+        h2, h3, h4 {
+          page-break-after: avoid;
+        }
+      }
+      p {
+        margin: 1em 0;
+      }
+      a {
+        color: #1a1a1a;
+      }
+      a:visited {
+        color: #1a1a1a;
+      }
+      img {
+        max-width: 100%;
+      }
+      svg {
+        height: auto;
+        max-width: 100%;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 1.4em;
+      }
+      h5, h6 {
+        font-size: 1em;
+        font-style: italic;
+      }
+      h6 {
+        font-weight: normal;
+      }
+      ol, ul {
+        padding-left: 1.7em;
+        margin-top: 1em;
+      }
+      li > ol, li > ul {
+        margin-top: 0;
+      }
+      blockquote {
+        margin: 1em 0 1em 1.7em;
+        padding-left: 1em;
+        border-left: 2px solid #e6e6e6;
+        color: #606060;
+      }
+      code {
+        font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+        font-size: 85%;
+        margin: 0;
+        hyphens: manual;
+      }
+      pre {
+        margin: 1em 0;
+        overflow: auto;
+      }
+      pre code {
+        padding: 0;
+        overflow: visible;
+        overflow-wrap: normal;
+      }
+      .sourceCode {
         background-color: transparent;
-        color: black;
-        font-size: 12pt;
+        overflow: visible;
       }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
+      hr {
+        background-color: #1a1a1a;
+        border: none;
+        height: 1px;
+        margin: 1em 0;
       }
-      h2, h3, h4 {
-        page-break-after: avoid;
+      table {
+        margin: 1em 0;
+        border-collapse: collapse;
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        font-variant-numeric: lining-nums tabular-nums;
       }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
+      table caption {
+        margin-bottom: 0.75em;
+      }
+      tbody {
+        margin-top: 0.5em;
+        border-top: 1px solid #1a1a1a;
+        border-bottom: 1px solid #1a1a1a;
+      }
+      th {
+        border-top: 1px solid #1a1a1a;
+        padding: 0.25em 0.5em 0.25em 0.5em;
+      }
+      td {
+        padding: 0.125em 0.5em 0.25em 0.5em;
+      }
+      header {
+        margin-bottom: 4em;
+        text-align: center;
+      }
+      #TOC li {
+        list-style: none;
+      }
+      #TOC ul {
+        padding-left: 1.3em;
+      }
+      #TOC > ul {
+        padding-left: 0;
+      }
+      #TOC a:not(:hover) {
+        text-decoration: none;
+      }
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      div.columns {
+        display: flex;
+        gap: min(4vw, 1.5em);
+      }
+      div.column {
+        flex: auto;
+        overflow-x: auto;
+      }
+      div.hanging-indent {
+        margin-left: 1.5em;
+        text-indent: -1.5em;
+      }
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class] {
+        list-style: none;
+      }
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math {
+        display: block;
+        text-align: center;
+        margin: 0.5rem auto;
+      }
+      /* CSS for syntax highlighting */
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      pre > code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      pre > code.sourceCode > span {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      pre > code.sourceCode > span:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode > span {
+        color: inherit;
+        text-decoration: inherit;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        pre > code.sourceCode {
+          white-space: pre-wrap;
+        }
+        pre > code.sourceCode > span {
+          text-indent: -5em;
+          padding-left: 5em;
+        }
+      }
+      pre.numberSource code {
+        counter-reset: source-line 0;
+      }
+      pre.numberSource code > span {
+        position: relative;
+        left: -4em;
+        counter-increment: source-line;
+      }
+      pre.numberSource code > span > a:first-child::before {
+        content: counter(source-line);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
         color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">UIManager Documentation</h1>
-<p class="author">Patrick Hall</p>
-</header>
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#uimanager.js" id="toc-uimanager.js">UIManager.js</a>
-<ul>
-<li><a href="#overview" id="toc-overview">Overview</a></li>
-<li><a href="#class-uimanager" id="toc-class-uimanager">Class:
-<code>UIManager</code></a>
-<ul>
-<li><a href="#constructor" id="toc-constructor">Constructor</a></li>
-<li><a href="#method-initialize" id="toc-method-initialize">Method:
-<code>initialize()</code></a></li>
-<li><a href="#method-translateglossglosstext"
-id="toc-method-translateglossglosstext">Method:
-<code>translateGloss(glossText)</code></a></li>
-<li><a href="#method-getuitextkey" id="toc-method-getuitextkey">Method:
-<code>getUIText(key)</code></a></li>
-<li><a href="#method-addmessagetext-classname"
-id="toc-method-addmessagetext-classname">Method:
-<code>addMessage(text, className = '')</code></a></li>
-<li><a href="#method-updateinventory"
-id="toc-method-updateinventory">Method:
-<code>updateInventory()</code></a></li>
-<li><a href="#method-showdialoguetext-entity"
-id="toc-method-showdialoguetext-entity">Method:
-<code>showDialogue(text, entity)</code></a></li>
-</ul></li>
-<li><a href="#dom-dependencies" id="toc-dom-dependencies">DOM
-Dependencies</a></li>
-<li><a href="#example-usage" id="toc-example-usage">Example
-Usage</a></li>
-</ul></li>
-</ul>
-</nav>
-<section id="uimanager.js" class="level1">
-<h1>UIManager.js</h1>
-<p><code>UIManager</code> is responsible for updating UI elements based
-on the current game state and translating interface text using the
-game’s constructed language (<code>conlang</code>).</p>
-<section id="overview" class="level2">
-<h2>Overview</h2>
-<p>The class handles:</p>
-<ul>
-<li>Translating UI strings using glosses</li>
-<li>Updating inventory display</li>
-<li>Displaying messages to the command log</li>
-<li>Showing NPC dialogue bubbles</li>
-</ul>
-<hr />
-</section>
-<section id="class-uimanager" class="level2">
-<h2>Class: <code>UIManager</code></h2>
-<section id="constructor" class="level3">
-<h3>Constructor</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="fu">UIManager</span>(gameState)</span></code></pre></div>
-<ul>
-<li><strong>gameState</strong>: The game state object, which includes
-the <code>conlang</code> and <code>player</code> data.</li>
-</ul>
-<hr />
-</section>
-<section id="method-initialize" class="level3">
-<h3>Method: <code>initialize()</code></h3>
-<p>Initializes the UI:</p>
-<ul>
-<li>Binds elements like <code>commandOutput</code>,
-<code>consoleHeader</code>, and <code>commandInput</code>.</li>
-<li>Sets translated text for placeholders and labels.</li>
-<li>Calls <code>updateInventory()</code> to initialize inventory
-display.</li>
-</ul>
-<hr />
-</section>
-<section id="method-translateglossglosstext" class="level3">
-<h3>Method: <code>translateGloss(glossText)</code></h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">translateGloss</span>(glossText<span class="op">:</span> string)<span class="op">:</span> string</span></code></pre></div>
-<p>Translates a gloss-formatted string like <code>[word learn]</code>
-into a conlang term using the game state. If the input is not in gloss
-format, it returns the text unchanged.</p>
-<hr />
-</section>
-<section id="method-getuitextkey" class="level3">
-<h3>Method: <code>getUIText(key)</code></h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getUIText</span>(key<span class="op">:</span> string)<span class="op">:</span> string</span></code></pre></div>
-<p>Maps UI text keys to glosses and translates them. Supported keys
-include:</p>
-<ul>
-<li><code>consoleHeader</code></li>
-<li><code>inventoryLabel</code></li>
-<li><code>welcomeMessage</code></li>
-<li><code>helpHint</code></li>
-<li><code>unknownCommand</code></li>
-<li><code>notNear</code></li>
-<li><code>learned</code></li>
-<li><code>youSay</code></li>
-<li><code>youSee</code></li>
-<li><code>focus</code></li>
-<li><code>realmChanged</code></li>
-<li><code>exported</code></li>
-</ul>
-<p>Returns the translated text from the <code>conlang</code>.</p>
-<hr />
-</section>
-<section id="method-addmessagetext-classname" class="level3">
-<h3>Method: <code>addMessage(text, className = '')</code></h3>
-<p>Adds a new message to the <code>#commandOutput</code> log and scrolls
-to the bottom. Limits message history to 20.</p>
-<ul>
-<li><strong>text</strong>: The message string.</li>
-<li><strong>className</strong>: Optional class for styling.</li>
-</ul>
-<hr />
-</section>
-<section id="method-updateinventory" class="level3">
-<h3>Method: <code>updateInventory()</code></h3>
-<p>Updates the <code>#inventory</code> element with the player’s current
-inventory using the conlang word for <code>have</code>.</p>
-<hr />
-</section>
-<section id="method-showdialoguetext-entity" class="level3">
-<h3>Method: <code>showDialogue(text, entity)</code></h3>
-<p>Displays a temporary speech bubble with <code>text</code> above the
-DOM element for the specified <code>entity</code>.</p>
-<ul>
-<li><strong>text</strong>: The dialogue to show.</li>
-<li><strong>entity</strong>: An object with an <code>.el</code> DOM
-property.</li>
-</ul>
-<hr />
-</section>
-</section>
-<section id="dom-dependencies" class="level2">
-<h2>DOM Dependencies</h2>
-<p>The following DOM elements are expected to exist:</p>
-<ul>
-<li><code>#commandOutput</code></li>
-<li><code>#consoleHeader</code></li>
-<li><code>#commandInput</code></li>
-<li><code>#inventory</code></li>
-</ul>
-<hr />
-</section>
-<section id="example-usage" class="level2">
-<h2>Example Usage</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ui <span class="op">=</span> <span class="kw">new</span> <span class="fu">UIManager</span>(gameState)</span>
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {}
+      @media screen {
+        pre > code.sourceCode > span > a:first-child::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+        color: #008000;
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {} /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+        color: #008000;
+        font-weight: bold;
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">UIManager Documentation</h1>
+      <p class="author">Patrick Hall</p>
+    </header>
+    <nav id="TOC" role="doc-toc">
+      <ul>
+        <li>
+          <a href="#uimanager.js" id="toc-uimanager.js">UIManager.js</a>
+          <ul>
+            <li><a href="#overview" id="toc-overview">Overview</a></li>
+            <li>
+              <a href="#class-uimanager" id="toc-class-uimanager">Class:
+                <code>UIManager</code></a>
+              <ul>
+                <li>
+                  <a href="#constructor" id="toc-constructor">Constructor</a>
+                </li>
+                <li>
+                  <a
+                    href="#method-initialize"
+                    id="toc-method-initialize"
+                  >Method:
+                    <code>initialize()</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#method-translateglossglosstext"
+                    id="toc-method-translateglossglosstext"
+                  >Method:
+                    <code>translateGloss(glossText)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#method-getuitextkey"
+                    id="toc-method-getuitextkey"
+                  >Method:
+                    <code>getUIText(key)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#method-addmessagetext-classname"
+                    id="toc-method-addmessagetext-classname"
+                  >Method:
+                    <code>addMessage(text, className = '')</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#method-updateinventory"
+                    id="toc-method-updateinventory"
+                  >Method:
+                    <code>updateInventory()</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#method-showdialoguetext-entity"
+                    id="toc-method-showdialoguetext-entity"
+                  >Method:
+                    <code>showDialogue(text, entity)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#dom-dependencies" id="toc-dom-dependencies"
+              >DOM Dependencies</a>
+            </li>
+            <li>
+              <a href="#example-usage" id="toc-example-usage">Example Usage</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <section id="uimanager.js" class="level1">
+      <h1>UIManager.js</h1>
+      <p>
+        <code>UIManager</code> is responsible for updating UI elements based on
+        the current game state and translating interface text using the game’s
+        constructed language (<code>conlang</code>).
+      </p>
+      <section id="overview" class="level2">
+        <h2>Overview</h2>
+        <p>The class handles:</p>
+        <ul>
+          <li>Translating UI strings using glosses</li>
+          <li>Updating inventory display</li>
+          <li>Displaying messages to the command log</li>
+          <li>Showing NPC dialogue bubbles</li>
+        </ul>
+        <hr />
+      </section>
+      <section id="class-uimanager" class="level2">
+        <h2>Class: <code>UIManager</code></h2>
+        <section id="constructor" class="level3">
+          <h3>Constructor</h3>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode js"
+            ><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="fu">UIManager</span>(gameState)</span></code></pre>
+          </div>
+          <ul>
+            <li>
+              <strong>gameState</strong>: The game state object, which includes
+              the <code>conlang</code> and <code>player</code> data.
+            </li>
+          </ul>
+          <hr />
+        </section>
+        <section id="method-initialize" class="level3">
+          <h3>Method: <code>initialize()</code></h3>
+          <p>Initializes the UI:</p>
+          <ul>
+            <li>
+              Binds elements like <code>commandOutput</code>,
+              <code>consoleHeader</code>, and <code>commandInput</code>.
+            </li>
+            <li>Sets translated text for placeholders and labels.</li>
+            <li>
+              Calls <code>updateInventory()</code> to initialize inventory
+              display.
+            </li>
+          </ul>
+          <hr />
+        </section>
+        <section id="method-translateglossglosstext" class="level3">
+          <h3>Method: <code>translateGloss(glossText)</code></h3>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode js"
+            ><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">translateGloss</span>(glossText<span class="op">:</span> string)<span class="op">:</span> string</span></code></pre>
+          </div>
+          <p>
+            Translates a gloss-formatted string like <code>[word learn]</code>
+            into a conlang term using the game state. If the input is not in
+            gloss format, it returns the text unchanged.
+          </p>
+          <hr />
+        </section>
+        <section id="method-getuitextkey" class="level3">
+          <h3>Method: <code>getUIText(key)</code></h3>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode js"
+            ><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getUIText</span>(key<span class="op">:</span> string)<span class="op">:</span> string</span></code></pre>
+          </div>
+          <p>
+            Maps UI text keys to glosses and translates them. Supported keys
+            include:
+          </p>
+          <ul>
+            <li><code>consoleHeader</code></li>
+            <li><code>inventoryLabel</code></li>
+            <li><code>welcomeMessage</code></li>
+            <li><code>helpHint</code></li>
+            <li><code>unknownCommand</code></li>
+            <li><code>notNear</code></li>
+            <li><code>learned</code></li>
+            <li><code>youSay</code></li>
+            <li><code>youSee</code></li>
+            <li><code>focus</code></li>
+            <li><code>realmChanged</code></li>
+            <li><code>exported</code></li>
+          </ul>
+          <p>Returns the translated text from the <code>conlang</code>.</p>
+          <hr />
+        </section>
+        <section id="method-addmessagetext-classname" class="level3">
+          <h3>Method: <code>addMessage(text, className = '')</code></h3>
+          <p>
+            Adds a new message to the <code>#commandOutput</code> log and
+            scrolls to the bottom. Limits message history to 20.
+          </p>
+          <ul>
+            <li><strong>text</strong>: The message string.</li>
+            <li><strong>className</strong>: Optional class for styling.</li>
+          </ul>
+          <hr />
+        </section>
+        <section id="method-updateinventory" class="level3">
+          <h3>Method: <code>updateInventory()</code></h3>
+          <p>
+            Updates the <code>#inventory</code> element with the player’s
+            current inventory using the conlang word for <code>have</code>.
+          </p>
+          <hr />
+        </section>
+        <section id="method-showdialoguetext-entity" class="level3">
+          <h3>Method: <code>showDialogue(text, entity)</code></h3>
+          <p>
+            Displays a temporary speech bubble with <code>text</code> above the
+            DOM element for the specified <code>entity</code>.
+          </p>
+          <ul>
+            <li><strong>text</strong>: The dialogue to show.</li>
+            <li>
+              <strong>entity</strong>: An object with an <code>.el</code> DOM
+              property.
+            </li>
+          </ul>
+          <hr />
+        </section>
+      </section>
+      <section id="dom-dependencies" class="level2">
+        <h2>DOM Dependencies</h2>
+        <p>The following DOM elements are expected to exist:</p>
+        <ul>
+          <li><code>#commandOutput</code></li>
+          <li><code>#consoleHeader</code></li>
+          <li><code>#commandInput</code></li>
+          <li><code>#inventory</code></li>
+        </ul>
+        <hr />
+      </section>
+      <section id="example-usage" class="level2">
+        <h2>Example Usage</h2>
+        <div class="sourceCode" id="cb4">
+          <pre
+            class="sourceCode js"
+          >
+<code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ui <span class="op">=</span> <span class="kw">new</span> <span class="fu">UIManager</span>(gameState)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ui<span class="op">.</span><span class="fu">initialize</span>()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ui<span class="op">.</span><span class="fu">addMessage</span>(<span class="st">&quot;Hello, world!&quot;</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ui<span class="op">.</span><span class="fu">updateInventory</span>()</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ui<span class="op">.</span><span class="fu">showDialogue</span>(<span class="st">&quot;Greetings!&quot;</span><span class="op">,</span> npc)</span></code></pre></div>
-</section>
-</section>
-</body>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ui<span class="op">.</span><span class="fu">showDialogue</span>(<span class="st">&quot;Greetings!&quot;</span><span class="op">,</span> npc)</span></code></pre>
+        </div>
+      </section>
+    </section>
+  </body>
 </html>

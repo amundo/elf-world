@@ -1,759 +1,905 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM-based Declarative Biome Generator</title>
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #1a1a1a;
-            color: #fff;
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: #1a1a1a;
+        color: #fff;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .controls {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      button {
+        padding: 8px 16px;
+        background: #4a9eff;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+
+      button:hover {
+        background: #357abd;
+      }
+
+      .world-container {
+        border: 2px solid #333;
+        border-radius: 8px;
+        overflow: hidden;
+        display: inline-block;
+        background: #000;
+      }
+
+      .world-grid {
+        display: grid;
+        gap: 0;
+        width: 800px;
+        height: 600px;
+      }
+
+      .biome-cell {
+        position: relative;
+        transition: transform 0.1s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .biome-cell:hover {
+        transform: scale(1.1);
+        z-index: 10;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      }
+
+      .biome-cell::before {
+        content: attr(data-biome);
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 10px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 11;
+      }
+
+      .biome-cell:hover::before {
+        opacity: 1;
+      }
+
+      .entity {
+        position: absolute;
+        font-size: 14px;
+        pointer-events: none;
+        animation: float 3s ease-in-out infinite;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        50% {
+          transform: translateY(-2px);
         }
-        
-        .controls {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            padding: 8px 16px;
-            background: #4a9eff;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-        
-        button:hover {
-            background: #357abd;
-        }
-        
-        .world-container {
-            border: 2px solid #333;
-            border-radius: 8px;
-            overflow: hidden;
-            display: inline-block;
-            background: #000;
-        }
-        
-        .world-grid {
-            display: grid;
-            gap: 0;
-            width: 800px;
-            height: 600px;
-        }
-        
-        .biome-cell {
-            position: relative;
-            transition: transform 0.1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        
-        .biome-cell:hover {
-            transform: scale(1.1);
-            z-index: 10;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        
-        .biome-cell::before {
-            content: attr(data-biome);
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 10px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-            z-index: 11;
-        }
-        
-        .biome-cell:hover::before {
-            opacity: 1;
-        }
-        
-        .entity {
-            position: absolute;
-            font-size: 14px;
-            pointer-events: none;
-            animation: float 3s ease-in-out infinite;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-2px); }
-        }
-        
-        .info {
-            margin-top: 15px;
-            padding: 15px;
-            background: #2a2a2a;
-            border-radius: 6px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        
-        .biome-list {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        
-        .biome-card {
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid #4a9eff;
-            transition: transform 0.2s;
-        }
-        
-        .biome-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
-        }
-        
-        .biome-name {
-            font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .biome-params {
-            font-size: 12px;
-            color: #ccc;
-            margin-bottom: 8px;
-        }
-        
-        .biome-emojis {
-            font-size: 18px;
-        }
-        
-        .size-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .size-controls label {
-            font-size: 14px;
-        }
-        
-        .loading {
-            opacity: 0.5;
-            pointer-events: none;
-        }
+      }
+
+      .info {
+        margin-top: 15px;
+        padding: 15px;
+        background: #2a2a2a;
+        border-radius: 6px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .biome-list {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+      }
+
+      .biome-card {
+        background: #2a2a2a;
+        padding: 15px;
+        border-radius: 6px;
+        border-left: 4px solid #4a9eff;
+        transition: transform 0.2s;
+      }
+
+      .biome-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
+      }
+
+      .biome-name {
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+
+      .biome-params {
+        font-size: 12px;
+        color: #ccc;
+        margin-bottom: 8px;
+      }
+
+      .biome-emojis {
+        font-size: 18px;
+      }
+
+      .size-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .size-controls label {
+        font-size: 14px;
+      }
+
+      .loading {
+        opacity: 0.5;
+        pointer-events: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>DOM-based Declarative Biome Generator</h1>
-        
-        <div class="controls">
-            <button onclick="generateWorld()">Generate New World</button>
-            <button onclick="toggleEmojis()">Toggle Entities</button>
-            <div class="size-controls">
-                <label>
-                    <input type="range" id="gridSizeSlider" min="20" max="100" step="5" value="50" oninput="updateGridSize()">
-                    Grid: <span id="gridSizeValue">50x38</span>
-                </label>
-                <label>
-                    <input type="range" id="scaleSlider" min="0.5" max="3" step="0.1" value="1" oninput="updateScale()">
-                    Scale: <span id="scaleValue">1.0</span>
-                </label>
-            </div>
+      <h1>DOM-based Declarative Biome Generator</h1>
+
+      <div class="controls">
+        <button onclick="generateWorld()">Generate New World</button>
+        <button onclick="toggleEmojis()">Toggle Entities</button>
+        <div class="size-controls">
+          <label>
+            <input
+              type="range"
+              id="gridSizeSlider"
+              min="20"
+              max="100"
+              step="5"
+              value="50"
+              oninput="updateGridSize()"
+            >
+            Grid: <span id="gridSizeValue">50x38</span>
+          </label>
+          <label>
+            <input
+              type="range"
+              id="scaleSlider"
+              min="0.5"
+              max="3"
+              step="0.1"
+              value="1"
+              oninput="updateScale()"
+            >
+            Scale: <span id="scaleValue">1.0</span>
+          </label>
         </div>
-        
-        <div class="world-container">
-            <div class="world-grid" id="worldGrid"></div>
-        </div>
-        
-        <div class="info">
-            <strong>System:</strong> DOM-based three-layer noise generation with CSS Grid
-            <br><strong>Layer 1:</strong> Biome selection using elevation, moisture, temperature noise
-            <br><strong>Layer 2:</strong> Color variation within biomes using OKLCH palette ranges
-            <br><strong>Layer 3:</strong> Entity (emoji) placement using probability thresholds
-            <br><strong>Interaction:</strong> Hover over cells to see biome names and enhanced styling
-        </div>
-        
-        <div class="biome-list" id="biomeList"></div>
+      </div>
+
+      <div class="world-container">
+        <div class="world-grid" id="worldGrid"></div>
+      </div>
+
+      <div class="info">
+        <strong>System:</strong> DOM-based three-layer noise generation with CSS
+        Grid
+        <br><strong>Layer 1:</strong> Biome selection using elevation, moisture,
+        temperature noise
+        <br><strong>Layer 2:</strong> Color variation within biomes using OKLCH
+        palette ranges
+        <br><strong>Layer 3:</strong> Entity (emoji) placement using probability
+        thresholds
+        <br><strong>Interaction:</strong> Hover over cells to see biome names
+        and enhanced styling
+      </div>
+
+      <div class="biome-list" id="biomeList"></div>
     </div>
 
     <script>
-        // Simple noise function (same as before)
-        class NoiseGenerator {
-            constructor(seed = Math.random()) {
-                this.seed = seed;
-                this.permutation = this.generatePermutation();
-            }
-            
-            generatePermutation() {
-                const p = [];
-                for (let i = 0; i < 256; i++) p.push(i);
-                
-                let rand = this.seed;
-                for (let i = 255; i > 0; i--) {
-                    rand = (rand * 9301 + 49297) % 233280;
-                    const j = Math.floor((rand / 233280) * (i + 1));
-                    [p[i], p[j]] = [p[j], p[i]];
-                }
-                
-                return p.concat(p);
-            }
-            
-            fade(t) {
-                return t * t * t * (t * (t * 6 - 15) + 10);
-            }
-            
-            lerp(a, b, t) {
-                return a + t * (b - a);
-            }
-            
-            grad(hash, x, y) {
-                const h = hash & 15;
-                const u = h < 8 ? x : y;
-                const v = h < 4 ? y : h === 12 || h === 14 ? x : 0;
-                return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
-            }
-            
-            noise(x, y) {
-                const X = Math.floor(x) & 255;
-                const Y = Math.floor(y) & 255;
-                
-                x -= Math.floor(x);
-                y -= Math.floor(y);
-                
-                const u = this.fade(x);
-                const v = this.fade(y);
-                
-                const A = this.permutation[X] + Y;
-                const AA = this.permutation[A];
-                const AB = this.permutation[A + 1];
-                const B = this.permutation[X + 1] + Y;
-                const BA = this.permutation[B];
-                const BB = this.permutation[B + 1];
-                
-                return this.lerp(
-                    this.lerp(
-                        this.grad(this.permutation[AA], x, y),
-                        this.grad(this.permutation[BA], x - 1, y),
-                        u
-                    ),
-                    this.lerp(
-                        this.grad(this.permutation[AB], x, y - 1),
-                        this.grad(this.permutation[BB], x - 1, y - 1),
-                        u
-                    ),
-                    v
-                );
-            }
-            
-            octaveNoise(x, y, octaves = 4, persistence = 0.5, scale = 1) {
-                let value = 0;
-                let amplitude = 1;
-                let frequency = scale;
-                let maxValue = 0;
-                
-                for (let i = 0; i < octaves; i++) {
-                    value += this.noise(x * frequency, y * frequency) * amplitude;
-                    maxValue += amplitude;
-                    amplitude *= persistence;
-                    frequency *= 2;
-                }
-                
-                return value / maxValue;
-            }
+      // Simple noise function (same as before)
+      class NoiseGenerator {
+        constructor(seed = Math.random()) {
+          this.seed = seed
+          this.permutation = this.generatePermutation()
         }
 
-        // Biome definitions with softer, lighter color palettes
-        const biomes = [
-            {
-                name: "ocean",
-                elevation: [0, 0.3],
-                temperature: [0, 1],
-                moisture: [0, 1],
-                palette: [{
-                    lightness: [0.65, 0.85],
-                    chroma: [0.12, 0.25],
-                    hue: 220
-                }],
-                emojis: [
-                    { emoji: "🌊", probability: 0.02 },
-                    { emoji: "🐟", probability: 0.008 },
-                    { emoji: "🦈", probability: 0.002 },
-                    { emoji: "🐙", probability: 0.001 }
-                ]
-            },
-            {
-                name: "snowy mountain",
-                elevation: [0.8, 1],
-                temperature: [0, 0.3],
-                moisture: [0, 1],
-                palette: [{
-                    lightness: [0.85, 0.95],
-                    chroma: [0.03, 0.08],
-                    hue: 240
-                }],
-                emojis: [
-                    { emoji: "🏔️", probability: 0.015 },
-                    { emoji: "❄️", probability: 0.01 },
-                    { emoji: "🐺", probability: 0.002 },
-                    { emoji: "⛷️", probability: 0.001 }
-                ]
-            },
-            {
-                name: "rocky mountain",
-                elevation: [0.8, 1],
-                temperature: [0.3, 1],
-                moisture: [0, 0.3],
-                palette: [{
-                    lightness: [0.7, 0.85],
-                    chroma: [0.08, 0.18],
-                    hue: 45
-                }],
-                emojis: [
-                    { emoji: "⛰️", probability: 0.015 },
-                    { emoji: "🪨", probability: 0.01 },
-                    { emoji: "🦅", probability: 0.003 },
-                    { emoji: "🐐", probability: 0.002 }
-                ]
-            },
-            {
-                name: "alpine forest",
-                elevation: [0.6, 0.8],
-                temperature: [0.2, 0.5],
-                moisture: [0.6, 1],
-                palette: [{
-                    lightness: [0.6, 0.8],
-                    chroma: [0.08, 0.16],
-                    hue: 135
-                }],
-                emojis: [
-                    { emoji: "🌲", probability: 0.02 },
-                    { emoji: "🪨", probability: 0.008 },
-                    { emoji: "🐐", probability: 0.003 },
-                    { emoji: "🦌", probability: 0.002 },
-                    { emoji: "🏔️", probability: 0.001 }
-                ]
-            },
-            {
-                name: "forest",
-                elevation: [0.3, 0.8],
-                temperature: [0.5, 1],
-                moisture: [0.7, 1],
-                palette: [{
-                    lightness: [0.55, 0.75],
-                    chroma: [0.1, 0.2],
-                    hue: 125
-                }],
-                emojis: [
-                    { emoji: "🌳", probability: 0.025 },
-                    { emoji: "🦋", probability: 0.008 },
-                    { emoji: "🐿️", probability: 0.005 },
-                    { emoji: "🦉", probability: 0.002 },
-                    { emoji: "🍄", probability: 0.003 }
-                ]
-            },
-            {
-                name: "grassland",
-                elevation: [0.3, 0.7],
-                temperature: [0.5, 1],
-                moisture: [0.4, 0.7],
-                palette: [{
-                    lightness: [0.7, 0.88],
-                    chroma: [0.12, 0.22],
-                    hue: 85
-                }],
-                emojis: [
-                    { emoji: "🌾", probability: 0.02 },
-                    { emoji: "🦆", probability: 0.008 },
-                    { emoji: "🐰", probability: 0.005 },
-                    { emoji: "🦗", probability: 0.01 },
-                    { emoji: "🌻", probability: 0.003 }
-                ]
-            },
-            {
-                name: "desert",
-                elevation: [0.3, 0.8],
-                temperature: [0.6, 1],
-                moisture: [0, 0.3],
-                palette: [{
-                    lightness: [0.8, 0.92],
-                    chroma: [0.1, 0.2],
-                    hue: 50
-                }],
-                emojis: [
-                    { emoji: "🏜️", probability: 0.015 },
-                    { emoji: "🌵", probability: 0.008 },
-                    { emoji: "🦂", probability: 0.003 },
-                    { emoji: "🐪", probability: 0.002 },
-                    { emoji: "☀️", probability: 0.001 }
-                ]
-            },
-            {
-                name: "plains",
-                elevation: [0.3, 0.6],
-                temperature: [0.3, 0.8],
-                moisture: [0.3, 0.7],
-                palette: [{
-                    lightness: [0.72, 0.86],
-                    chroma: [0.1, 0.18],
-                    hue: 105
-                }],
-                emojis: [
-                    { emoji: "🌱", probability: 0.015 },
-                    { emoji: "🌸", probability: 0.008 },
-                    { emoji: "🐝", probability: 0.005 },
-                    { emoji: "🦋", probability: 0.003 },
-                    { emoji: "🌼", probability: 0.004 }
-                ]
-            }
-        ];
+        generatePermutation() {
+          const p = []
+          for (let i = 0; i < 256; i++) p.push(i)
 
-        // DOM-based World generation system
-        class DOMBiomeWorld {
-            constructor() {
-                this.gridElement = document.getElementById('worldGrid');
-                this.showEmojis = true;
-                this.scale = 1;
-                this.gridWidth = 50;
-                this.gridHeight = 38;
-                
-                this.initializeNoiseGenerators();
-                this.generate();
+          let rand = this.seed
+          for (let i = 255; i > 0; i--) {
+            rand = (rand * 9301 + 49297) % 233280
+            const j = Math.floor((rand / 233280) * (i + 1))
+            ;[p[i], p[j]] = [p[j], p[i]]
+          }
+
+          return p.concat(p)
+        }
+
+        fade(t) {
+          return t * t * t * (t * (t * 6 - 15) + 10)
+        }
+
+        lerp(a, b, t) {
+          return a + t * (b - a)
+        }
+
+        grad(hash, x, y) {
+          const h = hash & 15
+          const u = h < 8 ? x : y
+          const v = h < 4 ? y : h === 12 || h === 14 ? x : 0
+          return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v)
+        }
+
+        noise(x, y) {
+          const X = Math.floor(x) & 255
+          const Y = Math.floor(y) & 255
+
+          x -= Math.floor(x)
+          y -= Math.floor(y)
+
+          const u = this.fade(x)
+          const v = this.fade(y)
+
+          const A = this.permutation[X] + Y
+          const AA = this.permutation[A]
+          const AB = this.permutation[A + 1]
+          const B = this.permutation[X + 1] + Y
+          const BA = this.permutation[B]
+          const BB = this.permutation[B + 1]
+
+          return this.lerp(
+            this.lerp(
+              this.grad(this.permutation[AA], x, y),
+              this.grad(this.permutation[BA], x - 1, y),
+              u,
+            ),
+            this.lerp(
+              this.grad(this.permutation[AB], x, y - 1),
+              this.grad(this.permutation[BB], x - 1, y - 1),
+              u,
+            ),
+            v,
+          )
+        }
+
+        octaveNoise(x, y, octaves = 4, persistence = 0.5, scale = 1) {
+          let value = 0
+          let amplitude = 1
+          let frequency = scale
+          let maxValue = 0
+
+          for (let i = 0; i < octaves; i++) {
+            value += this.noise(x * frequency, y * frequency) *
+              amplitude
+            maxValue += amplitude
+            amplitude *= persistence
+            frequency *= 2
+          }
+
+          return value / maxValue
+        }
+      }
+
+      // Biome definitions with softer, lighter color palettes
+      const biomes = [
+        {
+          name: "ocean",
+          elevation: [0, 0.3],
+          temperature: [0, 1],
+          moisture: [0, 1],
+          palette: [{
+            lightness: [0.65, 0.85],
+            chroma: [0.12, 0.25],
+            hue: 220,
+          }],
+          emojis: [
+            { emoji: "🌊", probability: 0.02 },
+            { emoji: "🐟", probability: 0.008 },
+            { emoji: "🦈", probability: 0.002 },
+            { emoji: "🐙", probability: 0.001 },
+          ],
+        },
+        {
+          name: "snowy mountain",
+          elevation: [0.8, 1],
+          temperature: [0, 0.3],
+          moisture: [0, 1],
+          palette: [{
+            lightness: [0.85, 0.95],
+            chroma: [0.03, 0.08],
+            hue: 240,
+          }],
+          emojis: [
+            { emoji: "🏔️", probability: 0.015 },
+            { emoji: "❄️", probability: 0.01 },
+            { emoji: "🐺", probability: 0.002 },
+            { emoji: "⛷️", probability: 0.001 },
+          ],
+        },
+        {
+          name: "rocky mountain",
+          elevation: [0.8, 1],
+          temperature: [0.3, 1],
+          moisture: [0, 0.3],
+          palette: [{
+            lightness: [0.7, 0.85],
+            chroma: [0.08, 0.18],
+            hue: 45,
+          }],
+          emojis: [
+            { emoji: "⛰️", probability: 0.015 },
+            { emoji: "🪨", probability: 0.01 },
+            { emoji: "🦅", probability: 0.003 },
+            { emoji: "🐐", probability: 0.002 },
+          ],
+        },
+        {
+          name: "alpine forest",
+          elevation: [0.6, 0.8],
+          temperature: [0.2, 0.5],
+          moisture: [0.6, 1],
+          palette: [{
+            lightness: [0.6, 0.8],
+            chroma: [0.08, 0.16],
+            hue: 135,
+          }],
+          emojis: [
+            { emoji: "🌲", probability: 0.02 },
+            { emoji: "🪨", probability: 0.008 },
+            { emoji: "🐐", probability: 0.003 },
+            { emoji: "🦌", probability: 0.002 },
+            { emoji: "🏔️", probability: 0.001 },
+          ],
+        },
+        {
+          name: "forest",
+          elevation: [0.3, 0.8],
+          temperature: [0.5, 1],
+          moisture: [0.7, 1],
+          palette: [{
+            lightness: [0.55, 0.75],
+            chroma: [0.1, 0.2],
+            hue: 125,
+          }],
+          emojis: [
+            { emoji: "🌳", probability: 0.025 },
+            { emoji: "🦋", probability: 0.008 },
+            { emoji: "🐿️", probability: 0.005 },
+            { emoji: "🦉", probability: 0.002 },
+            { emoji: "🍄", probability: 0.003 },
+          ],
+        },
+        {
+          name: "grassland",
+          elevation: [0.3, 0.7],
+          temperature: [0.5, 1],
+          moisture: [0.4, 0.7],
+          palette: [{
+            lightness: [0.7, 0.88],
+            chroma: [0.12, 0.22],
+            hue: 85,
+          }],
+          emojis: [
+            { emoji: "🌾", probability: 0.02 },
+            { emoji: "🦆", probability: 0.008 },
+            { emoji: "🐰", probability: 0.005 },
+            { emoji: "🦗", probability: 0.01 },
+            { emoji: "🌻", probability: 0.003 },
+          ],
+        },
+        {
+          name: "desert",
+          elevation: [0.3, 0.8],
+          temperature: [0.6, 1],
+          moisture: [0, 0.3],
+          palette: [{
+            lightness: [0.8, 0.92],
+            chroma: [0.1, 0.2],
+            hue: 50,
+          }],
+          emojis: [
+            { emoji: "🏜️", probability: 0.015 },
+            { emoji: "🌵", probability: 0.008 },
+            { emoji: "🦂", probability: 0.003 },
+            { emoji: "🐪", probability: 0.002 },
+            { emoji: "☀️", probability: 0.001 },
+          ],
+        },
+        {
+          name: "plains",
+          elevation: [0.3, 0.6],
+          temperature: [0.3, 0.8],
+          moisture: [0.3, 0.7],
+          palette: [{
+            lightness: [0.72, 0.86],
+            chroma: [0.1, 0.18],
+            hue: 105,
+          }],
+          emojis: [
+            { emoji: "🌱", probability: 0.015 },
+            { emoji: "🌸", probability: 0.008 },
+            { emoji: "🐝", probability: 0.005 },
+            { emoji: "🦋", probability: 0.003 },
+            { emoji: "🌼", probability: 0.004 },
+          ],
+        },
+      ]
+
+      // DOM-based World generation system
+      class DOMBiomeWorld {
+        constructor() {
+          this.gridElement = document.getElementById("worldGrid")
+          this.showEmojis = true
+          this.scale = 1
+          this.gridWidth = 50
+          this.gridHeight = 38
+
+          this.initializeNoiseGenerators()
+          this.generate()
+        }
+
+        initializeNoiseGenerators() {
+          this.elevationNoise = new NoiseGenerator(Math.random())
+          this.moistureNoise = new NoiseGenerator(Math.random())
+          this.temperatureNoise = new NoiseGenerator(Math.random())
+          this.colorNoise = new NoiseGenerator(Math.random())
+          this.entityNoise = new NoiseGenerator(Math.random())
+        }
+
+        findBiome(elevation, moisture, temperature) {
+          // Hierarchical decision tree - order matters!
+
+          // 1. Water bodies first (lowest elevation)
+          if (elevation < 0.25) {
+            return biomes.find((b) => b.name === "ocean")
+          }
+
+          // 2. High mountains (highest elevation)
+          if (elevation > 0.75) {
+            if (temperature < 0.4) {
+              return biomes.find((b) => b.name === "snowy mountain")
+            } else {
+              return biomes.find((b) => b.name === "rocky mountain")
             }
-            
-            initializeNoiseGenerators() {
-                this.elevationNoise = new NoiseGenerator(Math.random());
-                this.moistureNoise = new NoiseGenerator(Math.random());
-                this.temperatureNoise = new NoiseGenerator(Math.random());
-                this.colorNoise = new NoiseGenerator(Math.random());
-                this.entityNoise = new NoiseGenerator(Math.random());
+          }
+
+          // 3. Mid-elevation areas (0.25 to 0.75)
+          if (elevation > 0.55) {
+            // Higher mid-elevation: alpine areas
+            if (moisture > 0.6) {
+              return biomes.find((b) => b.name === "alpine forest")
+            } else {
+              // Dry high areas default to rocky
+              return biomes.find((b) => b.name === "rocky mountain")
             }
-            
-            findBiome(elevation, moisture, temperature) {
-                // Hierarchical decision tree - order matters!
-                
-                // 1. Water bodies first (lowest elevation)
-                if (elevation < 0.25) {
-                    return biomes.find(b => b.name === "ocean");
-                }
-                
-                // 2. High mountains (highest elevation)
-                if (elevation > 0.75) {
-                    if (temperature < 0.4) {
-                        return biomes.find(b => b.name === "snowy mountain");
-                    } else {
-                        return biomes.find(b => b.name === "rocky mountain");
+          }
+
+          // 4. Lower elevations (0.25 to 0.55) - main land biomes
+          // Moisture is primary factor here
+          if (moisture < 0.25) {
+            return biomes.find((b) => b.name === "desert")
+          }
+
+          if (moisture > 0.7) {
+            if (temperature > 0.5) {
+              return biomes.find((b) => b.name === "forest")
+            } else {
+              return biomes.find((b) => b.name === "alpine forest")
+            }
+          }
+
+          // Medium moisture areas
+          if (moisture > 0.45) {
+            return biomes.find((b) => b.name === "grassland")
+          }
+
+          // Default fallback
+          return biomes.find((b) => b.name === "plains")
+        }
+
+        generateOklchColor(l, c, h) {
+          return `oklch(${(l * 100).toFixed(1)}% ${c.toFixed(3)} ${
+            h.toFixed(1)
+          })`
+        }
+
+        updateGridSize(width, height) {
+          this.gridWidth = width
+          this.gridHeight = height
+          this.gridElement.style.gridTemplateColumns =
+            `repeat(${width}, 1fr)`
+          this.gridElement.style.gridTemplateRows =
+            `repeat(${height}, 1fr)`
+          this.generate()
+        }
+
+        generate() {
+          this.gridElement.classList.add("loading")
+
+          // Clear existing grid
+          this.gridElement.innerHTML = ""
+          this.gridElement.style.gridTemplateColumns =
+            `repeat(${this.gridWidth}, 1fr)`
+          this.gridElement.style.gridTemplateRows =
+            `repeat(${this.gridHeight}, 1fr)`
+
+          const noiseScale = 0.1 * this.scale
+          const colorNoiseScale = 0.5 * this.scale
+          const entityScale = 1.0 * this.scale
+
+          // Track biome distribution for debugging
+          const biomeCount = {}
+          const elevationStats = { min: 1, max: 0, sum: 0, count: 0 }
+          const moistureStats = { min: 1, max: 0, sum: 0, count: 0 }
+          const temperatureStats = { min: 1, max: 0, sum: 0, count: 0 }
+
+          // Generate cells in batches to avoid blocking
+          const generateBatch = (startY, batchSize = 5) => {
+            const endY = Math.min(startY + batchSize, this.gridHeight)
+
+            for (let y = startY; y < endY; y++) {
+              for (let x = 0; x < this.gridWidth; x++) {
+                // Apply more dramatic scaling to get better range coverage
+                let elevation = (this.elevationNoise.octaveNoise(
+                  x,
+                  y,
+                  4,
+                  0.5,
+                  noiseScale,
+                ) + 1) / 2
+                let moisture = (this.moistureNoise.octaveNoise(
+                  x,
+                  y,
+                  4,
+                  0.5,
+                  noiseScale * 1.5,
+                ) + 1) / 2
+                let temperature = (this.temperatureNoise.octaveNoise(
+                  x,
+                  y,
+                  4,
+                  0.5,
+                  noiseScale * 0.8,
+                ) + 1) / 2
+
+                // Apply stronger power curves to spread out the ranges better
+                elevation = Math.pow(elevation, 2.5) // Much stronger curve for more extremes
+                moisture = Math.pow(moisture, 0.7) // Spread middle values more
+                temperature = Math.pow(temperature, 0.8) // Moderate spread
+
+                // Clamp to [0,1]
+                elevation = Math.max(0, Math.min(1, elevation))
+                moisture = Math.max(0, Math.min(1, moisture))
+                temperature = Math.max(0, Math.min(1, temperature))
+
+                // Track stats
+                elevationStats.min = Math.min(
+                  elevationStats.min,
+                  elevation,
+                )
+                elevationStats.max = Math.max(
+                  elevationStats.max,
+                  elevation,
+                )
+                elevationStats.sum += elevation
+                moistureStats.min = Math.min(
+                  moistureStats.min,
+                  moisture,
+                )
+                moistureStats.max = Math.max(
+                  moistureStats.max,
+                  moisture,
+                )
+                moistureStats.sum += moisture
+                temperatureStats.min = Math.min(
+                  temperatureStats.min,
+                  temperature,
+                )
+                temperatureStats.max = Math.max(
+                  temperatureStats.max,
+                  temperature,
+                )
+                temperatureStats.sum += temperature
+                elevationStats.count++
+
+                const biome = this.findBiome(
+                  elevation,
+                  moisture,
+                  temperature,
+                )
+                biomeCount[biome.name] = (biomeCount[biome.name] || 0) +
+                  1
+
+                // Generate color variation
+                const colorVariation = (this.colorNoise.octaveNoise(
+                  x,
+                  y,
+                  3,
+                  0.6,
+                  colorNoiseScale,
+                ) + 1) / 2
+                const palette = biome.palette[0]
+
+                const lightness = palette.lightness[0] +
+                  colorVariation *
+                    (palette.lightness[1] - palette.lightness[0])
+                const chroma = palette.chroma[0] +
+                  colorVariation *
+                    (palette.chroma[1] - palette.chroma[0])
+                const hue = palette.hue
+
+                const color = this.generateOklchColor(
+                  lightness,
+                  chroma,
+                  hue,
+                )
+
+                // Create cell element
+                const cell = document.createElement("div")
+                cell.className = "biome-cell"
+                cell.style.backgroundColor = color
+                cell.setAttribute("data-biome", biome.name)
+                cell.setAttribute("data-coords", `${x},${y}`)
+                cell.setAttribute(
+                  "data-params",
+                  `E:${elevation.toFixed(2)} M:${
+                    moisture.toFixed(2)
+                  } T:${temperature.toFixed(2)}`,
+                )
+
+                // Add entity using pure Perlin noise distribution
+                if (this.showEmojis) {
+                  const entityNoise = (this.entityNoise.octaveNoise(
+                    x,
+                    y,
+                    3,
+                    0.6,
+                    entityScale * 0.3,
+                  ) + 1) / 2
+
+                  // Use multiple noise layers for more natural clustering
+                  const clusterNoise = (this.entityNoise.octaveNoise(
+                    x * 0.1,
+                    y * 0.1,
+                    2,
+                    0.8,
+                    entityScale,
+                  ) + 1) / 2
+                  const detailNoise = (this.entityNoise.octaveNoise(
+                    x * 2,
+                    y * 2,
+                    1,
+                    1,
+                    entityScale,
+                  ) + 1) / 2
+
+                  // Combine noise layers for natural distribution
+                  const combinedNoise = entityNoise * 0.5 +
+                    clusterNoise * 0.3 + detailNoise * 0.2
+
+                  // Much higher thresholds to ensure emojis appear
+                  let threshold = 0.4 // Base threshold (was 0.15)
+                  if (biome.name === "ocean") threshold = 0.35
+                  if (biome.name === "forest") threshold = 0.45
+                  if (biome.name === "grassland") threshold = 0.42
+                  if (biome.name === "desert") threshold = 0.3
+
+                  if (
+                    combinedNoise < threshold && biome.emojis.length > 0
+                  ) {
+                    // Use the original probability-based selection for variety
+                    let cumulativeProbability = 0
+                    let selectedEmoji = biome.emojis[0] // fallback
+
+                    for (const entity of biome.emojis) {
+                      cumulativeProbability += entity.probability
+                      if (entityNoise < (cumulativeProbability / 0.1)) { // Scale probabilities up
+                        selectedEmoji = entity
+                        break
+                      }
                     }
+
+                    const entityElement = document.createElement("span")
+                    entityElement.className = "entity"
+                    entityElement.textContent = selectedEmoji.emoji
+
+                    // Simpler positioning for now
+                    entityElement.style.position = "absolute"
+                    entityElement.style.left = "50%"
+                    entityElement.style.top = "50%"
+                    entityElement.style.transform =
+                      "translate(-50%, -50%)"
+                    entityElement.style.fontSize = "14px"
+                    entityElement.style.zIndex = "10"
+                    entityElement.style.pointerEvents = "none"
+                    entityElement.style.color = "#333"
+                    entityElement.style.textShadow =
+                      "1px 1px 2px rgba(255,255,255,0.8)"
+
+                    cell.style.position = "relative"
+                    cell.appendChild(entityElement)
+                  }
                 }
-                
-                // 3. Mid-elevation areas (0.25 to 0.75)
-                if (elevation > 0.55) {
-                    // Higher mid-elevation: alpine areas
-                    if (moisture > 0.6) {
-                        return biomes.find(b => b.name === "alpine forest");
-                    } else {
-                        // Dry high areas default to rocky
-                        return biomes.find(b => b.name === "rocky mountain");
-                    }
-                }
-                
-                // 4. Lower elevations (0.25 to 0.55) - main land biomes
-                // Moisture is primary factor here
-                if (moisture < 0.25) {
-                    return biomes.find(b => b.name === "desert");
-                }
-                
-                if (moisture > 0.7) {
-                    if (temperature > 0.5) {
-                        return biomes.find(b => b.name === "forest");
-                    } else {
-                        return biomes.find(b => b.name === "alpine forest");
-                    }
-                }
-                
-                // Medium moisture areas
-                if (moisture > 0.45) {
-                    return biomes.find(b => b.name === "grassland");
-                }
-                
-                // Default fallback
-                return biomes.find(b => b.name === "plains");
+
+                this.gridElement.appendChild(cell)
+              }
             }
-            
-            generateOklchColor(l, c, h) {
-                return `oklch(${(l * 100).toFixed(1)}% ${c.toFixed(3)} ${h.toFixed(1)})`;
+
+            // Continue with next batch
+            if (endY < this.gridHeight) {
+              requestAnimationFrame(() => generateBatch(endY))
+            } else {
+              this.gridElement.classList.remove("loading")
+
+              // Log statistics
+              console.log("Biome Distribution:", biomeCount)
+              console.log(
+                "Elevation range:",
+                elevationStats.min.toFixed(3),
+                "to",
+                elevationStats.max.toFixed(3),
+                "avg:",
+                (elevationStats.sum / elevationStats.count).toFixed(3),
+              )
+              console.log(
+                "Moisture range:",
+                moistureStats.min.toFixed(3),
+                "to",
+                moistureStats.max.toFixed(3),
+                "avg:",
+                (moistureStats.sum / elevationStats.count).toFixed(3),
+              )
+              console.log(
+                "Temperature range:",
+                temperatureStats.min.toFixed(3),
+                "to",
+                temperatureStats.max.toFixed(3),
+                "avg:",
+                (temperatureStats.sum / elevationStats.count).toFixed(
+                  3,
+                ),
+              )
             }
-            
-            updateGridSize(width, height) {
-                this.gridWidth = width;
-                this.gridHeight = height;
-                this.gridElement.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
-                this.gridElement.style.gridTemplateRows = `repeat(${height}, 1fr)`;
-                this.generate();
-            }
-            
-            generate() {
-                this.gridElement.classList.add('loading');
-                
-                // Clear existing grid
-                this.gridElement.innerHTML = '';
-                this.gridElement.style.gridTemplateColumns = `repeat(${this.gridWidth}, 1fr)`;
-                this.gridElement.style.gridTemplateRows = `repeat(${this.gridHeight}, 1fr)`;
-                
-                const noiseScale = 0.1 * this.scale;
-                const colorNoiseScale = 0.5 * this.scale;
-                const entityScale = 1.0 * this.scale;
-                
-                // Track biome distribution for debugging
-                const biomeCount = {};
-                const elevationStats = { min: 1, max: 0, sum: 0, count: 0 };
-                const moistureStats = { min: 1, max: 0, sum: 0, count: 0 };
-                const temperatureStats = { min: 1, max: 0, sum: 0, count: 0 };
-                
-                // Generate cells in batches to avoid blocking
-                const generateBatch = (startY, batchSize = 5) => {
-                    const endY = Math.min(startY + batchSize, this.gridHeight);
-                    
-                    for (let y = startY; y < endY; y++) {
-                        for (let x = 0; x < this.gridWidth; x++) {
-                            // Apply more dramatic scaling to get better range coverage
-                            let elevation = (this.elevationNoise.octaveNoise(x, y, 4, 0.5, noiseScale) + 1) / 2;
-                            let moisture = (this.moistureNoise.octaveNoise(x, y, 4, 0.5, noiseScale * 1.5) + 1) / 2;
-                            let temperature = (this.temperatureNoise.octaveNoise(x, y, 4, 0.5, noiseScale * 0.8) + 1) / 2;
-                            
-                            // Apply stronger power curves to spread out the ranges better
-                            elevation = Math.pow(elevation, 2.5); // Much stronger curve for more extremes
-                            moisture = Math.pow(moisture, 0.7); // Spread middle values more
-                            temperature = Math.pow(temperature, 0.8); // Moderate spread
-                            
-                            // Clamp to [0,1]
-                            elevation = Math.max(0, Math.min(1, elevation));
-                            moisture = Math.max(0, Math.min(1, moisture));
-                            temperature = Math.max(0, Math.min(1, temperature));
-                            
-                            // Track stats
-                            elevationStats.min = Math.min(elevationStats.min, elevation);
-                            elevationStats.max = Math.max(elevationStats.max, elevation);
-                            elevationStats.sum += elevation;
-                            moistureStats.min = Math.min(moistureStats.min, moisture);
-                            moistureStats.max = Math.max(moistureStats.max, moisture);
-                            moistureStats.sum += moisture;
-                            temperatureStats.min = Math.min(temperatureStats.min, temperature);
-                            temperatureStats.max = Math.max(temperatureStats.max, temperature);
-                            temperatureStats.sum += temperature;
-                            elevationStats.count++;
-                            
-                            const biome = this.findBiome(elevation, moisture, temperature);
-                            biomeCount[biome.name] = (biomeCount[biome.name] || 0) + 1;
-                            
-                            // Generate color variation
-                            const colorVariation = (this.colorNoise.octaveNoise(x, y, 3, 0.6, colorNoiseScale) + 1) / 2;
-                            const palette = biome.palette[0];
-                            
-                            const lightness = palette.lightness[0] + colorVariation * (palette.lightness[1] - palette.lightness[0]);
-                            const chroma = palette.chroma[0] + colorVariation * (palette.chroma[1] - palette.chroma[0]);
-                            const hue = palette.hue;
-                            
-                            const color = this.generateOklchColor(lightness, chroma, hue);
-                            
-                            // Create cell element
-                            const cell = document.createElement('div');
-                            cell.className = 'biome-cell';
-                            cell.style.backgroundColor = color;
-                            cell.setAttribute('data-biome', biome.name);
-                            cell.setAttribute('data-coords', `${x},${y}`);
-                            cell.setAttribute('data-params', `E:${elevation.toFixed(2)} M:${moisture.toFixed(2)} T:${temperature.toFixed(2)}`);
-                            
-                            // Add entity using pure Perlin noise distribution
-                            if (this.showEmojis) {
-                                const entityNoise = (this.entityNoise.octaveNoise(x, y, 3, 0.6, entityScale * 0.3) + 1) / 2;
-                                
-                                // Use multiple noise layers for more natural clustering
-                                const clusterNoise = (this.entityNoise.octaveNoise(x * 0.1, y * 0.1, 2, 0.8, entityScale) + 1) / 2;
-                                const detailNoise = (this.entityNoise.octaveNoise(x * 2, y * 2, 1, 1, entityScale) + 1) / 2;
-                                
-                                // Combine noise layers for natural distribution
-                                const combinedNoise = (entityNoise * 0.5 + clusterNoise * 0.3 + detailNoise * 0.2);
-                                
-                                // Much higher thresholds to ensure emojis appear
-                                let threshold = 0.4; // Base threshold (was 0.15)
-                                if (biome.name === 'ocean') threshold = 0.35;
-                                if (biome.name === 'forest') threshold = 0.45;
-                                if (biome.name === 'grassland') threshold = 0.42;
-                                if (biome.name === 'desert') threshold = 0.3;
-                                
-                                if (combinedNoise < threshold && biome.emojis.length > 0) {
-                                    // Use the original probability-based selection for variety
-                                    let cumulativeProbability = 0;
-                                    let selectedEmoji = biome.emojis[0]; // fallback
-                                    
-                                    for (const entity of biome.emojis) {
-                                        cumulativeProbability += entity.probability;
-                                        if (entityNoise < (cumulativeProbability / 0.1)) { // Scale probabilities up
-                                            selectedEmoji = entity;
-                                            break;
-                                        }
-                                    }
-                                    
-                                    const entityElement = document.createElement('span');
-                                    entityElement.className = 'entity';
-                                    entityElement.textContent = selectedEmoji.emoji;
-                                    
-                                    // Simpler positioning for now
-                                    entityElement.style.position = 'absolute';
-                                    entityElement.style.left = '50%';
-                                    entityElement.style.top = '50%';
-                                    entityElement.style.transform = 'translate(-50%, -50%)';
-                                    entityElement.style.fontSize = '14px';
-                                    entityElement.style.zIndex = '10';
-                                    entityElement.style.pointerEvents = 'none';
-                                    entityElement.style.color = '#333';
-                                    entityElement.style.textShadow = '1px 1px 2px rgba(255,255,255,0.8)';
-                                    
-                                    cell.style.position = 'relative';
-                                    cell.appendChild(entityElement);
-                                }
-                            }
-                            
-                            this.gridElement.appendChild(cell);
-                        }
-                    }
-                    
-                    // Continue with next batch
-                    if (endY < this.gridHeight) {
-                        requestAnimationFrame(() => generateBatch(endY));
-                    } else {
-                        this.gridElement.classList.remove('loading');
-                        
-                        // Log statistics
-                        console.log('Biome Distribution:', biomeCount);
-                        console.log('Elevation range:', elevationStats.min.toFixed(3), 'to', elevationStats.max.toFixed(3), 'avg:', (elevationStats.sum/elevationStats.count).toFixed(3));
-                        console.log('Moisture range:', moistureStats.min.toFixed(3), 'to', moistureStats.max.toFixed(3), 'avg:', (moistureStats.sum/elevationStats.count).toFixed(3));
-                        console.log('Temperature range:', temperatureStats.min.toFixed(3), 'to', temperatureStats.max.toFixed(3), 'avg:', (temperatureStats.sum/elevationStats.count).toFixed(3));
-                    }
-                };
-                
-                // Start generation
-                generateBatch(0);
-            }
-            
-            regenerate() {
-                this.initializeNoiseGenerators();
-                this.generate();
-            }
-            
-            toggleEntities() {
-                this.showEmojis = !this.showEmojis;
-                this.generate();
-            }
-            
-            setScale(scale) {
-                this.scale = scale;
-                this.generate();
-            }
+          }
+
+          // Start generation
+          generateBatch(0)
         }
 
-        // Initialize world
-        let world;
-        
-        // UI functions
-        function generateWorld() {
-            if (world) world.regenerate();
+        regenerate() {
+          this.initializeNoiseGenerators()
+          this.generate()
         }
 
-        function toggleEmojis() {
-            if (world) world.toggleEntities();
+        toggleEntities() {
+          this.showEmojis = !this.showEmojis
+          this.generate()
         }
 
-        function updateScale() {
-            const slider = document.getElementById('scaleSlider');
-            const value = document.getElementById('scaleValue');
-            value.textContent = slider.value;
-            if (world) world.setScale(parseFloat(slider.value));
+        setScale(scale) {
+          this.scale = scale
+          this.generate()
         }
+      }
 
-        function updateGridSize() {
-            const slider = document.getElementById('gridSizeSlider');
-            const value = document.getElementById('gridSizeValue');
-            const size = parseInt(slider.value);
-            const height = Math.floor(size * 0.75); // Maintain 4:3 aspect ratio
-            value.textContent = `${size}x${height}`;
-            if (world) world.updateGridSize(size, height);
-        }
+      // Initialize world
+      let world
 
-        // Initialize world after DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            world = new DOMBiomeWorld();
-        });
-        
-        // Fallback initialization
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                if (!world) world = new DOMBiomeWorld();
-            });
-        } else {
-            world = new DOMBiomeWorld();
-        }
+      // UI functions
+      function generateWorld() {
+        if (world) world.regenerate()
+      }
 
-        // Display biome information
-        function displayBiomes() {
-            const container = document.getElementById('biomeList');
-            container.innerHTML = biomes.map(biome => `
+      function toggleEmojis() {
+        if (world) world.toggleEntities()
+      }
+
+      function updateScale() {
+        const slider = document.getElementById("scaleSlider")
+        const value = document.getElementById("scaleValue")
+        value.textContent = slider.value
+        if (world) world.setScale(parseFloat(slider.value))
+      }
+
+      function updateGridSize() {
+        const slider = document.getElementById("gridSizeSlider")
+        const value = document.getElementById("gridSizeValue")
+        const size = parseInt(slider.value)
+        const height = Math.floor(size * 0.75) // Maintain 4:3 aspect ratio
+        value.textContent = `${size}x${height}`
+        if (world) world.updateGridSize(size, height)
+      }
+
+      // Initialize world after DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        world = new DOMBiomeWorld()
+      })
+
+      // Fallback initialization
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          if (!world) world = new DOMBiomeWorld()
+        })
+      } else {
+        world = new DOMBiomeWorld()
+      }
+
+      // Display biome information
+      function displayBiomes() {
+        const container = document.getElementById("biomeList")
+        container.innerHTML = biomes.map((biome) => `
                 <div class="biome-card">
                     <div class="biome-name">${biome.name}</div>
                     <div class="biome-params">
-                        Elevation: ${biome.elevation[0]}-${biome.elevation[1]} | 
-                        Temperature: ${biome.temperature[0]}-${biome.temperature[1]} | 
-                        Moisture: ${biome.moisture[0]}-${biome.moisture[1]}
+                        Elevation: ${biome.elevation[0]}-${
+          biome.elevation[1]
+        } | 
+                        Temperature: ${biome.temperature[0]}-${
+          biome.temperature[1]
+        } | 
+                        Moisture: ${biome.moisture[0]}-${
+          biome.moisture[1]
+        }
                     </div>
                     <div class="biome-emojis">
-                        ${biome.emojis.map(e => e.emoji).join(' ')}
+                        ${biome.emojis.map((e) => e.emoji).join(" ")}
                     </div>
                 </div>
-            `).join('');
+            `).join("")
+      }
+
+      displayBiomes()
+
+      // Add enhanced interactivity
+      document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("biome-cell")) {
+          const biome = e.target.getAttribute("data-biome")
+          const coords = e.target.getAttribute("data-coords")
+          const params = e.target.getAttribute("data-params")
+
+          console.log(`Clicked ${biome} at (${coords}): ${params}`)
+
+          // Could add more detailed inspection here
+          alert(
+            `Biome: ${biome}\nCoordinates: ${coords}\nParameters: ${params}`,
+          )
         }
-
-        displayBiomes();
-
-        // Add enhanced interactivity
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('biome-cell')) {
-                const biome = e.target.getAttribute('data-biome');
-                const coords = e.target.getAttribute('data-coords');
-                const params = e.target.getAttribute('data-params');
-                
-                console.log(`Clicked ${biome} at (${coords}): ${params}`);
-                
-                // Could add more detailed inspection here
-                alert(`Biome: ${biome}\nCoordinates: ${coords}\nParameters: ${params}`);
-            }
-        });
+      })
     </script>
-</body>
+  </body>
 </html>

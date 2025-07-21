@@ -9,29 +9,29 @@ export class EntityCatalog {
   // Build a flat index for quick lookups
   buildFlatIndex() {
     const index = new Map()
-    
+
     for (const [category, entities] of Object.entries(this.catalog)) {
       for (const [id, entity] of Object.entries(entities)) {
         index.set(id, {
           ...entity,
           id,
           category,
-          type: this.getEntityType(category)
+          type: this.getEntityType(category),
         })
       }
     }
-    
+
     return index
   }
 
   getEntityType(category) {
     const typeMap = {
-      'objects': 'object',
-      'npcs': 'npc',
-      'enemies': 'enemy',
-      'portals': 'portal'
+      "objects": "object",
+      "npcs": "npc",
+      "enemies": "enemy",
+      "portals": "portal",
     }
-    return typeMap[category] || 'object'
+    return typeMap[category] || "object"
   }
 
   findEntity(entityId) {
@@ -60,9 +60,9 @@ export class EntityCatalog {
     if (!this.catalog[category]) {
       this.catalog[category] = {}
     }
-    
+
     this.catalog[category][id] = entityData
-    
+
     // Rebuild index
     this.flatIndex = this.buildFlatIndex()
   }

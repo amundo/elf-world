@@ -14,9 +14,7 @@ h2 {
   text-transform: uppercase;
 }
 
-h3 {
-  
-}
+h3 {}
 
 h5 {
   font-style: italic;
@@ -24,7 +22,7 @@ h5 {
 
 figure {
   text-align: center;
-  padding: .5rem;
+  padding: 0.5rem;
   img {
     border: 1px solid lightgray;
   }

@@ -8,13 +8,16 @@ last_updated: 2025-07-10
 
 # ConlangEngine.js
 
-The `ConlangEngine` is responsible for generating word forms according to phonological rules and managing the lexicon through a separate `Lexicon` class. It supports seeded generation, back-translation, and statistics.
+The `ConlangEngine` is responsible for generating word forms according to
+phonological rules and managing the lexicon through a separate `Lexicon` class.
+It supports seeded generation, back-translation, and statistics.
 
 ---
 
 ## Overview
 
 **Key responsibilities:**
+
 - Generate unique, pronounceable word forms based on phonological constraints
 - Maintain a lexicon mapping glosses (English concepts) to conlang forms
 - Handle bidirectional translation
@@ -28,15 +31,15 @@ The `ConlangEngine` is responsible for generating word forms according to phonol
 
 ```js
 new ConlangEngine(config = {})
-````
+```
 
 **Configuration options:**
 
-* `consonants`: Array of consonant phonemes
-* `vowels`: Array of vowel phonemes
-* `syllableStructures`: Allowed syllable patterns like `'CV'`, `'CVC'`
-* `seed`: Optional RNG seed for repeatable generation
-* `seedWords`: List of high-frequency glosses to initialize
+- `consonants`: Array of consonant phonemes
+- `vowels`: Array of vowel phonemes
+- `syllableStructures`: Allowed syllable patterns like `'CV'`, `'CVC'`
+- `seed`: Optional RNG seed for repeatable generation
+- `seedWords`: List of high-frequency glosses to initialize
 
 ---
 
@@ -64,8 +67,8 @@ Returns a pattern like `'CVCVC'` based on the word’s segment types.
 
 ### `getWord(gloss, metadata = {})`
 
-* Retrieves an existing conlang form for a gloss, or creates a new one
-* Stores the form in the lexicon with metadata
+- Retrieves an existing conlang form for a gloss, or creates a new one
+- Stores the form in the lexicon with metadata
 
 ---
 
@@ -112,13 +115,15 @@ Imports and replaces the lexicon from a JSON string.
 Generates multiple conlang forms in one call:
 
 ```js
-engine.generateBatch(['moon', 'sun', 'cloud'])
+engine.generateBatch(["moon", "sun", "cloud"])
 ```
 
 Returns an array of:
 
 ```js
-{ gloss, form, word }
+{
+  gloss, form, word
+}
 ```
 
 ---
@@ -127,7 +132,8 @@ Returns an array of:
 
 ### `getPhonologicalStats()`
 
-Returns frequency distributions of consonants, vowels, and syllable structures across the lexicon:
+Returns frequency distributions of consonants, vowels, and syllable structures
+across the lexicon:
 
 ```js
 {
@@ -144,9 +150,9 @@ Returns frequency distributions of consonants, vowels, and syllable structures a
 
 Returns a full object with:
 
-* Lexicon stats
-* Phonological stats
-* Phonology configuration
+- Lexicon stats
+- Phonological stats
+- Phonology configuration
 
 ---
 
@@ -154,7 +160,8 @@ Returns a full object with:
 
 ### `initializeSeedVocabulary()`
 
-Populates the lexicon with `seedWords` if not already present. Each word is marked with:
+Populates the lexicon with `seedWords` if not already present. Each word is
+marked with:
 
 ```js
 { seedWord: true, frequency: 'high' }
@@ -167,14 +174,14 @@ Populates the lexicon with `seedWords` if not already present. Each word is mark
 ```js
 const engine = new ConlangEngine({
   seed: 123,
-  consonants: ['p', 't', 'k'],
-  vowels: ['a', 'i'],
-  syllableStructures: ['CV', 'CVC']
+  consonants: ["p", "t", "k"],
+  vowels: ["a", "i"],
+  syllableStructures: ["CV", "CVC"],
 })
 
-console.log(engine.getWord('tree'))       // e.g., 'kapi'
-console.log(engine.translate('what is this'))  // e.g., 'taka pini sili'
-console.log(engine.backTranslate('kapi sili')) // e.g., 'tree this'
+console.log(engine.getWord("tree")) // e.g., 'kapi'
+console.log(engine.translate("what is this")) // e.g., 'taka pini sili'
+console.log(engine.backTranslate("kapi sili")) // e.g., 'tree this'
 
 console.log(engine.getStats())
 ```
@@ -183,12 +190,12 @@ console.log(engine.getStats())
 
 ## Dependencies
 
-* Requires `Lexicon.js` in the same directory
-* Expects Lexicon to support:
+- Requires `Lexicon.js` in the same directory
+- Expects Lexicon to support:
 
-  * `getByGloss()`, `hasGloss()`, `hasForm()`
-  * `addWord()`, `getGloss()`, `getAllWords()`
-  * `toJSON()`, `fromJSON()`, `getStats()`
+  - `getByGloss()`, `hasGloss()`, `hasForm()`
+  - `addWord()`, `getGloss()`, `getAllWords()`
+  - `toJSON()`, `fromJSON()`, `getStats()`
 
 ---
 

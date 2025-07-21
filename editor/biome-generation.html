@@ -1,67 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Procedural Biomes</title>
-  <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-    }
-    #map {
-      display: grid;
-      grid-template-columns: repeat(50, 1fr);
-      width: 100vmin;
-      height: 100vmin;
-      margin: auto;
-    }
-    .tile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8em;
-      user-select: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
-  <script type="module">
-    import { SimplexNoise } from './simplex-noise.js'
-    const size = 50
-    const map = document.querySelector('#map')
-    const simplex = new SimplexNoise()
-
-    // Normalize noise to [0, 1]
-    function noise2d(seed, x, y, scale) {
-      return (simplex.noise2D(seed + x * scale, seed + y * scale) + 1) / 2
-    }
-
-    function getBiome(elev, moist, temp) {
-      if (elev < 0.3) return '🌊' // ocean
-      if (elev > 0.8 && temp < 0.3) return '🏔️' // snowy mountain
-      if (elev > 0.8 && moist < 0.3) return '⛰️' // rocky mountain
-      if (elev > 0.6 && moist > 0.6) return '🌲' // alpine forest
-      if (moist > 0.7 && temp > 0.5) return '🌳' // forest
-      if (moist > 0.4 && temp > 0.5) return '🌾' // grassland
-      if (moist < 0.3) return '🏜️' // desert
-      return '🌱' // plains
-    }
-
-    for (let y = 0; y < size; y++) {
-      for (let x = 0; x < size; x++) {
-        const elevation = noise2d(1.5, x, y, 0.05)
-        const moisture = noise2d(2.5, x, y, 0.05)
-        const temperature = 1 - Math.abs(y / size - 0.5) + noise2d(3.5, x, y, 0.05) * 0.2
-
-        const emoji = getBiome(elevation, moisture, temperature)
-
-        const tile = document.createElement('div')
-        tile.className = 'tile'
-        tile.textContent = emoji
-        map.appendChild(tile)
+  <head>
+    <meta charset="UTF-8">
+    <title>Procedural Biomes</title>
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
       }
-    }
-  </script>
-</body>
+      #map {
+        display: grid;
+        grid-template-columns: repeat(50, 1fr);
+        width: 100vmin;
+        height: 100vmin;
+        margin: auto;
+      }
+      .tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8em;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="module">
+      import { SimplexNoise } from "./simplex-noise.js"
+      const size = 50
+      const map = document.querySelector("#map")
+      const simplex = new SimplexNoise()
+
+      // Normalize noise to [0, 1]
+      function noise2d(seed, x, y, scale) {
+        return (simplex.noise2D(seed + x * scale, seed + y * scale) +
+          1) / 2
+      }
+
+      function getBiome(elev, moist, temp) {
+        if (elev < 0.3) return "🌊" // ocean
+        if (elev > 0.8 && temp < 0.3) return "🏔️" // snowy mountain
+        if (elev > 0.8 && moist < 0.3) return "⛰️" // rocky mountain
+        if (elev > 0.6 && moist > 0.6) return "🌲" // alpine forest
+        if (moist > 0.7 && temp > 0.5) return "🌳" // forest
+        if (moist > 0.4 && temp > 0.5) return "🌾" // grassland
+        if (moist < 0.3) return "🏜️" // desert
+        return "🌱" // plains
+      }
+
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const elevation = noise2d(1.5, x, y, 0.05)
+          const moisture = noise2d(2.5, x, y, 0.05)
+          const temperature = 1 - Math.abs(y / size - 0.5) +
+            noise2d(3.5, x, y, 0.05) * 0.2
+
+          const emoji = getBiome(elevation, moisture, temperature)
+
+          const tile = document.createElement("div")
+          tile.className = "tile"
+          tile.textContent = emoji
+          map.appendChild(tile)
+        }
+      }
+    </script>
+  </body>
 </html>

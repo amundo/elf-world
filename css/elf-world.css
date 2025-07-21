@@ -32,7 +32,7 @@ body {
   width: 400px;
   background: rgba(0, 0, 0, 0.95);
   color: #00ff00;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   display: flex;
   flex-direction: column;
   border-left: 2px solid #333;
@@ -55,14 +55,13 @@ game-tile.tile {
   border: 1px solid #eee;
 }
 
-
 .coord {
   position: absolute;
   top: 0;
   left: 0;
   padding: 2px;
   font-size: 8px;
-  opacity: .5;
+  opacity: 0.5;
   font-family: monospace;
 }
 
@@ -78,7 +77,12 @@ game-tile.tile {
 }
 
 .player {
-  background-image: radial-gradient(circle, yellow, lemonchiffon, transparent 65%);
+  background-image: radial-gradient(
+    circle,
+    yellow,
+    lemonchiffon,
+    transparent 65%
+  );
   /* padding:.5em; */
 }
 
@@ -253,7 +257,7 @@ game-tile.tile {
   background: transparent;
   border: none;
   color: #00ff00;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 1rem;
   outline: none;
 }
@@ -314,15 +318,23 @@ game-tile.tile {
 }
 
 .loading::after {
-  content: '';
+  content: "";
   animation: loading-dots 1.5s infinite;
 }
 
 @keyframes loading-dots {
-  0%, 20% { content: ''; }
-  40% { content: '.'; }
-  60% { content: '..'; }
-  80%, 100% { content: '...'; }
+  0%, 20% {
+    content: "";
+  }
+  40% {
+    content: ".";
+  }
+  60% {
+    content: "..";
+  }
+  80%, 100% {
+    content: "...";
+  }
 }
 
 /* Responsive design */
@@ -333,15 +345,15 @@ game-tile.tile {
     border-left: none;
     border-top: 2px solid #333;
   }
-  
+
   .view {
     flex-direction: column;
   }
-  
+
   .game-pane {
     height: 60vh;
   }
-  
+
   .tile {
     display: grid;
     place-content: center;
@@ -355,11 +367,11 @@ game-tile.tile {
     font-size: 1rem;
     padding: 0.3rem;
   }
-  
+
   .tile {
     font-size: 1.2rem;
   }
-  
+
   .command-output {
     font-size: 0.8rem;
   }

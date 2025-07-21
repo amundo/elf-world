@@ -1,843 +1,1085 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>🧝‍♂️ Elf World Realm Editor</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f0f0f0;
-    }
-    
-    .designer-container {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .palette {
-      width: 300px;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    
-    .tool-section {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .tool-section:last-child {
-      border-bottom: none;
-    }
-    
-    .tool-section h4 {
-      margin: 0 0 10px 0;
-      color: #333;
-      font-size: 14px;
-    }
-    
-    .realm-controls {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .realm-controls input {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    
-    .mode-tabs {
-      display: flex;
-      margin-bottom: 15px;
-    }
-    
-    .tab {
-      flex: 1;
-      padding: 8px;
-      background: #f5f5f5;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      text-align: center;
-      font-size: 12px;
-    }
-    
-    .tab.active {
-      background: #007bff;
-      color: white;
-    }
-    
-    .tab:first-child {
-      border-radius: 4px 0 0 4px;
-    }
-    
-    .tab:last-child {
-      border-radius: 0 4px 4px 0;
-    }
-    
-    .color-option, .entity-option {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      margin: 2px 0;
-      border: 2px solid #ccc;
-      border-radius: 4px;
-      cursor: pointer;
-      background: white;
-      font-size: 12px;
-    }
-    
-    .color-option.active, .entity-option.active {
-      border-color: #007bff;
-      background: #e3f2fd;
-    }
-    
-    .entity-emoji {
-      margin-right: 8px;
-      font-size: 16px;
-    }
-    
-    .entity-details {
-      flex: 1;
-    }
-    
-    .entity-gloss {
-      font-weight: bold;
-    }
-    
-    .entity-category {
-      font-size: 10px;
-      color: #666;
-      margin-top: 2px;
-    }
-    
-    .grid-container {
-      flex: 1;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .controls {
-      margin: 15px 0;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    
-    .btn:hover {
-      background: #0056b3;
-    }
-    
-    .btn.secondary {
-      background: #6c757d;
-    }
-    
-    .designer-grid {
-      display: grid;
-      grid-template-columns: repeat(30, 20px);
-      grid-template-rows: repeat(20, 20px);
-      gap: 1px;
-      background: #ddd;
-      padding: 10px;
-      border-radius: 4px;
-    }
-    
-    .designer-tile {
-      width: 20px;
-      height: 20px;
-      background: #90EE90;
-      cursor: pointer;
-      border: 1px solid rgba(0,0,0,0.1);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-    }
-    
-    .tile-entity {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-      pointer-events: none;
-    }
-    
-    .entity-editor {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      z-index: 1000;
-      display: none;
-      min-width: 400px;
-    }
-    
-    .emoji-grid {
-      display: grid;
-      grid-template-columns: repeat(8, 30px);
-      gap: 5px;
-      margin: 15px 0;
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 4px;
-    }
-    
-    .emoji-option {
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 18px;
-    }
-    
-    .emoji-option:hover {
-      background: #f0f0f0;
-    }
-    
-    .emoji-option.selected {
-      background: #007bff;
-    }
-    
-    #exportOutput {
-      width: 100%;
-      height: 200px;
-      margin-top: 15px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 10px;
-    }
-  </style>
-</head>
-<body>
-  <h1>🧝‍♂️ Elf World Realm Editor</h1>
-  
-  <div class="designer-container">
-    <div class="palette">
-      <div class="tool-section">
-        <h4>Realm Settings</h4>
-        <div class="realm-controls">
-          <input type="text" id="realmName" placeholder="Realm Name" value="My Custom Realm">
-          <input type="text" id="realmId" placeholder="realm-id" value="my-custom-realm">
+  <head>
+    <meta charset="UTF-8">
+    <title>🧝‍♂️ Elf World Realm Editor</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f0f0f0;
+      }
+
+      .designer-container {
+        display: flex;
+        gap: 20px;
+      }
+
+      .palette {
+        width: 300px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .tool-section {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .tool-section:last-child {
+        border-bottom: none;
+      }
+
+      .tool-section h4 {
+        margin: 0 0 10px 0;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .realm-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .realm-controls input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .mode-tabs {
+        display: flex;
+        margin-bottom: 15px;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 8px;
+        background: #f5f5f5;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .tab.active {
+        background: #007bff;
+        color: white;
+      }
+
+      .tab:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+
+      .tab:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+
+      .color-option, .entity-option {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        margin: 2px 0;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        background: white;
+        font-size: 12px;
+      }
+
+      .color-option.active, .entity-option.active {
+        border-color: #007bff;
+        background: #e3f2fd;
+      }
+
+      .entity-emoji {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+
+      .entity-details {
+        flex: 1;
+      }
+
+      .entity-gloss {
+        font-weight: bold;
+      }
+
+      .entity-category {
+        font-size: 10px;
+        color: #666;
+        margin-top: 2px;
+      }
+
+      .grid-container {
+        flex: 1;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls {
+        margin: 15px 0;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .btn:hover {
+        background: #0056b3;
+      }
+
+      .btn.secondary {
+        background: #6c757d;
+      }
+
+      .designer-grid {
+        display: grid;
+        grid-template-columns: repeat(30, 20px);
+        grid-template-rows: repeat(20, 20px);
+        gap: 1px;
+        background: #ddd;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      .designer-tile {
+        width: 20px;
+        height: 20px;
+        background: #90ee90;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .tile-entity {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .entity-editor {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        display: none;
+        min-width: 400px;
+      }
+
+      .emoji-grid {
+        display: grid;
+        grid-template-columns: repeat(8, 30px);
+        gap: 5px;
+        margin: 15px 0;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      .emoji-option {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 18px;
+      }
+
+      .emoji-option:hover {
+        background: #f0f0f0;
+      }
+
+      .emoji-option.selected {
+        background: #007bff;
+      }
+
+      #exportOutput {
+        width: 100%;
+        height: 200px;
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧝‍♂️ Elf World Realm Editor</h1>
+
+    <div class="designer-container">
+      <div class="palette">
+        <div class="tool-section">
+          <h4>Realm Settings</h4>
+          <div class="realm-controls">
+            <input
+              type="text"
+              id="realmName"
+              placeholder="Realm Name"
+              value="My Custom Realm"
+            >
+            <input
+              type="text"
+              id="realmId"
+              placeholder="realm-id"
+              value="my-custom-realm"
+            >
+          </div>
+        </div>
+
+        <div class="tool-section">
+          <div class="mode-tabs">
+            <div class="tab active" data-mode="terrain">Terrain</div>
+            <div class="tab" data-mode="entities">Entities</div>
+            <div class="tab" data-mode="portals">Portals</div>
+          </div>
+
+          <div id="terrainMode" class="mode-content">
+            <div class="color-option active" data-color="#90EE90">
+              <div
+                style="width: 20px; height: 20px; background: #90ee90; margin-right: 8px; border-radius: 2px"
+              >
+              </div>
+              <span>Grass</span>
+            </div>
+            <div class="color-option" data-color="#228B22">
+              <div
+                style="width: 20px; height: 20px; background: #228b22; margin-right: 8px; border-radius: 2px"
+              >
+              </div>
+              <span>Forest</span>
+            </div>
+            <div class="color-option" data-color="#4169E1">
+              <div
+                style="width: 20px; height: 20px; background: #4169e1; margin-right: 8px; border-radius: 2px"
+              >
+              </div>
+              <span>Water</span>
+            </div>
+            <div class="color-option" data-color="#8B4513">
+              <div
+                style="width: 20px; height: 20px; background: #8b4513; margin-right: 8px; border-radius: 2px"
+              >
+              </div>
+              <span>Path</span>
+            </div>
+            <div class="color-option" data-color="#FFB6C1">
+              <div
+                style="width: 20px; height: 20px; background: #ffb6c1; margin-right: 8px; border-radius: 2px"
+              >
+              </div>
+              <span>Magic</span>
+            </div>
+            <div class="color-option" data-color="#B19CD9">
+              <div
+                style="width: 20px; height: 20px; background: #b19cd9; margin-right: 8px; border-radius: 2px"
+              >
+              </div>
+              <span>Crystal</span>
+            </div>
+          </div>
+
+          <div id="entitiesMode" class="mode-content" style="display: none">
+            <div id="entityList">
+              <!-- Entities will be loaded here -->
+            </div>
+            <button
+              class="btn"
+              style="width: 100%; margin-top: 10px"
+              onclick="openEntityEditor()"
+            >
+              + Create New Entity
+            </button>
+          </div>
+
+          <div id="portalsMode" class="mode-content" style="display: none">
+            <div id="portalList">
+              <!-- Portals will be loaded here -->
+            </div>
+            <div style="margin-top: 10px">
+              <label>Portal Destination:</label>
+              <select
+                id="portalDestination"
+                style="width: 100%; padding: 4px; margin-top: 5px"
+              >
+                <option value="forest">Forest Realm</option>
+                <option value="fairy">Fairy Realm</option>
+                <option value="wraith">Wraith Realm</option>
+                <option value="crystal-caverns">Crystal Caverns</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
-      
-      <div class="tool-section">
-        <div class="mode-tabs">
-          <div class="tab active" data-mode="terrain">Terrain</div>
-          <div class="tab" data-mode="entities">Entities</div>
-          <div class="tab" data-mode="portals">Portals</div>
-        </div>
-        
-        <div id="terrainMode" class="mode-content">
-          <div class="color-option active" data-color="#90EE90">
-            <div style="width: 20px; height: 20px; background: #90EE90; margin-right: 8px; border-radius: 2px;"></div>
-            <span>Grass</span>
-          </div>
-          <div class="color-option" data-color="#228B22">
-            <div style="width: 20px; height: 20px; background: #228B22; margin-right: 8px; border-radius: 2px;"></div>
-            <span>Forest</span>
-          </div>
-          <div class="color-option" data-color="#4169E1">
-            <div style="width: 20px; height: 20px; background: #4169E1; margin-right: 8px; border-radius: 2px;"></div>
-            <span>Water</span>
-          </div>
-          <div class="color-option" data-color="#8B4513">
-            <div style="width: 20px; height: 20px; background: #8B4513; margin-right: 8px; border-radius: 2px;"></div>
-            <span>Path</span>
-          </div>
-          <div class="color-option" data-color="#FFB6C1">
-            <div style="width: 20px; height: 20px; background: #FFB6C1; margin-right: 8px; border-radius: 2px;"></div>
-            <span>Magic</span>
-          </div>
-          <div class="color-option" data-color="#B19CD9">
-            <div style="width: 20px; height: 20px; background: #B19CD9; margin-right: 8px; border-radius: 2px;"></div>
-            <span>Crystal</span>
-          </div>
-        </div>
-        
-        <div id="entitiesMode" class="mode-content" style="display: none;">
-          <div id="entityList">
-            <!-- Entities will be loaded here -->
-          </div>
-          <button class="btn" style="width: 100%; margin-top: 10px;" onclick="openEntityEditor()">
-            + Create New Entity
+
+      <div class="grid-container">
+        <div class="controls">
+          <button class="btn" onclick="exportRealm()">Export Realm</button>
+          <button class="btn" onclick="loadPreset()">Load Preset</button>
+          <button class="btn secondary" onclick="clearGrid()">Clear</button>
+          <button class="btn secondary" onclick="generateBase()">
+            Generate Base
           </button>
         </div>
-        
-        <div id="portalsMode" class="mode-content" style="display: none;">
-          <div id="portalList">
-            <!-- Portals will be loaded here -->
-          </div>
-          <div style="margin-top: 10px;">
-            <label>Portal Destination:</label>
-            <select id="portalDestination" style="width: 100%; padding: 4px; margin-top: 5px;">
-              <option value="forest">Forest Realm</option>
-              <option value="fairy">Fairy Realm</option>
-              <option value="wraith">Wraith Realm</option>
-              <option value="crystal-caverns">Crystal Caverns</option>
-            </select>
-          </div>
+
+        <div class="designer-grid" id="designerGrid"></div>
+
+        <textarea
+          id="exportOutput"
+          placeholder="Exported realm data will appear here..."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Entity Editor Modal -->
+    <div class="entity-editor" id="entityEditor">
+      <h3>Create/Edit Entity</h3>
+      <div>
+        <label>Gloss (English name):</label>
+        <input
+          type="text"
+          id="entityGloss"
+          placeholder="e.g., octopus"
+          style="width: 100%; padding: 8px; margin: 5px 0"
+        >
+      </div>
+      <div>
+        <label>Category:</label>
+        <select
+          id="entityCategory"
+          style="width: 100%; padding: 8px; margin: 5px 0"
+        >
+          <option value="objects">Object</option>
+          <option value="npcs">NPC</option>
+          <option value="enemies">Enemy</option>
+        </select>
+      </div>
+      <div>
+        <label>Choose Emoji:</label>
+        <div class="emoji-grid" id="emojiGrid">
+          <!-- Emojis will be populated here -->
         </div>
       </div>
-    </div>
-    
-    <div class="grid-container">
-      <div class="controls">
-        <button class="btn" onclick="exportRealm()">Export Realm</button>
-        <button class="btn" onclick="loadPreset()">Load Preset</button>
-        <button class="btn secondary" onclick="clearGrid()">Clear</button>
-        <button class="btn secondary" onclick="generateBase()">Generate Base</button>
+      <div>
+        <label>Selected:</label>
+        <span id="selectedEmoji" style="font-size: 24px; margin-left: 10px"
+        >🐙</span>
+        <span id="selectedGloss" style="margin-left: 10px">octopus</span>
       </div>
-      
-      <div class="designer-grid" id="designerGrid"></div>
-      
-      <textarea id="exportOutput" placeholder="Exported realm data will appear here..."></textarea>
-    </div>
-  </div>
-
-  <!-- Entity Editor Modal -->
-  <div class="entity-editor" id="entityEditor">
-    <h3>Create/Edit Entity</h3>
-    <div>
-      <label>Gloss (English name):</label>
-      <input type="text" id="entityGloss" placeholder="e.g., octopus" style="width: 100%; padding: 8px; margin: 5px 0;">
-    </div>
-    <div>
-      <label>Category:</label>
-      <select id="entityCategory" style="width: 100%; padding: 8px; margin: 5px 0;">
-        <option value="objects">Object</option>
-        <option value="npcs">NPC</option>
-        <option value="enemies">Enemy</option>
-      </select>
-    </div>
-    <div>
-      <label>Choose Emoji:</label>
-      <div class="emoji-grid" id="emojiGrid">
-        <!-- Emojis will be populated here -->
+      <div style="margin-top: 20px; text-align: right">
+        <button class="btn secondary" onclick="closeEntityEditor()">
+          Cancel
+        </button>
+        <button class="btn" onclick="saveEntity()" style="margin-left: 10px">
+          Save Entity
+        </button>
       </div>
     </div>
-    <div>
-      <label>Selected:</label>
-      <span id="selectedEmoji" style="font-size: 24px; margin-left: 10px;">🐙</span>
-      <span id="selectedGloss" style="margin-left: 10px;">octopus</span>
-    </div>
-    <div style="margin-top: 20px; text-align: right;">
-      <button class="btn secondary" onclick="closeEntityEditor()">Cancel</button>
-      <button class="btn" onclick="saveEntity()" style="margin-left: 10px;">Save Entity</button>
-    </div>
-  </div>
 
-  <script>
-    // Game data
-    let entityCatalog = {}
-    let customEntities = {}
-    let currentMode = 'terrain'
-    let selectedColor = '#90EE90'
-    let selectedEntity = null
-    let selectedPortal = null
-    let portalDestination = 'forest'
-    let isDrawing = false
-    
-    // Grid data
-    const tiles = []
-    const entities = []
-    const terrain = []
-    
-    // Available emojis for entity creation
-    const availableEmojis = [
-      '🌲', '🌳', '🌴', '🌵', '🌿', '🍀', '🌱', '🌾', '🌸', '🌺', '🌻', '🌷', '🌹', '🥀', '🌼',
-      '🍄', '🪨', '⛰️', '🏔️', '🌋', '🏜️', '🏖️', '🏝️', '💎', '⚡', '🔥', '💧', '🌊', '❄️', '☀️',
-      '🌙', '⭐', '✨', '🌟', '💫', '🌈', '☁️', '⛅', '🌤️', '🌦️', '🌧️', '⛈️', '❄️', '☃️', '⛄',
-      '👤', '👥', '👶', '👧', '🧒', '👦', '👩', '🧑', '👨', '👵', '🧓', '👴', '👲', '👳', '👮',
-      '👷', '💂', '🕵️', '👩‍⚕️', '👨‍⚕️', '👩‍🌾', '👨‍🌾', '👩‍🍳', '👨‍🍳', '👩‍🎓', '👨‍🎓', '👩‍🎤', '👨‍🎤',
-      '🧙‍♀️', '🧙‍♂️', '🧚‍♀️', '🧚‍♂️', '🧛‍♀️', '🧛‍♂️', '🧜‍♀️', '🧜‍♂️', '🧝‍♀️', '🧝‍♂️', '👸', '👑',
-      '🐍', '🦎', '🐢', '🐊', '🐸', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🐟', '🐠', '🐡',
-      '🦈', '🐙', '🦑', '🦀', '🦞', '🦐', '🐚', '🐌', '🦋', '🐛', '🐝', '🐞', '🦗', '🕷️', '🕸️',
-      '🦂', '🐜', '🪰', '🪲', '🪳', '🦟', '🦠', '💀', '👻', '👹', '👺', '🤖', '💩', '🔮', '⚱️',
-      '🌀', '🌫️', '💨', '🔥', '💥', '⚡', '💫', '⭐', '🌟', '✨', '💎', '🔱', '⚔️', '🛡️', '🏹'
-    ]
-    
-    // Initialize
-    async function init() {
-      await loadEntityCatalog()
-      createGrid()
-      setupEventListeners()
-      populateEntityList()
-      populatePortalList()
-      populateEmojiGrid()
-    }
-    
-    async function loadEntityCatalog() {
-      // In a real implementation, this would fetch from entities/index.json
-      // For now, we'll use a simplified version
-      entityCatalog = {
-        objects: {
-          tree: { emoji: '🌲', gloss: 'tree', category: 'nature' },
-          rock: { emoji: '🪨', gloss: 'rock', category: 'nature' },
-          flower: { emoji: '🌸', gloss: 'flower', category: 'nature' },
-          crystal: { emoji: '💎', gloss: 'crystal', category: 'magical' }
-        },
-        npcs: {
-          fairy: { emoji: '🧚‍♀️', gloss: 'fairy', category: 'magical' },
-          elder: { emoji: '👴', gloss: 'elder', category: 'human' },
-          wizard: { emoji: '🧙‍♂️', gloss: 'wizard', category: 'magical' }
-        },
-        enemies: {
-          snake: { emoji: '🐍', gloss: 'snake', category: 'nature' },
-          dragon: { emoji: '🐉', gloss: 'dragon', category: 'magical' },
-          skull: { emoji: '💀', gloss: 'skull', category: 'undead' }
-        },
-        portals: {
-          swirl: { emoji: '🌀', gloss: 'portal', category: 'portal' },
-          sparkle: { emoji: '✨', gloss: 'portal', category: 'portal' },
-          star: { emoji: '🌟', gloss: 'portal', category: 'portal' }
+    <script>
+      // Game data
+      let entityCatalog = {}
+      let customEntities = {}
+      let currentMode = "terrain"
+      let selectedColor = "#90EE90"
+      let selectedEntity = null
+      let selectedPortal = null
+      let portalDestination = "forest"
+      let isDrawing = false
+
+      // Grid data
+      const tiles = []
+      const entities = []
+      const terrain = []
+
+      // Available emojis for entity creation
+      const availableEmojis = [
+        "🌲",
+        "🌳",
+        "🌴",
+        "🌵",
+        "🌿",
+        "🍀",
+        "🌱",
+        "🌾",
+        "🌸",
+        "🌺",
+        "🌻",
+        "🌷",
+        "🌹",
+        "🥀",
+        "🌼",
+        "🍄",
+        "🪨",
+        "⛰️",
+        "🏔️",
+        "🌋",
+        "🏜️",
+        "🏖️",
+        "🏝️",
+        "💎",
+        "⚡",
+        "🔥",
+        "💧",
+        "🌊",
+        "❄️",
+        "☀️",
+        "🌙",
+        "⭐",
+        "✨",
+        "🌟",
+        "💫",
+        "🌈",
+        "☁️",
+        "⛅",
+        "🌤️",
+        "🌦️",
+        "🌧️",
+        "⛈️",
+        "❄️",
+        "☃️",
+        "⛄",
+        "👤",
+        "👥",
+        "👶",
+        "👧",
+        "🧒",
+        "👦",
+        "👩",
+        "🧑",
+        "👨",
+        "👵",
+        "🧓",
+        "👴",
+        "👲",
+        "👳",
+        "👮",
+        "👷",
+        "💂",
+        "🕵️",
+        "👩‍⚕️",
+        "👨‍⚕️",
+        "👩‍🌾",
+        "👨‍🌾",
+        "👩‍🍳",
+        "👨‍🍳",
+        "👩‍🎓",
+        "👨‍🎓",
+        "👩‍🎤",
+        "👨‍🎤",
+        "🧙‍♀️",
+        "🧙‍♂️",
+        "🧚‍♀️",
+        "🧚‍♂️",
+        "🧛‍♀️",
+        "🧛‍♂️",
+        "🧜‍♀️",
+        "🧜‍♂️",
+        "🧝‍♀️",
+        "🧝‍♂️",
+        "👸",
+        "👑",
+        "🐍",
+        "🦎",
+        "🐢",
+        "🐊",
+        "🐸",
+        "🐲",
+        "🐉",
+        "🦕",
+        "🦖",
+        "🐳",
+        "🐋",
+        "🐬",
+        "🐟",
+        "🐠",
+        "🐡",
+        "🦈",
+        "🐙",
+        "🦑",
+        "🦀",
+        "🦞",
+        "🦐",
+        "🐚",
+        "🐌",
+        "🦋",
+        "🐛",
+        "🐝",
+        "🐞",
+        "🦗",
+        "🕷️",
+        "🕸️",
+        "🦂",
+        "🐜",
+        "🪰",
+        "🪲",
+        "🪳",
+        "🦟",
+        "🦠",
+        "💀",
+        "👻",
+        "👹",
+        "👺",
+        "🤖",
+        "💩",
+        "🔮",
+        "⚱️",
+        "🌀",
+        "🌫️",
+        "💨",
+        "🔥",
+        "💥",
+        "⚡",
+        "💫",
+        "⭐",
+        "🌟",
+        "✨",
+        "💎",
+        "🔱",
+        "⚔️",
+        "🛡️",
+        "🏹",
+      ]
+
+      // Initialize
+      async function init() {
+        await loadEntityCatalog()
+        createGrid()
+        setupEventListeners()
+        populateEntityList()
+        populatePortalList()
+        populateEmojiGrid()
+      }
+
+      async function loadEntityCatalog() {
+        // In a real implementation, this would fetch from entities/index.json
+        // For now, we'll use a simplified version
+        entityCatalog = {
+          objects: {
+            tree: { emoji: "🌲", gloss: "tree", category: "nature" },
+            rock: { emoji: "🪨", gloss: "rock", category: "nature" },
+            flower: {
+              emoji: "🌸",
+              gloss: "flower",
+              category: "nature",
+            },
+            crystal: {
+              emoji: "💎",
+              gloss: "crystal",
+              category: "magical",
+            },
+          },
+          npcs: {
+            fairy: { emoji: "🧚‍♀️", gloss: "fairy", category: "magical" },
+            elder: { emoji: "👴", gloss: "elder", category: "human" },
+            wizard: {
+              emoji: "🧙‍♂️",
+              gloss: "wizard",
+              category: "magical",
+            },
+          },
+          enemies: {
+            snake: { emoji: "🐍", gloss: "snake", category: "nature" },
+            dragon: {
+              emoji: "🐉",
+              gloss: "dragon",
+              category: "magical",
+            },
+            skull: { emoji: "💀", gloss: "skull", category: "undead" },
+          },
+          portals: {
+            swirl: { emoji: "🌀", gloss: "portal", category: "portal" },
+            sparkle: {
+              emoji: "✨",
+              gloss: "portal",
+              category: "portal",
+            },
+            star: { emoji: "🌟", gloss: "portal", category: "portal" },
+          },
         }
       }
-    }
-    
-    function createGrid() {
-      const grid = document.getElementById('designerGrid')
-      grid.innerHTML = ''
-      
-      for (let y = 0; y < 20; y++) {
-        tiles[y] = []
-        entities[y] = []
-        terrain[y] = []
-        for (let x = 0; x < 30; x++) {
-          const tile = document.createElement('div')
-          tile.className = 'designer-tile'
-          tile.dataset.x = x
-          tile.dataset.y = y
-          
-          tile.addEventListener('mousedown', (e) => {
-            isDrawing = true
-            handleTileClick(x, y)
-            e.preventDefault()
-          })
-          
-          tile.addEventListener('mouseenter', () => {
-            if (isDrawing) handleTileClick(x, y)
-          })
-          
-          grid.appendChild(tile)
-          tiles[y][x] = tile
-          entities[y][x] = null
-          terrain[y][x] = '#90EE90'
+
+      function createGrid() {
+        const grid = document.getElementById("designerGrid")
+        grid.innerHTML = ""
+
+        for (let y = 0; y < 20; y++) {
+          tiles[y] = []
+          entities[y] = []
+          terrain[y] = []
+          for (let x = 0; x < 30; x++) {
+            const tile = document.createElement("div")
+            tile.className = "designer-tile"
+            tile.dataset.x = x
+            tile.dataset.y = y
+
+            tile.addEventListener("mousedown", (e) => {
+              isDrawing = true
+              handleTileClick(x, y)
+              e.preventDefault()
+            })
+
+            tile.addEventListener("mouseenter", () => {
+              if (isDrawing) handleTileClick(x, y)
+            })
+
+            grid.appendChild(tile)
+            tiles[y][x] = tile
+            entities[y][x] = null
+            terrain[y][x] = "#90EE90"
+          }
         }
       }
-    }
-    
-    function setupEventListeners() {
-      // Stop drawing on mouse up
-      document.addEventListener('mouseup', () => {
-        isDrawing = false
-      })
-      
-      // Mode tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          document.querySelector('.tab.active').classList.remove('active')
-          tab.classList.add('active')
-          currentMode = tab.dataset.mode
-          
-          document.querySelectorAll('.mode-content').forEach(content => {
-            content.style.display = 'none'
+
+      function setupEventListeners() {
+        // Stop drawing on mouse up
+        document.addEventListener("mouseup", () => {
+          isDrawing = false
+        })
+
+        // Mode tabs
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document.querySelector(".tab.active").classList.remove(
+              "active",
+            )
+            tab.classList.add("active")
+            currentMode = tab.dataset.mode
+
+            document.querySelectorAll(".mode-content").forEach(
+              (content) => {
+                content.style.display = "none"
+              },
+            )
+            document.getElementById(currentMode + "Mode").style
+              .display = "block"
           })
-          document.getElementById(currentMode + 'Mode').style.display = 'block'
         })
-      })
-      
-      // Color selection
-      document.querySelectorAll('.color-option').forEach(option => {
-        option.addEventListener('click', () => {
-          document.querySelector('.color-option.active')?.classList.remove('active')
-          option.classList.add('active')
-          selectedColor = option.dataset.color
+
+        // Color selection
+        document.querySelectorAll(".color-option").forEach((option) => {
+          option.addEventListener("click", () => {
+            document.querySelector(".color-option.active")?.classList
+              .remove("active")
+            option.classList.add("active")
+            selectedColor = option.dataset.color
+          })
         })
-      })
-      
-      // Portal destination
-      document.getElementById('portalDestination').addEventListener('change', (e) => {
-        portalDestination = e.target.value
-      })
-    }
-    
-    function populateEntityList() {
-      const entityList = document.getElementById('entityList')
-      entityList.innerHTML = ''
-      
-      // Add built-in entities
-      Object.entries(entityCatalog).forEach(([category, entities]) => {
-        if (category === 'portals') return // Portals handled separately
-        
-        Object.entries(entities).forEach(([id, entity]) => {
-          const option = document.createElement('div')
-          option.className = 'entity-option'
-          option.innerHTML = `
+
+        // Portal destination
+        document.getElementById("portalDestination").addEventListener(
+          "change",
+          (e) => {
+            portalDestination = e.target.value
+          },
+        )
+      }
+
+      function populateEntityList() {
+        const entityList = document.getElementById("entityList")
+        entityList.innerHTML = ""
+
+        // Add built-in entities
+        Object.entries(entityCatalog).forEach(
+          ([category, entities]) => {
+            if (category === "portals") return // Portals handled separately
+
+            Object.entries(entities).forEach(([id, entity]) => {
+              const option = document.createElement("div")
+              option.className = "entity-option"
+              option.innerHTML = `
             <span class="entity-emoji">${entity.emoji}</span>
             <div class="entity-details">
               <div class="entity-gloss">${entity.gloss}</div>
               <div class="entity-category">${category} - ${entity.category}</div>
             </div>
           `
-          option.addEventListener('click', () => {
-            document.querySelector('.entity-option.active')?.classList.remove('active')
-            option.classList.add('active')
-            selectedEntity = { category, id, ...entity }
-          })
-          entityList.appendChild(option)
-        })
-      })
-      
-      // Add custom entities
-      Object.entries(customEntities).forEach(([category, entities]) => {
-        Object.entries(entities).forEach(([id, entity]) => {
-          const option = document.createElement('div')
-          option.className = 'entity-option'
-          option.innerHTML = `
+              option.addEventListener("click", () => {
+                document.querySelector(".entity-option.active")
+                  ?.classList.remove("active")
+                option.classList.add("active")
+                selectedEntity = { category, id, ...entity }
+              })
+              entityList.appendChild(option)
+            })
+          },
+        )
+
+        // Add custom entities
+        Object.entries(customEntities).forEach(
+          ([category, entities]) => {
+            Object.entries(entities).forEach(([id, entity]) => {
+              const option = document.createElement("div")
+              option.className = "entity-option"
+              option.innerHTML = `
             <span class="entity-emoji">${entity.emoji}</span>
             <div class="entity-details">
               <div class="entity-gloss">${entity.gloss}</div>
               <div class="entity-category">${category} - custom</div>
             </div>
           `
-          option.addEventListener('click', () => {
-            document.querySelector('.entity-option.active')?.classList.remove('active')
-            option.classList.add('active')
-            selectedEntity = { category, id, ...entity, isCustom: true }
-          })
-          entityList.appendChild(option)
-        })
-      })
-      
-      // Add erase option
-      const eraseOption = document.createElement('div')
-      eraseOption.className = 'entity-option'
-      eraseOption.innerHTML = `
+              option.addEventListener("click", () => {
+                document.querySelector(".entity-option.active")
+                  ?.classList.remove("active")
+                option.classList.add("active")
+                selectedEntity = {
+                  category,
+                  id,
+                  ...entity,
+                  isCustom: true,
+                }
+              })
+              entityList.appendChild(option)
+            })
+          },
+        )
+
+        // Add erase option
+        const eraseOption = document.createElement("div")
+        eraseOption.className = "entity-option"
+        eraseOption.innerHTML = `
         <span class="entity-emoji">❌</span>
         <div class="entity-details">
           <div class="entity-gloss">Erase</div>
           <div class="entity-category">Remove entity</div>
         </div>
       `
-      eraseOption.addEventListener('click', () => {
-        document.querySelector('.entity-option.active')?.classList.remove('active')
-        eraseOption.classList.add('active')
-        selectedEntity = { type: 'erase' }
-      })
-      entityList.appendChild(eraseOption)
-    }
-    
-    function populatePortalList() {
-      const portalList = document.getElementById('portalList')
-      portalList.innerHTML = ''
-      
-      Object.entries(entityCatalog.portals).forEach(([id, portal]) => {
-        const option = document.createElement('div')
-        option.className = 'entity-option'
-        option.innerHTML = `
+        eraseOption.addEventListener("click", () => {
+          document.querySelector(".entity-option.active")?.classList
+            .remove("active")
+          eraseOption.classList.add("active")
+          selectedEntity = { type: "erase" }
+        })
+        entityList.appendChild(eraseOption)
+      }
+
+      function populatePortalList() {
+        const portalList = document.getElementById("portalList")
+        portalList.innerHTML = ""
+
+        Object.entries(entityCatalog.portals).forEach(
+          ([id, portal]) => {
+            const option = document.createElement("div")
+            option.className = "entity-option"
+            option.innerHTML = `
           <span class="entity-emoji">${portal.emoji}</span>
           <div class="entity-details">
             <div class="entity-gloss">${portal.gloss}</div>
             <div class="entity-category">portal</div>
           </div>
         `
-        option.addEventListener('click', () => {
-          document.querySelector('#portalList .entity-option.active')?.classList.remove('active')
-          option.classList.add('active')
-          selectedPortal = { id, ...portal }
+            option.addEventListener("click", () => {
+              document.querySelector(
+                "#portalList .entity-option.active",
+              )?.classList.remove("active")
+              option.classList.add("active")
+              selectedPortal = { id, ...portal }
+            })
+            portalList.appendChild(option)
+          },
+        )
+      }
+
+      function populateEmojiGrid() {
+        const emojiGrid = document.getElementById("emojiGrid")
+        emojiGrid.innerHTML = ""
+
+        availableEmojis.forEach((emoji) => {
+          const option = document.createElement("div")
+          option.className = "emoji-option"
+          option.textContent = emoji
+          option.addEventListener("click", () => {
+            document.querySelector(".emoji-option.selected")?.classList
+              .remove("selected")
+            option.classList.add("selected")
+            document.getElementById("selectedEmoji").textContent = emoji
+          })
+          emojiGrid.appendChild(option)
         })
-        portalList.appendChild(option)
-      })
-    }
-    
-    function populateEmojiGrid() {
-      const emojiGrid = document.getElementById('emojiGrid')
-      emojiGrid.innerHTML = ''
-      
-      availableEmojis.forEach(emoji => {
-        const option = document.createElement('div')
-        option.className = 'emoji-option'
-        option.textContent = emoji
-        option.addEventListener('click', () => {
-          document.querySelector('.emoji-option.selected')?.classList.remove('selected')
-          option.classList.add('selected')
-          document.getElementById('selectedEmoji').textContent = emoji
-        })
-        emojiGrid.appendChild(option)
-      })
-    }
-    
-    function handleTileClick(x, y) {
-      const tile = tiles[y][x]
-      
-      if (currentMode === 'terrain') {
-        tile.style.backgroundColor = selectedColor
-        terrain[y][x] = selectedColor
-      } else if (currentMode === 'entities') {
-        if (selectedEntity?.type === 'erase') {
-          // Remove entity
-          const entityEl = tile.querySelector('.tile-entity')
-          if (entityEl) {
-            entityEl.remove()
+      }
+
+      function handleTileClick(x, y) {
+        const tile = tiles[y][x]
+
+        if (currentMode === "terrain") {
+          tile.style.backgroundColor = selectedColor
+          terrain[y][x] = selectedColor
+        } else if (currentMode === "entities") {
+          if (selectedEntity?.type === "erase") {
+            // Remove entity
+            const entityEl = tile.querySelector(".tile-entity")
+            if (entityEl) {
+              entityEl.remove()
+              entities[y][x] = null
+            }
+          } else if (selectedEntity) {
+            // Remove existing entity first
+            const existingEntity = tile.querySelector(".tile-entity")
+            if (existingEntity) {
+              existingEntity.remove()
+            }
+
+            // Add new entity
+            const entityEl = document.createElement("div")
+            entityEl.className = "tile-entity"
+            entityEl.textContent = selectedEntity.emoji
+            entityEl.title = selectedEntity.gloss
+            tile.appendChild(entityEl)
+
+            entities[y][x] = {
+              category: selectedEntity.category,
+              id: selectedEntity.id,
+              emoji: selectedEntity.emoji,
+              gloss: selectedEntity.gloss,
+            }
+          }
+        } else if (currentMode === "portals") {
+          if (selectedPortal) {
+            // Remove existing entity first
+            const existingEntity = tile.querySelector(".tile-entity")
+            if (existingEntity) {
+              existingEntity.remove()
+            }
+
+            // Add portal
+            const entityEl = document.createElement("div")
+            entityEl.className = "tile-entity"
+            entityEl.textContent = selectedPortal.emoji
+            entityEl.title = `Portal to ${portalDestination}`
+            tile.appendChild(entityEl)
+
+            entities[y][x] = {
+              category: "portals",
+              id: selectedPortal.id,
+              emoji: selectedPortal.emoji,
+              gloss: selectedPortal.gloss,
+              destination: portalDestination,
+            }
+          }
+        }
+      }
+
+      function openEntityEditor() {
+        document.getElementById("entityEditor").style.display = "block"
+        document.getElementById("entityGloss").value = ""
+        document.getElementById("selectedEmoji").textContent = "🐙"
+        document.getElementById("selectedGloss").textContent = "octopus"
+      }
+
+      function closeEntityEditor() {
+        document.getElementById("entityEditor").style.display = "none"
+      }
+
+      function saveEntity() {
+        const gloss = document.getElementById("entityGloss").value
+          .trim()
+        const category = document.getElementById("entityCategory").value
+        const emoji =
+          document.getElementById("selectedEmoji").textContent
+
+        if (!gloss) {
+          alert("Please enter a gloss (name) for the entity")
+          return
+        }
+
+        // Create entity ID from gloss
+        const id = gloss.toLowerCase().replace(/[^a-z0-9]/g, "-")
+
+        // Add to custom entities
+        if (!customEntities[category]) {
+          customEntities[category] = {}
+        }
+
+        customEntities[category][id] = {
+          emoji: emoji,
+          gloss: gloss,
+          category: "custom",
+        }
+
+        // Refresh entity list
+        populateEntityList()
+
+        // Close editor
+        closeEntityEditor()
+
+        // Auto-select the new entity
+        const newOption = document.querySelector(`[data-id="${id}"]`)
+        if (newOption) {
+          newOption.click()
+        }
+      }
+
+      function clearGrid() {
+        for (let y = 0; y < 20; y++) {
+          for (let x = 0; x < 30; x++) {
+            tiles[y][x].style.backgroundColor = "#90EE90"
+            terrain[y][x] = "#90EE90"
+
+            const entityEl = tiles[y][x].querySelector(".tile-entity")
+            if (entityEl) {
+              entityEl.remove()
+            }
             entities[y][x] = null
           }
-        } else if (selectedEntity) {
-          // Remove existing entity first
-          const existingEntity = tile.querySelector('.tile-entity')
-          if (existingEntity) {
-            existingEntity.remove()
-          }
-          
-          // Add new entity
-          const entityEl = document.createElement('div')
-          entityEl.className = 'tile-entity'
-          entityEl.textContent = selectedEntity.emoji
-          entityEl.title = selectedEntity.gloss
-          tile.appendChild(entityEl)
-          
-          entities[y][x] = {
-            category: selectedEntity.category,
-            id: selectedEntity.id,
-            emoji: selectedEntity.emoji,
-            gloss: selectedEntity.gloss
-          }
         }
-      } else if (currentMode === 'portals') {
-        if (selectedPortal) {
-          // Remove existing entity first
-          const existingEntity = tile.querySelector('.tile-entity')
-          if (existingEntity) {
-            existingEntity.remove()
-          }
-          
-          // Add portal
-          const entityEl = document.createElement('div')
-          entityEl.className = 'tile-entity'
-          entityEl.textContent = selectedPortal.emoji
-          entityEl.title = `Portal to ${portalDestination}`
-          tile.appendChild(entityEl)
-          
-          entities[y][x] = {
-            category: 'portals',
-            id: selectedPortal.id,
-            emoji: selectedPortal.emoji,
-            gloss: selectedPortal.gloss,
-            destination: portalDestination
+      }
+
+      function generateBase() {
+        const realmColors = {
+          forest: ["#90EE90", "#228B22", "#4169E1"],
+          fairy: ["#FFB6C1", "#E6E6FA", "#98FB98"],
+          wraith: ["#2F2F2F", "#1C1C1C", "#4B0082"],
+          crystal: ["#B19CD9", "#87CEEB", "#FFE4E1"],
+        }
+
+        const colors = realmColors.forest // Default to forest
+        const scale = 0.1
+
+        for (let y = 0; y < 20; y++) {
+          for (let x = 0; x < 30; x++) {
+            const noiseValue = noise(x, y, scale)
+            let color
+
+            if (noiseValue < 0.3) {
+              color = colors[2]
+            } else if (noiseValue < 0.6) {
+              color = colors[1]
+            } else {
+              color = colors[0]
+            }
+
+            tiles[y][x].style.backgroundColor = color
+            terrain[y][x] = color
           }
         }
       }
-    }
-    
-    function openEntityEditor() {
-      document.getElementById('entityEditor').style.display = 'block'
-      document.getElementById('entityGloss').value = ''
-      document.getElementById('selectedEmoji').textContent = '🐙'
-      document.getElementById('selectedGloss').textContent = 'octopus'
-    }
-    
-    function closeEntityEditor() {
-      document.getElementById('entityEditor').style.display = 'none'
-    }
-    
-    function saveEntity() {
-      const gloss = document.getElementById('entityGloss').value.trim()
-      const category = document.getElementById('entityCategory').value
-      const emoji = document.getElementById('selectedEmoji').textContent
-      
-      if (!gloss) {
-        alert('Please enter a gloss (name) for the entity')
-        return
+
+      function noise(x, y, scale) {
+        const seed = 123.456
+        const n = Math.sin(x * scale + seed) *
+          Math.cos(y * scale + seed)
+        return (n + 1) / 2
       }
-      
-      // Create entity ID from gloss
-      const id = gloss.toLowerCase().replace(/[^a-z0-9]/g, '-')
-      
-      // Add to custom entities
-      if (!customEntities[category]) {
-        customEntities[category] = {}
-      }
-      
-      customEntities[category][id] = {
-        emoji: emoji,
-        gloss: gloss,
-        category: 'custom'
-      }
-      
-      // Refresh entity list
-      populateEntityList()
-      
-      // Close editor
-      closeEntityEditor()
-      
-      // Auto-select the new entity
-      const newOption = document.querySelector(`[data-id="${id}"]`)
-      if (newOption) {
-        newOption.click()
-      }
-    }
-    
-    function clearGrid() {
-      for (let y = 0; y < 20; y++) {
-        for (let x = 0; x < 30; x++) {
-          tiles[y][x].style.backgroundColor = '#90EE90'
-          terrain[y][x] = '#90EE90'
-          
-          const entityEl = tiles[y][x].querySelector('.tile-entity')
-          if (entityEl) {
-            entityEl.remove()
-          }
-          entities[y][x] = null
+
+      function exportRealm() {
+        const realmName = document.getElementById("realmName").value
+          .trim()
+        const realmId = document.getElementById("realmId").value.trim()
+
+        if (!realmName || !realmId) {
+          alert("Please enter both realm name and ID")
+          return
         }
-      }
-    }
-    
-    function generateBase() {
-      const realmColors = {
-        forest: ['#90EE90', '#228B22', '#4169E1'],
-        fairy: ['#FFB6C1', '#E6E6FA', '#98FB98'], 
-        wraith: ['#2F2F2F', '#1C1C1C', '#4B0082'],
-        crystal: ['#B19CD9', '#87CEEB', '#FFE4E1']
-      }
-      
-      const colors = realmColors.forest // Default to forest
-      const scale = 0.1
-      
-      for (let y = 0; y < 20; y++) {
-        for (let x = 0; x < 30; x++) {
-          const noiseValue = noise(x, y, scale)
-          let color
-          
-          if (noiseValue < 0.3) {
-            color = colors[2]
-          } else if (noiseValue < 0.6) {
-            color = colors[1]
-          } else {
-            color = colors[0]
-          }
-          
-          tiles[y][x].style.backgroundColor = color
-          terrain[y][x] = color
-        }
-      }
-    }
-    
-    function noise(x, y, scale) {
-      const seed = 123.456
-      const n = Math.sin(x * scale + seed) * Math.cos(y * scale + seed)
-      return (n + 1) / 2
-    }
-    
-    function exportRealm() {
-      const realmName = document.getElementById('realmName').value.trim()
-      const realmId = document.getElementById('realmId').value.trim()
-      
-      if (!realmName || !realmId) {
-        alert('Please enter both realm name and ID')
-        return
-      }
-      
-      // Generate name in conlang format
-      const nameConlang = realmName.toUpperCase().split(' ')
-      
-      // Collect portal destinations
-      const portals = []
-      const portalDestinations = new Set()
-      
-      for (let y = 0; y < 20; y++) {
-        for (let x = 0; x < 30; x++) {
-          const entity = entities[y][x]
-          if (entity && entity.category === 'portals') {
-            portalDestinations.add(entity.destination)
+
+        // Generate name in conlang format
+        const nameConlang = realmName.toUpperCase().split(" ")
+
+        // Collect portal destinations
+        const portals = []
+        const portalDestinations = new Set()
+
+        for (let y = 0; y < 20; y++) {
+          for (let x = 0; x < 30; x++) {
+            const entity = entities[y][x]
+            if (entity && entity.category === "portals") {
+              portalDestinations.add(entity.destination)
+            }
           }
         }
-      }
-      
-      // Create portal definitions
-      Array.from(portalDestinations).forEach(dest => {
-        portals.push({
-          entity: 'swirl', // Default portal type
-          destination: dest,
-          position: 'custom'
+
+        // Create portal definitions
+        Array.from(portalDestinations).forEach((dest) => {
+          portals.push({
+            entity: "swirl", // Default portal type
+            destination: dest,
+            position: "custom",
+          })
         })
-      })
-      
-      const exportData = {
-        // Realm metadata
-        id: realmId,
-        name: realmName,
-        nameConlang: nameConlang,
-        description: `Custom realm: ${realmName}`,
-        author: 'designer',
-        version: '1.0.0',
-        created: new Date().toISOString(),
-        modified: new Date().toISOString(),
-        
-        // Terrain
-        terrain: {
-          type: 'custom',
-          primary: { color: '#90EE90', weight: 0.7 },
-          secondary: { color: '#228B22', weight: 0.2 },
-          accent: { color: '#4169E1', weight: 0.1 }
-        },
-        customTerrain: terrain,
-        
-        // Portals
-        portals: portals,
-        
-        // Entities
-        entities: {
-          type: 'custom'
-        },
-        customEntities: entities,
-        
-        // Custom entity definitions
-        customEntityDefinitions: customEntities
+
+        const exportData = {
+          // Realm metadata
+          id: realmId,
+          name: realmName,
+          nameConlang: nameConlang,
+          description: `Custom realm: ${realmName}`,
+          author: "designer",
+          version: "1.0.0",
+          created: new Date().toISOString(),
+          modified: new Date().toISOString(),
+
+          // Terrain
+          terrain: {
+            type: "custom",
+            primary: { color: "#90EE90", weight: 0.7 },
+            secondary: { color: "#228B22", weight: 0.2 },
+            accent: { color: "#4169E1", weight: 0.1 },
+          },
+          customTerrain: terrain,
+
+          // Portals
+          portals: portals,
+
+          // Entities
+          entities: {
+            type: "custom",
+          },
+          customEntities: entities,
+
+          // Custom entity definitions
+          customEntityDefinitions: customEntities,
+        }
+
+        document.getElementById("exportOutput").value = JSON.stringify(
+          exportData,
+          null,
+          2,
+        )
       }
-      
-      document.getElementById('exportOutput').value = JSON.stringify(exportData, null, 2)
-    }
-    
-    // Initialize when page loads
-    window.addEventListener('load', init)
-  </script>
-</body>
+
+      // Initialize when page loads
+      window.addEventListener("load", init)
+    </script>
+  </body>
 </html>

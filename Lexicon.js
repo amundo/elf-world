@@ -1,322 +1,261 @@
 /**
  * Lexicon class for managing constructed language vocabulary
- * Maintains an array of word entries with efficient lookup indices
+ * Supports efficient lookup, role-based filtering, and metadata handling
  */
 class Lexicon {
-  constructor() {
-    // Core data: array of word objects
-    this.words = []
-
-    // Lookup indices for O(1) access
-    this.glossIndex = new Map()  // gloss -> word object
-    this.formIndex = new Map()   // form -> word object
-
-    // Track next available ID
+  constructor(entries = []) {
+    // Internal data
+    this.entries = [] // All word entries: { id, form, gloss, role?, ... }
+    this.glossIndex = new Map() // Lowercased gloss -> entry[]
+    this.formIndex = new Map() // Lowercased form -> entry[]
     this.nextId = 1
+
+    // Populate from initial entries
+    for (const entry of entries) {
+      this.addEntry(entry)
+    }
   }
 
   /**
-   * Add a new word to the lexicon
-   * @param {string} gloss - English meaning/concept
-   * @param {string} form - Conlang word form
-   * @param {Object} metadata - Optional additional data
-   * @returns {Object} The created word object
+   * Add a new word entry
+   * @param {Object} entry - Must include 'form' and 'gloss'
+   * @returns {Object} The added entry
    */
-  addWord(gloss, form, metadata = {}) {
-    // Check for duplicates
-    if (this.glossIndex.has(gloss)) {
-      throw new Error(`Word with gloss "${gloss}" already exists`)
-    }
-    if (this.formIndex.has(form)) {
-      throw new Error(`Word with form "${form}" already exists`)
-    }
+  addEntry(entry) {
+    const form = entry.form.toLowerCase()
+    const gloss = entry.gloss.toLowerCase()
 
-    // Create word object
-    const word = {
+    const newEntry = {
       id: this.nextId++,
-      gloss: gloss.toLowerCase(),
-      form: form.toLowerCase(),
+      form,
+      gloss,
       created: new Date(),
-      ...metadata
+      ...entry,
     }
 
-    // Add to array and indices
-    this.words.push(word)
-    this.glossIndex.set(word.gloss, word)
-    this.formIndex.set(word.form, word)
+    this.entries.push(newEntry)
 
-    return word
+    if (!this.formIndex.has(form)) this.formIndex.set(form, [])
+    if (!this.glossIndex.has(gloss)) this.glossIndex.set(gloss, [])
+
+    this.formIndex.get(form).push(newEntry)
+    this.glossIndex.get(gloss).push(newEntry)
+
+    return newEntry
   }
 
   /**
-   * Look up word by English gloss
-   * @param {string} gloss - English meaning to look up
-   * @returns {Object|null} Word object or null if not found
+   * Find all entries matching a conlang form
    */
-  getByGloss(gloss) {
-    return this.glossIndex.get(gloss.toLowerCase()) || null
+  findEntriesByForm(form) {
+    return this.formIndex.get(form.toLowerCase()) || []
   }
 
   /**
-   * Look up word by conlang form
-   * @param {string} form - Conlang form to look up
-   * @returns {Object|null} Word object or null if not found
+   * Find first entry by form
    */
-  getByForm(form) {
-    return this.formIndex.get(form.toLowerCase()) || null
+  findFirstEntryByForm(form) {
+    const entries = this.findEntriesByForm(form)
+    return entries.length > 0 ? entries[0] : null
   }
 
   /**
-   * Check if gloss exists in lexicon
-   * @param {string} gloss - English meaning to check
-   * @returns {boolean}
+   * Find all entries matching a gloss
+   */
+  findEntriesByGloss(gloss) {
+    return this.glossIndex.get(gloss.toLowerCase()) || []
+  }
+
+  /**
+   * Find first entry by gloss
+   */
+  findFirstEntryByGloss(gloss) {
+    const entries = this.findEntriesByGloss(gloss)
+    return entries.length > 0 ? entries[0] : null
+  }
+
+  /**
+   * Find entries by role
+   */
+  findEntriesByRole(role) {
+    return this.entries.filter((entry) => entry.role === role)
+  }
+
+  /**
+   * Get list of forms by role
+   */
+  getFormsByRole(role) {
+    return this.findEntriesByRole(role).map((entry) => entry.form)
+  }
+
+  /**
+   * Check if gloss exists
    */
   hasGloss(gloss) {
     return this.glossIndex.has(gloss.toLowerCase())
   }
 
   /**
-   * Check if form exists in lexicon
-   * @param {string} form - Conlang form to check
-   * @returns {boolean}
+   * Check if form exists
    */
   hasForm(form) {
     return this.formIndex.has(form.toLowerCase())
   }
 
   /**
-   * Get the conlang form for a gloss (convenience method)
-   * @param {string} gloss - English meaning
-   * @returns {string|null} Conlang form or null if not found
+   * Remove an entry (exact match)
    */
-  getForm(gloss) {
-    const word = this.getByGloss(gloss)
-    return word ? word.form : null
-  }
+  removeEntry(entryToRemove) {
+    const idx = this.entries.indexOf(entryToRemove)
+    if (idx === -1) return false
 
-  /**
-   * Get the English gloss for a form (convenience method)
-   * @param {string} form - Conlang form
-   * @returns {string|null} English gloss or null if not found
-   */
-  getGloss(form) {
-    const word = this.getByForm(form)
-    return word ? word.gloss : null
-  }
+    this.entries.splice(idx, 1)
 
-  /**
-   * Remove word by gloss
-   * @param {string} gloss - English meaning to remove
-   * @returns {boolean} True if word was found and removed
-   */
-  removeByGloss(gloss) {
-    const word = this.getByGloss(gloss)
-    if (!word) return false
+    const formList = this.formIndex.get(entryToRemove.form)
+    if (formList) {
+      this.formIndex.set(
+        entryToRemove.form,
+        formList.filter((e) => e !== entryToRemove),
+      )
+      if (this.formIndex.get(entryToRemove.form).length === 0) {
+        this.formIndex.delete(entryToRemove.form)
+      }
+    }
 
-    // Remove from indices
-    this.glossIndex.delete(word.gloss)
-    this.formIndex.delete(word.form)
-
-    // Remove from array
-    const index = this.words.findIndex(w => w.id === word.id)
-    if (index > -1) {
-      this.words.splice(index, 1)
+    const glossList = this.glossIndex.get(entryToRemove.gloss)
+    if (glossList) {
+      this.glossIndex.set(
+        entryToRemove.gloss,
+        glossList.filter((e) => e !== entryToRemove),
+      )
+      if (this.glossIndex.get(entryToRemove.gloss).length === 0) {
+        this.glossIndex.delete(entryToRemove.gloss)
+      }
     }
 
     return true
   }
 
   /**
-   * Update word metadata
-   * @param {string} gloss - English meaning to update
-   * @param {Object} updates - Fields to update
-   * @returns {Object|null} Updated word object or null if not found
+   * Replace all entries
    */
-  updateWord(gloss, updates) {
-    const word = this.getByGloss(gloss)
-    if (!word) return null
+  setEntries(newEntries) {
+    this.entries = []
+    this.formIndex.clear()
+    this.glossIndex.clear()
+    this.nextId = 1
+    for (const entry of newEntries) {
+      this.addEntry(entry)
+    }
+  }
 
-    // Apply updates (but protect core fields)
-    const protectedFields = ['id', 'gloss', 'form', 'created']
+  /**
+   * Update fields of the first entry matching a gloss
+   */
+  updateEntry(gloss, updates) {
+    const entry = this.findFirstEntryByGloss(gloss)
+    if (!entry) return null
+
+    const protectedFields = ["id", "form", "gloss", "created"]
     for (const [key, value] of Object.entries(updates)) {
       if (!protectedFields.includes(key)) {
-        word[key] = value
+        entry[key] = value
       }
     }
 
-    word.modified = new Date()
-    return word
+    entry.modified = new Date()
+    return entry
   }
 
   /**
-   * Get all words as array (for iteration)
-   * @returns {Array} Copy of words array
-   */
-  getAllWords() {
-    return [...this.words]
-  }
-
-  /**
-   * Get all glosses
-   * @returns {Array} Array of all English glosses
-   */
-  getAllGlosses() {
-    return Array.from(this.glossIndex.keys())
-  }
-
-  /**
-   * Get all forms
-   * @returns {Array} Array of all conlang forms
-   */
-  getAllForms() {
-    return Array.from(this.formIndex.keys())
-  }
-
-  /**
-   * Filter words by predicate function
-   * @param {Function} predicate - Function to test each word
-   * @returns {Array} Array of matching words
-   */
-  filter(predicate) {
-    return this.words.filter(predicate)
-  }
-
-  /**
-   * Search words by partial gloss match
-   * @param {string} partial - Partial gloss to search for
-   * @returns {Array} Array of matching words
+   * Search entries by partial gloss
    */
   searchByGloss(partial) {
-    const searchTerm = partial.toLowerCase()
-    return this.words.filter(word =>
-      word.gloss.includes(searchTerm)
-    )
+    const term = partial.toLowerCase()
+    return this.entries.filter((e) => e.gloss.includes(term))
   }
 
   /**
-   * Search words by partial form match
-   * @param {string} partial - Partial form to search for
-   * @returns {Array} Array of matching words
+   * Search entries by partial form
    */
   searchByForm(partial) {
-    const searchTerm = partial.toLowerCase()
-    return this.words.filter(word =>
-      word.form.includes(searchTerm)
+    const term = partial.toLowerCase()
+    return this.entries.filter((e) => e.form.includes(term))
+  }
+
+  /**
+   * Get all entries
+   */
+  getAllEntries() {
+    return [...this.entries]
+  }
+
+  /**
+   * Export to JSON
+   */
+  toJSON() {
+    return JSON.stringify(
+      {
+        entries: this.entries,
+        nextId: this.nextId,
+        exported: new Date(),
+      },
+      null,
+      2,
     )
   }
 
   /**
-   * Export lexicon to JSON
-   * @returns {string} JSON representation
-   */
-  toJSON() {
-    return JSON.stringify({
-      words: this.words,
-      nextId: this.nextId,
-      exported: new Date()
-    }, null, 2)
-  }
-
-  /**
-   * Import lexicon from JSON
-   * @param {string} jsonString - JSON data to import
-   * @returns {number} Number of words imported
+   * Import from JSON
    */
   fromJSON(jsonString) {
     try {
       const data = JSON.parse(jsonString)
-
-      // Clear existing data
-      this.words = []
-      this.glossIndex.clear()
-      this.formIndex.clear()
-
-      // Import words
-      for (const word of data.words) {
-        this.words.push(word)
-        this.glossIndex.set(word.gloss, word)
-        this.formIndex.set(word.form, word)
-      }
-
-      this.nextId = data.nextId || this.words.length + 1
-
-      return this.words.length
-    } catch (error) {
-      throw new Error(`Invalid JSON data: ${error.message}`)
+      this.setEntries(data.entries || [])
+      this.nextId = data.nextId || this.entries.length + 1
+      return this.entries.length
+    } catch (err) {
+      throw new Error(`Invalid JSON: ${err.message}`)
     }
   }
 
   /**
-   * Get lexicon statistics
-   * @returns {Object} Statistics about the lexicon
+   * Stats
    */
   getStats() {
     return {
-      totalWords: this.words.length,
-      averageFormLength: this.words.length > 0
-        ? this.words.reduce((sum, word) => sum + word.form.length, 0) / this.words.length
+      total: this.entries.length,
+      averageFormLength: this.entries.length > 0
+        ? this.entries.reduce((sum, e) => sum + e.form.length, 0) /
+          this.entries.length
         : 0,
-      averageGlossLength: this.words.length > 0
-        ? this.words.reduce((sum, word) => sum + word.gloss.length, 0) / this.words.length
+      averageGlossLength: this.entries.length > 0
+        ? this.entries.reduce((sum, e) => sum + e.gloss.length, 0) /
+          this.entries.length
         : 0,
-      oldestWord: this.words.length > 0
-        ? this.words.reduce((oldest, word) =>
-          word.created < oldest.created ? word : oldest
-        )
+      oldestEntry: this.entries.length > 0
+        ? this.entries.reduce((a, b) => (a.created < b.created ? a : b))
         : null,
-      newestWord: this.words.length > 0
-        ? this.words.reduce((newest, word) =>
-          word.created > newest.created ? word : newest
-        )
-        : null
+      newestEntry: this.entries.length > 0
+        ? this.entries.reduce((a, b) => (a.created > b.created ? a : b))
+        : null,
     }
   }
 
-  /**
-   * Clear all words from lexicon
-   */
   clear() {
-    this.words = []
-    this.glossIndex.clear()
+    this.entries = []
     this.formIndex.clear()
+    this.glossIndex.clear()
     this.nextId = 1
   }
 
-  /**
-   * Get size of lexicon
-   * @returns {number} Number of words
-   */
   get size() {
-    return this.words.length
+    return this.entries.length
   }
 
-  /**
-   * Check if lexicon is empty
-   * @returns {boolean}
-   */
   get isEmpty() {
-    return this.words.length === 0
+    return this.entries.length === 0
   }
 }
-if (import.meta.main) {
-  // Example usage:
-  const lexicon = new Lexicon()
-
-  // Add words
-  lexicon.addWord('tree', 'kelu')
-  lexicon.addWord('water', 'ami')
-  lexicon.addWord('fire', 'soto')
-
-  // Lookup examples
-  console.log(lexicon.getForm('tree'))        // 'kelu'
-  console.log(lexicon.getGloss('ami'))        // 'water'
-  console.log(lexicon.hasGloss('fire'))       // true
-  console.log(lexicon.hasForm('nonexistent')) // false
-
-  // Get all data
-  console.log(lexicon.getAllWords())
-  console.log(lexicon.getStats())
-}
-
 
 export { Lexicon }

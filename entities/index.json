@@ -8,7 +8,7 @@
       "description": "A tall forest tree"
     },
     "rock": {
-      "emoji": "🪨", 
+      "emoji": "🪨",
       "gloss": "rock",
       "solid": true,
       "category": "nature",
@@ -16,7 +16,7 @@
     },
     "flower": {
       "emoji": "🌸",
-      "gloss": "flower", 
+      "gloss": "flower",
       "solid": false,
       "category": "nature",
       "description": "A delicate blossom"
@@ -25,7 +25,7 @@
       "emoji": "🍄",
       "gloss": "mushroom",
       "solid": true,
-      "category": "nature", 
+      "category": "nature",
       "description": "A magical toadstool"
     },
     "crystal": {
@@ -44,7 +44,7 @@
     },
     "moon": {
       "emoji": "🌙",
-      "gloss": "moon", 
+      "gloss": "moon",
       "solid": false,
       "category": "celestial",
       "description": "Pale moonlight"
@@ -80,7 +80,17 @@
       "solid": false,
       "category": "magical",
       "description": "A powerful mage",
-      "dialogue": ["GOOD", "DAY", "FRIEND", ".", "MAGIC", "IS", "STRONG", "HERE", "."]
+      "dialogue": [
+        "GOOD",
+        "DAY",
+        "FRIEND",
+        ".",
+        "MAGIC",
+        "IS",
+        "STRONG",
+        "HERE",
+        "."
+      ]
     },
     "witch": {
       "emoji": "🧙‍♀️",
@@ -96,7 +106,19 @@
       "solid": false,
       "category": "royal",
       "description": "The Fairy Queen",
-      "dialogue": ["I", "AM", "QUEEN", ".", "YOU", "ARE", "WELCOME", "IN", "MY", "DOMAIN", "."]
+      "dialogue": [
+        "I",
+        "AM",
+        "QUEEN",
+        ".",
+        "YOU",
+        "ARE",
+        "WELCOME",
+        "IN",
+        "MY",
+        "DOMAIN",
+        "."
+      ]
     },
     "miner": {
       "emoji": "⛏️",
@@ -104,7 +126,17 @@
       "solid": false,
       "category": "human",
       "description": "A hardworking crystal miner",
-      "dialogue": ["BEEN", "MINING", "HERE", "FOR", "YEARS", ".", "STRANGE", "MAGIC", "..."]
+      "dialogue": [
+        "BEEN",
+        "MINING",
+        "HERE",
+        "FOR",
+        "YEARS",
+        ".",
+        "STRANGE",
+        "MAGIC",
+        "..."
+      ]
     }
   },
   "enemies": {
@@ -134,7 +166,7 @@
     },
     "zombie": {
       "emoji": "🧟",
-      "gloss": "zombie", 
+      "gloss": "zombie",
       "solid": false,
       "category": "undead",
       "description": "A shambling undead corpse",
@@ -144,7 +176,7 @@
       "emoji": "👻",
       "gloss": "ghost",
       "solid": false,
-      "category": "undead", 
+      "category": "undead",
       "description": "A tormented spirit",
       "dialogue": ["YOU", "NOT", "BELONG", "HERE", "!"]
     },
@@ -185,7 +217,7 @@
       "emoji": "✨",
       "gloss": "portal",
       "solid": false,
-      "category": "portal", 
+      "category": "portal",
       "description": "Sparkling magical gateway"
     },
     "mist": {

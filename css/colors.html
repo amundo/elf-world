@@ -1,60 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Color Scheme Demo</title>
-  <style>
-    :root {
-      --cinereous: hsla(16, 14%, 64%, 1);
-      --columbia-blue: hsla(217, 48%, 84%, 1);
-      --melon: hsla(11, 86%, 81%, 1);
-      --bittersweet-shimmer: hsla(2, 44%, 51%, 1);
-      --oxford-blue: hsla(230, 34%, 13%, 1);
-    }
+  <head>
+    <meta charset="UTF-8">
+    <title>Color Scheme Demo</title>
+    <style>
+      :root {
+        --cinereous: hsla(16, 14%, 64%, 1);
+        --columbia-blue: hsla(217, 48%, 84%, 1);
+        --melon: hsla(11, 86%, 81%, 1);
+        --bittersweet-shimmer: hsla(2, 44%, 51%, 1);
+        --oxford-blue: hsla(230, 34%, 13%, 1);
+      }
 
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      background: var(--oxford-blue);
-      color: white;
-      display: grid;
-      place-items: center;
-      min-height: 100vh;
-    }
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        background: var(--oxford-blue);
+        color: white;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+      }
 
-    .palette {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      max-width: 1000px;
-      padding: 2rem;
-    }
+      .palette {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        max-width: 1000px;
+        padding: 2rem;
+      }
 
-    .swatch {
-      padding: 1.5rem;
-      border-radius: 8px;
-      color: #000;
-      font-weight: bold;
-      text-align: center;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+      .swatch {
+        padding: 1.5rem;
+        border-radius: 8px;
+        color: #000;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
 
-    .cinereous { background: var(--cinereous); }
-    .columbia-blue { background: var(--columbia-blue); }
-    .melon { background: var(--melon); }
-    .bittersweet-shimmer { background: var(--bittersweet-shimmer); color: white; }
-    .oxford-blue { background: var(--oxford-blue); color: white; }
-
-  </style>
-</head>
-<body>
-  <div class="palette">
-    <div class="swatch cinereous">Cinereous</div>
-    <div class="swatch columbia-blue">Columbia Blue</div>
-    <div class="swatch melon">Melon</div>
-    <div class="swatch bittersweet-shimmer">Bittersweet Shimmer</div>
-    <div class="swatch oxford-blue">Oxford Blue</div>
-    <div class="swatch cinereous-2">Cinereous 2</div>
-  </div>
-</body>
+      .cinereous {
+        background: var(--cinereous);
+      }
+      .columbia-blue {
+        background: var(--columbia-blue);
+      }
+      .melon {
+        background: var(--melon);
+      }
+      .bittersweet-shimmer {
+        background: var(--bittersweet-shimmer);
+        color: white;
+      }
+      .oxford-blue {
+        background: var(--oxford-blue);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="palette">
+      <div class="swatch cinereous">Cinereous</div>
+      <div class="swatch columbia-blue">Columbia Blue</div>
+      <div class="swatch melon">Melon</div>
+      <div class="swatch bittersweet-shimmer">Bittersweet Shimmer</div>
+      <div class="swatch oxford-blue">Oxford Blue</div>
+      <div class="swatch cinereous-2">Cinereous 2</div>
+    </div>
+  </body>
 </html>

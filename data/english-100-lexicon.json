@@ -3,7 +3,9 @@
     "title": "100 most frequent English words",
     "url": "https://en.wikipedia.org/wiki/Most_common_words_in_English",
     "source": "Wikipedia",
-    "notes": ["don't really care about the frequency data but didn't want to throw it away"]
+    "notes": [
+      "don't really care about the frequency data but didn't want to throw it away"
+    ]
   },
   "words": [
     {

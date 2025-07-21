@@ -4,11 +4,15 @@ Generate an index.html file in the docs/ directory that lists all HTML files in 
 let files = await Array.fromAsync(await Deno.readDir("./"))
 
 let htmlFiles = files
-  .filter((file) => file.isFile && file.name.endsWith(".html") && file.name !== "index.html")
+  .filter((file) =>
+    file.isFile && file.name.endsWith(".html") && file.name !== "index.html"
+  )
 
 let linkList = htmlFiles
-  .reduce((ul, file) => ul + `<li><a href="./${file.name}">${file.name}</a></li>\n`, "")
-
+  .reduce(
+    (ul, file) => ul + `<li><a href="./${file.name}">${file.name}</a></li>\n`,
+    "",
+  )
 
 let index = `<!DOCTYPE html>
 <html lang="en">

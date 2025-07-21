@@ -1,363 +1,361 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Biome Painter</title>
-  <link rel="icon" href="data:image/x-icon;base64,AA==" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      height: 100%;
-      width: 100%;
-    }
-
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      display: grid;
-      grid-template: 1fr / 1fr;
-
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 1em;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      width: 100%;
-
-      h1 {
-        margin: 0;
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Biome Painter</title>
+    <link rel="icon" href="data:image/x-icon;base64,AA==" />
+    <style>
+      * {
+        box-sizing: border-box;
       }
 
-      #controls {
-        background-color: #00000033;
-        flex-wrap: wrap;
-        display: flex;
-        ;
-        gap: 1em;
-      }
-
-    }
-
-    #map-container {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      display: grid;
-      grid-template: 1fr /1fr;
-      border: 1px solid blue;
-
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-
-      #map {
-
-        display: grid;
-        grid-template-columns: repeat(100, 1fr);
-        transform-origin: center center;
-        border: 1px solid green;
-        transition: transform 0.2s ease;
-        width: 100%;
+      html,
+      body {
         height: 100%;
-        touch-action: none;
-        /* prevents scroll issues */
-        cursor: grab;
+        width: 100%;
+      }
 
-        &:active {
-          cursor: grabbing;
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        display: grid;
+        grid-template: 1fr / 1fr;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 1em;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+
+        h1 {
+          margin: 0;
         }
 
+        #controls {
+          background-color: #00000033;
+          flex-wrap: wrap;
+          display: flex;
+
+          gap: 1em;
+        }
       }
-    }
 
+      #map-container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: grid;
+        grid-template: 1fr / 1fr;
+        border: 1px solid blue;
 
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
 
+        #map {
+          display: grid;
+          grid-template-columns: repeat(100, 1fr);
+          transform-origin: center center;
+          border: 1px solid green;
+          transition: transform 0.2s ease;
+          width: 100%;
+          height: 100%;
+          touch-action: none;
+          /* prevents scroll issues */
+          cursor: grab;
 
-    .tile {
-      aspect-ratio: 1 / 1;
-      min-width: 100%;
-      min-height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      font-size: 1em;
-      line-height: 1;
-    }
+          &:active {
+            cursor: grabbing;
+          }
+        }
+      }
 
-    .active {
-      outline: 2px solid black;
-    }
-  </style>
-</head>
+      .tile {
+        aspect-ratio: 1 / 1;
+        min-width: 100%;
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        font-size: 1em;
+        line-height: 1;
+      }
 
-<body>
-  <header>
-    <h1>Biome Painter</h1>
-    <div id="controls">
-      <!-- biome buttons inserted here -->
-      <label>Brush:
-        <input type="range" id="brush" min="1" max="10" value="2">
-      </label>
-      <button id="apply">Apply Terrain Noise</button>
-      <label>Zoom:
-        <input type="range" id="zoom" min="0.5" max="2" step="0.1" value="1">
-      </label>
+      .active {
+        outline: 2px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Biome Painter</h1>
+      <div id="controls">
+        <!-- biome buttons inserted here -->
+        <label>Brush:
+          <input type="range" id="brush" min="1" max="10" value="2">
+        </label>
+        <button id="apply">Apply Terrain Noise</button>
+        <label>Zoom:
+          <input type="range" id="zoom" min="0.5" max="2" step="0.1" value="1">
+        </label>
+      </div>
+    </header>
+
+    <div id="map-container">
+      <div id="map"></div>
     </div>
-  </header>
+    <script type="module">
+      import { SimplexNoise } from "./simplex-noise.js"
 
-  <div id="map-container">
-    <div id="map"></div>
-  </div>
-<script type="module">
-import { SimplexNoise } from './simplex-noise.js'
+      const mapSize = 100
+      const map = document.getElementById("map")
+      const controls = document.getElementById("controls")
+      const applyBtn = document.getElementById("apply")
+      const zoomControl = document.getElementById("zoom")
+      const brushControl = document.getElementById("brush")
 
-const mapSize = 100
-const map = document.getElementById('map')
-const controls = document.getElementById('controls')
-const applyBtn = document.getElementById('apply')
-const zoomControl = document.getElementById('zoom')
-const brushControl = document.getElementById('brush')
+      let zoomLevel = parseFloat(zoomControl.value)
+      let brushSize = parseInt(brushControl.value)
+      let selectedBiome = null
+      const grid = []
 
-let zoomLevel = parseFloat(zoomControl.value)
-let brushSize = parseInt(brushControl.value)
-let selectedBiome = null
-const grid = []
+      const biomes = [
+        {
+          "name": "WATER",
+          "colors": [
+            "lch(80% 40 250)",
+            "lch(78% 40 250)",
+            "lch(74% 40 250)",
+            "lch(70% 40 250)",
+          ],
+          "emojis": [
+            {
+              "emoji": "💧",
+              "chance": 0.004,
+            },
+            {
+              "emoji": "🐟",
+              "chance": 0.006,
+            },
+            {
+              "emoji": "🐠",
+              "chance": 0.0008,
+            },
+            {
+              "emoji": "🌊",
+              "chance": 0.0002,
+            },
+          ],
+        },
+        {
+          "name": "FOREST",
+          "colors": [
+            "lch(45% 60 140)",
+            "lch(44% 60 140)",
+            "lch(43% 60 140)",
+            "lch(40% 60 140)",
+          ],
+          "emojis": [
+            {
+              "emoji": "🌳",
+              "chance": 0.002,
+            },
+            {
+              "emoji": "🐦",
+              "chance": 0.001,
+            },
+            {
+              "emoji": "🍂",
+              "chance": 0.004,
+            },
+            {
+              "emoji": "🌲",
+              "chance": 0.006,
+            },
+            {
+              "emoji": "🍄",
+              "chance": 0.002,
+            },
+          ],
+        },
+        {
+          "name": "DESERT",
+          "colors": [
+            "lch(90% 30 80)",
+            "lch(88% 30 80)",
+            "lch(86% 30 80)",
+            "lch(82% 30 80)",
+          ],
+          "emojis": [
+            {
+              "emoji": "🌵",
+              "chance": 0.002,
+            },
+            {
+              "emoji": "🦂",
+              "chance": 0.001,
+            },
+            {
+              "emoji": "🐍",
+              "chance": 0.0004,
+            },
+            {
+              "emoji": "🏜️",
+              "chance": 0.0002,
+            },
+          ],
+        },
+      ]
 
-const biomes = [
-  {
-    "name": "WATER",
-    "colors": [
-      "lch(80% 40 250)",
-      "lch(78% 40 250)",
-      "lch(74% 40 250)",
-      "lch(70% 40 250)"
-    ],
-    "emojis": [
-      {
-        "emoji": "💧",
-        "chance": 0.004
-      },
-      {
-        "emoji": "🐟",
-        "chance": 0.006
-      },
-      {
-        "emoji": "🐠",
-        "chance": 0.0008
-      },
-      {
-        "emoji": "🌊",
-        "chance": 0.0002
+      function createControls() {
+        const buttons = biomes.map((biome) => {
+          const btn = document.createElement("button")
+          btn.textContent = biome.name
+          btn.dataset.biome = biome.name
+          btn.addEventListener("click", () => {
+            selectedBiome = biome
+            buttons.forEach(({ btn }) => btn.classList.remove("active"))
+            btn.classList.add("active")
+          })
+          controls.appendChild(btn)
+          return { biome, btn }
+        })
+        buttons[0].btn.classList.add("active")
+        selectedBiome = buttons[0].biome
+        return buttons
       }
-    ]
-  },
-  {
-    "name": "FOREST",
-    "colors": [
-      "lch(45% 60 140)",
-      "lch(44% 60 140)",
-      "lch(43% 60 140)",
-      "lch(40% 60 140)"
-    ],
-    "emojis": [
-      {
-        "emoji": "🌳",
-        "chance": 0.002
-      },
-      {
-        "emoji": "🐦",
-        "chance": 0.001
-      },
-      {
-        "emoji": "🍂",
-        "chance": 0.004
-      },
-      {
-        "emoji": "🌲",
-        "chance": 0.006
-      },
-      {
-        "emoji": "🍄",
-        "chance": 0.002
-      }
-    ]
-  },
-  {
-    "name": "DESERT",
-    "colors": [
-      "lch(90% 30 80)",
-      "lch(88% 30 80)",
-      "lch(86% 30 80)",
-      "lch(82% 30 80)"
-    ],
-    "emojis": [
-      {
-        "emoji": "🌵",
-        "chance": 0.002
-      },
-      {
-        "emoji": "🦂",
-        "chance": 0.001
-      },
-      {
-        "emoji": "🐍",
-        "chance": 0.0004
-      },
-      {
-        "emoji": "🏜️",
-        "chance": 0.0002
-      }
-    ]
-  }
-]
 
-function createControls() {
-  const buttons = biomes.map(biome => {
-    const btn = document.createElement('button')
-    btn.textContent = biome.name
-    btn.dataset.biome = biome.name
-    btn.addEventListener('click', () => {
-      selectedBiome = biome
-      buttons.forEach(({ btn }) => btn.classList.remove('active'))
-      btn.classList.add('active')
-    })
-    controls.appendChild(btn)
-    return { biome, btn }
-  })
-  buttons[0].btn.classList.add('active')
-  selectedBiome = buttons[0].biome
-  return buttons
-}
+      function createMap() {
+        for (let y = 0; y < mapSize; y++) {
+          for (let x = 0; x < mapSize; x++) {
+            const tile = document.createElement("div")
+            tile.className = "tile"
+            tile.dataset.x = x
+            tile.dataset.y = y
+            tile.addEventListener("pointerdown", paint)
+            tile.addEventListener("pointerover", (e) => {
+              if (e.buttons) paint(e)
+            })
+            map.appendChild(tile)
+            grid.push({ x, y, tile, biome: null })
+          }
+        }
+      }
 
-function createMap() {
-  for (let y = 0; y < mapSize; y++) {
-    for (let x = 0; x < mapSize; x++) {
-      const tile = document.createElement('div')
-      tile.className = 'tile'
-      tile.dataset.x = x
-      tile.dataset.y = y
-      tile.addEventListener('pointerdown', paint)
-      tile.addEventListener('pointerover', e => {
-        if (e.buttons) paint(e)
+      function paint(e) {
+        if (!selectedBiome) return
+        const tile = e.target
+        const x = +tile.dataset.x
+        const y = +tile.dataset.y
+        const radius = brushSize
+
+        for (let dy = -radius; dy <= radius; dy++) {
+          for (let dx = -radius; dx <= radius; dx++) {
+            const nx = x + dx
+            const ny = y + dy
+            const dist = Math.sqrt(dx * dx + dy * dy)
+            if (dist > radius) continue
+
+            if (nx >= 0 && nx < mapSize && ny >= 0 && ny < mapSize) {
+              const index = ny * mapSize + nx
+              const cell = grid[index]
+
+              const t = 1 - dist / radius
+              const existing =
+                getComputedStyle(cell.tile).backgroundColor
+              const biomeColor = selectedBiome.colors[0]
+
+              cell.biome = selectedBiome
+              cell.tile.style.background =
+                `color-mix(in lch, ${biomeColor} ${
+                  Math.round(t * 100)
+                }%, ${existing})`
+              cell.tile.textContent = ""
+            }
+          }
+        }
+      }
+
+      function applyNoise() {
+        const simplex = new SimplexNoise()
+        for (const cell of grid) {
+          if (!cell.biome) continue
+          const n = simplex.noise2D(cell.x / 25, cell.y / 25) // Lower detail = smoother
+          const idx = Math.floor(Math.abs(n) * cell.biome.colors.length)
+          const color = cell.biome
+            .colors[Math.min(idx, cell.biome.colors.length - 1)]
+          cell.tile.style.background = color
+          cell.tile.textContent = ""
+          let placed = false
+          for (const { emoji, chance } of cell.biome.emojis) {
+            if (!placed && Math.random() < chance) {
+              cell.tile.textContent = emoji
+              placed = true
+            }
+          }
+        }
+      }
+
+      // Zoom + pan
+      let currentX = 0, currentY = 0
+      function updateTransform() {
+        map.style.transform =
+          `translate(${currentX}px, ${currentY}px) scale(${zoomLevel})`
+      }
+
+      zoomControl.addEventListener("input", () => {
+        zoomLevel = parseFloat(zoomControl.value)
+        updateTransform()
       })
-      map.appendChild(tile)
-      grid.push({ x, y, tile, biome: null })
-    }
-  }
-}
 
-function paint(e) {
-  if (!selectedBiome) return
-  const tile = e.target
-  const x = +tile.dataset.x
-  const y = +tile.dataset.y
-  const radius = brushSize
+      map.addEventListener("wheel", (e) => {
+        if (!e.ctrlKey) return
+        e.preventDefault()
+        zoomLevel += -e.deltaY * 0.001
+        zoomLevel = Math.min(3, Math.max(0.5, zoomLevel))
+        zoomControl.value = zoomLevel.toFixed(2)
+        updateTransform()
+      }, { passive: false })
 
-  for (let dy = -radius; dy <= radius; dy++) {
-    for (let dx = -radius; dx <= radius; dx++) {
-      const nx = x + dx
-      const ny = y + dy
-      const dist = Math.sqrt(dx * dx + dy * dy)
-      if (dist > radius) continue
+      let isPanning = false, startX, startY
+      map.addEventListener("pointerdown", (e) => {
+        if (!(e.ctrlKey || e.metaKey || e.button === 1)) return
+        e.preventDefault()
+        isPanning = true
+        startX = e.clientX
+        startY = e.clientY
+      })
+      window.addEventListener("pointermove", (e) => {
+        if (!isPanning) return
+        const dx = e.clientX - startX
+        const dy = e.clientY - startY
+        currentX += dx
+        currentY += dy
+        startX = e.clientX
+        startY = e.clientY
+        updateTransform()
+      })
+      window.addEventListener("pointerup", () => {
+        isPanning = false
+      })
 
-      if (nx >= 0 && nx < mapSize && ny >= 0 && ny < mapSize) {
-        const index = ny * mapSize + nx
-        const cell = grid[index]
+      // Brush control
+      brushControl.addEventListener("input", () => {
+        brushSize = parseInt(brushControl.value)
+      })
 
-        const t = 1 - dist / radius
-        const existing = getComputedStyle(cell.tile).backgroundColor
-        const biomeColor = selectedBiome.colors[0]
-
-        cell.biome = selectedBiome
-        cell.tile.style.background = `color-mix(in lch, ${biomeColor} ${Math.round(t * 100) }%, ${existing})`
-        cell.tile.textContent = ''
-      }
-    }
-  }
-}
-
-function applyNoise() {
-  const simplex = new SimplexNoise()
-  for (const cell of grid) {
-    if (!cell.biome) continue
-    const n = simplex.noise2D(cell.x / 25, cell.y / 25) // Lower detail = smoother
-    const idx = Math.floor(Math.abs(n) * cell.biome.colors.length)
-    const color = cell.biome.colors[Math.min(idx, cell.biome.colors.length - 1)]
-    cell.tile.style.background = color
-    cell.tile.textContent = ''
-    let placed = false
-    for (const { emoji, chance } of cell.biome.emojis) {
-      if (!placed && Math.random() < chance) {
-        cell.tile.textContent = emoji
-        placed = true
-      }
-    }
-  }
-}
-
-// Zoom + pan
-let currentX = 0, currentY = 0
-function updateTransform() {
-  map.style.transform = `translate(${currentX}px, ${currentY}px) scale(${zoomLevel})`
-}
-
-zoomControl.addEventListener('input', () => {
-  zoomLevel = parseFloat(zoomControl.value)
-  updateTransform()
-})
-
-map.addEventListener('wheel', (e) => {
-  if (!e.ctrlKey) return
-  e.preventDefault()
-  zoomLevel += -e.deltaY * 0.001
-  zoomLevel = Math.min(3, Math.max(0.5, zoomLevel))
-  zoomControl.value = zoomLevel.toFixed(2)
-  updateTransform()
-}, { passive: false })
-
-let isPanning = false, startX, startY
-map.addEventListener('pointerdown', (e) => {
-  if (!(e.ctrlKey || e.metaKey || e.button === 1)) return
-  e.preventDefault()
-  isPanning = true
-  startX = e.clientX
-  startY = e.clientY
-})
-window.addEventListener('pointermove', (e) => {
-  if (!isPanning) return
-  const dx = e.clientX - startX
-  const dy = e.clientY - startY
-  currentX += dx
-  currentY += dy
-  startX = e.clientX
-  startY = e.clientY
-  updateTransform()
-})
-window.addEventListener('pointerup', () => { isPanning = false })
-
-// Brush control
-brushControl.addEventListener('input', () => {
-  brushSize = parseInt(brushControl.value)
-})
-
-const buttons = createControls()
-createMap()
-applyBtn.onclick = applyNoise
-</script>
-
-</body>
-
+      const buttons = createControls()
+      createMap()
+      applyBtn.onclick = applyNoise
+    </script>
+  </body>
 </html>

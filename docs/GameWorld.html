@@ -1,534 +1,789 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Patrick Hall" />
-  <meta name="description" content="Manages the game grid, realm switching, entity generation, camera control, and audio in Elf World." />
-  <title>GameWorld Documentation</title>
-  <style>
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta name="author" content="Patrick Hall" />
+    <meta
+      name="description"
+      content="Manages the game grid, realm switching, entity generation, camera control, and audio in Elf World."
+    />
+    <title>GameWorld Documentation</title>
+    <style>
       html {
-        background-color: white;
+        color: #1a1a1a;
+        background-color: #fdfdfd;
       }
       body {
+        margin: 0 auto;
+        max-width: 36em;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        hyphens: auto;
+        overflow-wrap: break-word;
+        text-rendering: optimizeLegibility;
+        font-kerning: normal;
+      }
+      @media (max-width: 600px) {
+        body {
+          font-size: 0.9em;
+          padding: 12px;
+        }
+        h1 {
+          font-size: 1.8em;
+        }
+      }
+      @media print {
+        html {
+          background-color: white;
+        }
+        body {
+          background-color: transparent;
+          color: black;
+          font-size: 12pt;
+        }
+        p, h2, h3 {
+          orphans: 3;
+          widows: 3;
+        }
+        h2, h3, h4 {
+          page-break-after: avoid;
+        }
+      }
+      p {
+        margin: 1em 0;
+      }
+      a {
+        color: #1a1a1a;
+      }
+      a:visited {
+        color: #1a1a1a;
+      }
+      img {
+        max-width: 100%;
+      }
+      svg {
+        height: auto;
+        max-width: 100%;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 1.4em;
+      }
+      h5, h6 {
+        font-size: 1em;
+        font-style: italic;
+      }
+      h6 {
+        font-weight: normal;
+      }
+      ol, ul {
+        padding-left: 1.7em;
+        margin-top: 1em;
+      }
+      li > ol, li > ul {
+        margin-top: 0;
+      }
+      blockquote {
+        margin: 1em 0 1em 1.7em;
+        padding-left: 1em;
+        border-left: 2px solid #e6e6e6;
+        color: #606060;
+      }
+      code {
+        font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+        font-size: 85%;
+        margin: 0;
+        hyphens: manual;
+      }
+      pre {
+        margin: 1em 0;
+        overflow: auto;
+      }
+      pre code {
+        padding: 0;
+        overflow: visible;
+        overflow-wrap: normal;
+      }
+      .sourceCode {
         background-color: transparent;
-        color: black;
-        font-size: 12pt;
+        overflow: visible;
       }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
+      hr {
+        background-color: #1a1a1a;
+        border: none;
+        height: 1px;
+        margin: 1em 0;
       }
-      h2, h3, h4 {
-        page-break-after: avoid;
+      table {
+        margin: 1em 0;
+        border-collapse: collapse;
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        font-variant-numeric: lining-nums tabular-nums;
       }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
+      table caption {
+        margin-bottom: 0.75em;
+      }
+      tbody {
+        margin-top: 0.5em;
+        border-top: 1px solid #1a1a1a;
+        border-bottom: 1px solid #1a1a1a;
+      }
+      th {
+        border-top: 1px solid #1a1a1a;
+        padding: 0.25em 0.5em 0.25em 0.5em;
+      }
+      td {
+        padding: 0.125em 0.5em 0.25em 0.5em;
+      }
+      header {
+        margin-bottom: 4em;
+        text-align: center;
+      }
+      #TOC li {
+        list-style: none;
+      }
+      #TOC ul {
+        padding-left: 1.3em;
+      }
+      #TOC > ul {
+        padding-left: 0;
+      }
+      #TOC a:not(:hover) {
+        text-decoration: none;
+      }
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      div.columns {
+        display: flex;
+        gap: min(4vw, 1.5em);
+      }
+      div.column {
+        flex: auto;
+        overflow-x: auto;
+      }
+      div.hanging-indent {
+        margin-left: 1.5em;
+        text-indent: -1.5em;
+      }
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class] {
+        list-style: none;
+      }
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math {
+        display: block;
+        text-align: center;
+        margin: 0.5rem auto;
+      }
+      /* CSS for syntax highlighting */
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      pre > code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      pre > code.sourceCode > span {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      pre > code.sourceCode > span:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode > span {
+        color: inherit;
+        text-decoration: inherit;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        pre > code.sourceCode {
+          white-space: pre-wrap;
+        }
+        pre > code.sourceCode > span {
+          text-indent: -5em;
+          padding-left: 5em;
+        }
+      }
+      pre.numberSource code {
+        counter-reset: source-line 0;
+      }
+      pre.numberSource code > span {
+        position: relative;
+        left: -4em;
+        counter-increment: source-line;
+      }
+      pre.numberSource code > span > a:first-child::before {
+        content: counter(source-line);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
         color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">GameWorld Documentation</h1>
-<p class="author">Patrick Hall</p>
-</header>
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#gameworld.js" id="toc-gameworld.js">GameWorld.js</a>
-<ul>
-<li><a href="#responsibilities"
-id="toc-responsibilities">Responsibilities</a></li>
-<li><a href="#constructor" id="toc-constructor">Constructor</a></li>
-<li><a href="#initialization" id="toc-initialization">Initialization</a>
-<ul>
-<li><a href="#initialize"
-id="toc-initialize"><code>initialize()</code></a></li>
-<li><a href="#createtilegrid"
-id="toc-createtilegrid"><code>createTileGrid()</code></a></li>
-</ul></li>
-<li><a href="#realm-management" id="toc-realm-management">Realm
-Management</a>
-<ul>
-<li><a href="#switchrealmrealmkey"
-id="toc-switchrealmrealmkey"><code>switchRealm(realmKey)</code></a></li>
-</ul></li>
-<li><a href="#terrain-rendering" id="toc-terrain-rendering">Terrain
-Rendering</a>
-<ul>
-<li><a href="#applyterrainrealm"
-id="toc-applyterrainrealm"><code>applyTerrain(realm)</code></a></li>
-<li><a href="#applycustomterraincustomterrain"
-id="toc-applycustomterraincustomterrain"><code>applyCustomTerrain(customTerrain)</code></a></li>
-<li><a href="#applyproceduralterrainterrain"
-id="toc-applyproceduralterrainterrain"><code>applyProceduralTerrain(terrain)</code></a></li>
-</ul></li>
-<li><a href="#entity-generation" id="toc-entity-generation">Entity
-Generation</a>
-<ul>
-<li><a href="#generateentitiesrealm"
-id="toc-generateentitiesrealm"><code>generateEntities(realm)</code></a></li>
-<li><a href="#placecustomentitiescustomentities"
-id="toc-placecustomentitiescustomentities"><code>placeCustomEntities(customEntities)</code></a></li>
-<li><a href="#generaterandomentitiesrealm"
-id="toc-generaterandomentitiesrealm"><code>generateRandomEntities(realm)</code></a></li>
-<li><a href="#generatefromspawnsspawns"
-id="toc-generatefromspawnsspawns"><code>generateFromSpawns(spawns)</code></a></li>
-<li><a href="#entity-helpers" id="toc-entity-helpers">Entity
-Helpers</a></li>
-<li><a href="#placeportalsrealm"
-id="toc-placeportalsrealm"><code>placePortals(realm)</code></a></li>
-<li><a href="#findemptypositionmaxattempts"
-id="toc-findemptypositionmaxattempts"><code>findEmptyPosition(maxAttempts)</code></a></li>
-</ul></li>
-<li><a href="#player-integration" id="toc-player-integration">Player
-Integration</a>
-<ul>
-<li><a href="#repositionplayer"
-id="toc-repositionplayer"><code>repositionPlayer()</code></a></li>
-</ul></li>
-<li><a href="#camera-and-viewport" id="toc-camera-and-viewport">Camera
-and Viewport</a>
-<ul>
-<li><a href="#updatecamera"
-id="toc-updatecamera"><code>updateCamera()</code></a></li>
-<li><a href="#resizeview"
-id="toc-resizeview"><code>resizeView()</code></a></li>
-</ul></li>
-<li><a href="#audio-control" id="toc-audio-control">Audio Control</a>
-<ul>
-<li><a href="#toggleaudio"
-id="toc-toggleaudio"><code>toggleAudio()</code></a></li>
-</ul></li>
-<li><a href="#utility" id="toc-utility">Utility</a>
-<ul>
-<li><a href="#clampval-min-max"
-id="toc-clampval-min-max"><code>clamp(val, min, max)</code></a></li>
-</ul></li>
-<li><a href="#dom-requirements" id="toc-dom-requirements">DOM
-Requirements</a></li>
-<li><a href="#example-usage" id="toc-example-usage">Example
-Usage</a></li>
-<li><a href="#summary" id="toc-summary">Summary</a></li>
-</ul></li>
-</ul>
-</nav>
-<section id="gameworld.js" class="level1">
-<h1>GameWorld.js</h1>
-<p>The <code>GameWorld</code> class is responsible for managing the
-entire visual and logical grid-based world of <strong>Elf
-World</strong>. This includes rendering the map, placing entities,
-handling realm switching, controlling the camera view, and managing
-background music.</p>
-<hr />
-<section id="responsibilities" class="level2">
-<h2>Responsibilities</h2>
-<ul>
-<li>Create and render the tile grid</li>
-<li>Manage entities and player placement</li>
-<li>Handle realm data loading and switching</li>
-<li>Apply procedural or custom terrain</li>
-<li>Update camera position and view</li>
-<li>Control background audio playback</li>
-</ul>
-<hr />
-</section>
-<section id="constructor" class="level2">
-<h2>Constructor</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="fu">GameWorld</span>(config<span class="op">,</span> gameState)</span></code></pre></div>
-<ul>
-<li><strong>config</strong>: World dimensions, view size</li>
-<li><strong>gameState</strong>: Shared game state object (player,
-conlang, UI, etc.)</li>
-</ul>
-<p>Initializes internal structures:</p>
-<ul>
-<li><code>tileElements</code> — DOM tiles</li>
-<li><code>entityGrid</code> — logical occupancy grid</li>
-<li><code>camera</code> — focused region</li>
-<li><code>backgroundMusic</code>, <code>tileWidth</code>,
-<code>tileHeight</code></li>
-</ul>
-<hr />
-</section>
-<section id="initialization" class="level2">
-<h2>Initialization</h2>
-<section id="initialize" class="level3">
-<h3><code>initialize()</code></h3>
-<p>Creates the tile grid and applies a viewport resize using fallback
-dimensions.</p>
-</section>
-<section id="createtilegrid" class="level3">
-<h3><code>createTileGrid()</code></h3>
-<p>Generates a 2D DOM grid and stores tile elements in
-<code>tileElements</code>.</p>
-<hr />
-</section>
-</section>
-<section id="realm-management" class="level2">
-<h2>Realm Management</h2>
-<section id="switchrealmrealmkey" class="level3">
-<h3><code>switchRealm(realmKey)</code></h3>
-<ul>
-<li>Loads terrain and entities for the given realm</li>
-<li>Clears old entities and regenerates layout</li>
-<li>Updates realm name in conlang</li>
-<li>Plays realm music (if defined)</li>
-<li>Applies a visual transition effect</li>
-</ul>
-<hr />
-</section>
-</section>
-<section id="terrain-rendering" class="level2">
-<h2>Terrain Rendering</h2>
-<section id="applyterrainrealm" class="level3">
-<h3><code>applyTerrain(realm)</code></h3>
-<p>Chooses between custom and procedural terrain rendering.</p>
-</section>
-<section id="applycustomterraincustomterrain" class="level3">
-<h3><code>applyCustomTerrain(customTerrain)</code></h3>
-<p>Paints tiles with colors from a predefined 2D array.</p>
-</section>
-<section id="applyproceduralterrainterrain" class="level3">
-<h3><code>applyProceduralTerrain(terrain)</code></h3>
-<p>Paints tiles probabilistically using <code>primary</code>,
-<code>secondary</code>, and <code>accent</code> terrain
-weights/colors.</p>
-<hr />
-</section>
-</section>
-<section id="entity-generation" class="level2">
-<h2>Entity Generation</h2>
-<section id="generateentitiesrealm" class="level3">
-<h3><code>generateEntities(realm)</code></h3>
-<ul>
-<li>Supports both custom and random entity placement</li>
-<li>Falls back to spawn chance definitions if needed</li>
-<li>Always places portals last</li>
-</ul>
-</section>
-<section id="placecustomentitiescustomentities" class="level3">
-<h3><code>placeCustomEntities(customEntities)</code></h3>
-<p>Places entities from a 2D grid of definitions, handling
-<code>portals</code> and assigning types/dialogue.</p>
-</section>
-<section id="generaterandomentitiesrealm" class="level3">
-<h3><code>generateRandomEntities(realm)</code></h3>
-<p>Randomly places entities based on their <code>chance</code>
-attribute.</p>
-</section>
-<section id="generatefromspawnsspawns" class="level3">
-<h3><code>generateFromSpawns(spawns)</code></h3>
-<p>Fallback generator for unprocessed realm data.</p>
-<hr />
-</section>
-<section id="entity-helpers" class="level3">
-<h3>Entity Helpers</h3>
-<ul>
-<li><code>getEntityType(category)</code></li>
-<li><code>getEntitySolidity(type, concept)</code></li>
-<li><code>getEntityDialogue(category, concept)</code></li>
-</ul>
-<p>Provides derived values for entity attributes based on category or
-concept.</p>
-<hr />
-</section>
-<section id="placeportalsrealm" class="level3">
-<h3><code>placePortals(realm)</code></h3>
-<p>Places realm portals at random available positions, using
-<code>realm.portals[]</code>.</p>
-</section>
-<section id="findemptypositionmaxattempts" class="level3">
-<h3><code>findEmptyPosition(maxAttempts)</code></h3>
-<p>Finds a random unoccupied tile (avoiding the player) to place
-entities or portals.</p>
-<hr />
-</section>
-</section>
-<section id="player-integration" class="level2">
-<h2>Player Integration</h2>
-<section id="repositionplayer" class="level3">
-<h3><code>repositionPlayer()</code></h3>
-<ul>
-<li>Creates a new <code>Player</code> instance if none exists</li>
-<li>Moves player to a random open tile otherwise</li>
-</ul>
-<hr />
-</section>
-</section>
-<section id="camera-and-viewport" class="level2">
-<h2>Camera and Viewport</h2>
-<section id="updatecamera" class="level3">
-<h3><code>updateCamera()</code></h3>
-<p>Centers the viewport around the player, updating
-<code>camera.x</code> and <code>camera.y</code> and applying
-<code>translate()</code> to the <code>#world</code> container.</p>
-</section>
-<section id="resizeview" class="level3">
-<h3><code>resizeView()</code></h3>
-<p>Calculates tile sizes based on <code>.game-pane</code> dimensions and
-updates the grid layout accordingly. Uses fixed fallback dimensions if
-the layout isn’t ready.</p>
-<hr />
-</section>
-</section>
-<section id="audio-control" class="level2">
-<h2>Audio Control</h2>
-<section id="toggleaudio" class="level3">
-<h3><code>toggleAudio()</code></h3>
-<p>Toggles background music on or off and updates the
-<code>#audioToggle</code> button.</p>
-<hr />
-</section>
-</section>
-<section id="utility" class="level2">
-<h2>Utility</h2>
-<section id="clampval-min-max" class="level3">
-<h3><code>clamp(val, min, max)</code></h3>
-<p>Restricts a number to the <code>[min, max]</code> range.</p>
-<hr />
-</section>
-</section>
-<section id="dom-requirements" class="level2">
-<h2>DOM Requirements</h2>
-<p>Requires the following elements to exist:</p>
-<ul>
-<li><code>#world</code> — container for the tile grid</li>
-<li><code>#realmInfo</code> — shows current realm name</li>
-<li><code>#transition</code> — transition effect element</li>
-<li><code>#audioToggle</code> — audio control button</li>
-<li><code>.game-pane</code> — container for calculating available screen
-space</li>
-</ul>
-<hr />
-</section>
-<section id="example-usage" class="level2">
-<h2>Example Usage</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> world <span class="op">=</span> <span class="kw">new</span> <span class="fu">GameWorld</span>(CONFIG<span class="op">.</span><span class="at">world</span><span class="op">,</span> gameState)</span>
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {}
+      @media screen {
+        pre > code.sourceCode > span > a:first-child::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+        color: #008000;
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {} /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+        color: #008000;
+        font-weight: bold;
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">GameWorld Documentation</h1>
+      <p class="author">Patrick Hall</p>
+    </header>
+    <nav id="TOC" role="doc-toc">
+      <ul>
+        <li>
+          <a href="#gameworld.js" id="toc-gameworld.js">GameWorld.js</a>
+          <ul>
+            <li>
+              <a href="#responsibilities" id="toc-responsibilities"
+              >Responsibilities</a>
+            </li>
+            <li><a href="#constructor" id="toc-constructor">Constructor</a></li>
+            <li>
+              <a href="#initialization" id="toc-initialization"
+              >Initialization</a>
+              <ul>
+                <li>
+                  <a href="#initialize" id="toc-initialize"><code
+                    >initialize()</code></a>
+                </li>
+                <li>
+                  <a href="#createtilegrid" id="toc-createtilegrid"><code
+                    >createTileGrid()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#realm-management" id="toc-realm-management"
+              >Realm Management</a>
+              <ul>
+                <li>
+                  <a
+                    href="#switchrealmrealmkey"
+                    id="toc-switchrealmrealmkey"
+                  ><code>switchRealm(realmKey)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#terrain-rendering" id="toc-terrain-rendering"
+              >Terrain Rendering</a>
+              <ul>
+                <li>
+                  <a href="#applyterrainrealm" id="toc-applyterrainrealm"><code
+                    >applyTerrain(realm)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#applycustomterraincustomterrain"
+                    id="toc-applycustomterraincustomterrain"
+                  ><code>applyCustomTerrain(customTerrain)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#applyproceduralterrainterrain"
+                    id="toc-applyproceduralterrainterrain"
+                  ><code>applyProceduralTerrain(terrain)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#entity-generation" id="toc-entity-generation"
+              >Entity Generation</a>
+              <ul>
+                <li>
+                  <a
+                    href="#generateentitiesrealm"
+                    id="toc-generateentitiesrealm"
+                  ><code>generateEntities(realm)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#placecustomentitiescustomentities"
+                    id="toc-placecustomentitiescustomentities"
+                  ><code>placeCustomEntities(customEntities)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#generaterandomentitiesrealm"
+                    id="toc-generaterandomentitiesrealm"
+                  ><code>generateRandomEntities(realm)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#generatefromspawnsspawns"
+                    id="toc-generatefromspawnsspawns"
+                  ><code>generateFromSpawns(spawns)</code></a>
+                </li>
+                <li>
+                  <a href="#entity-helpers" id="toc-entity-helpers"
+                  >Entity Helpers</a>
+                </li>
+                <li>
+                  <a href="#placeportalsrealm" id="toc-placeportalsrealm"><code
+                    >placePortals(realm)</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#findemptypositionmaxattempts"
+                    id="toc-findemptypositionmaxattempts"
+                  ><code>findEmptyPosition(maxAttempts)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#player-integration" id="toc-player-integration"
+              >Player Integration</a>
+              <ul>
+                <li>
+                  <a href="#repositionplayer" id="toc-repositionplayer"><code
+                    >repositionPlayer()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#camera-and-viewport" id="toc-camera-and-viewport"
+              >Camera and Viewport</a>
+              <ul>
+                <li>
+                  <a href="#updatecamera" id="toc-updatecamera"><code
+                    >updateCamera()</code></a>
+                </li>
+                <li>
+                  <a href="#resizeview" id="toc-resizeview"><code
+                    >resizeView()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#audio-control" id="toc-audio-control">Audio Control</a>
+              <ul>
+                <li>
+                  <a href="#toggleaudio" id="toc-toggleaudio"><code
+                    >toggleAudio()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#utility" id="toc-utility">Utility</a>
+              <ul>
+                <li>
+                  <a href="#clampval-min-max" id="toc-clampval-min-max"><code
+                    >clamp(val, min, max)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#dom-requirements" id="toc-dom-requirements"
+              >DOM Requirements</a>
+            </li>
+            <li>
+              <a href="#example-usage" id="toc-example-usage">Example Usage</a>
+            </li>
+            <li><a href="#summary" id="toc-summary">Summary</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <section id="gameworld.js" class="level1">
+      <h1>GameWorld.js</h1>
+      <p>
+        The <code>GameWorld</code> class is responsible for managing the entire
+        visual and logical grid-based world of <strong>Elf World</strong>. This
+        includes rendering the map, placing entities, handling realm switching,
+        controlling the camera view, and managing background music.
+      </p>
+      <hr />
+      <section id="responsibilities" class="level2">
+        <h2>Responsibilities</h2>
+        <ul>
+          <li>Create and render the tile grid</li>
+          <li>Manage entities and player placement</li>
+          <li>Handle realm data loading and switching</li>
+          <li>Apply procedural or custom terrain</li>
+          <li>Update camera position and view</li>
+          <li>Control background audio playback</li>
+        </ul>
+        <hr />
+      </section>
+      <section id="constructor" class="level2">
+        <h2>Constructor</h2>
+        <div class="sourceCode" id="cb1">
+          <pre
+            class="sourceCode js"
+          ><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="fu">GameWorld</span>(config<span class="op">,</span> gameState)</span></code></pre>
+        </div>
+        <ul>
+          <li><strong>config</strong>: World dimensions, view size</li>
+          <li>
+            <strong>gameState</strong>: Shared game state object (player,
+            conlang, UI, etc.)
+          </li>
+        </ul>
+        <p>Initializes internal structures:</p>
+        <ul>
+          <li><code>tileElements</code> — DOM tiles</li>
+          <li><code>entityGrid</code> — logical occupancy grid</li>
+          <li><code>camera</code> — focused region</li>
+          <li>
+            <code>backgroundMusic</code>, <code>tileWidth</code>,
+            <code>tileHeight</code>
+          </li>
+        </ul>
+        <hr />
+      </section>
+      <section id="initialization" class="level2">
+        <h2>Initialization</h2>
+        <section id="initialize" class="level3">
+          <h3><code>initialize()</code></h3>
+          <p>
+            Creates the tile grid and applies a viewport resize using fallback
+            dimensions.
+          </p>
+        </section>
+        <section id="createtilegrid" class="level3">
+          <h3><code>createTileGrid()</code></h3>
+          <p>
+            Generates a 2D DOM grid and stores tile elements in
+            <code>tileElements</code>.
+          </p>
+          <hr />
+        </section>
+      </section>
+      <section id="realm-management" class="level2">
+        <h2>Realm Management</h2>
+        <section id="switchrealmrealmkey" class="level3">
+          <h3><code>switchRealm(realmKey)</code></h3>
+          <ul>
+            <li>Loads terrain and entities for the given realm</li>
+            <li>Clears old entities and regenerates layout</li>
+            <li>Updates realm name in conlang</li>
+            <li>Plays realm music (if defined)</li>
+            <li>Applies a visual transition effect</li>
+          </ul>
+          <hr />
+        </section>
+      </section>
+      <section id="terrain-rendering" class="level2">
+        <h2>Terrain Rendering</h2>
+        <section id="applyterrainrealm" class="level3">
+          <h3><code>applyTerrain(realm)</code></h3>
+          <p>Chooses between custom and procedural terrain rendering.</p>
+        </section>
+        <section id="applycustomterraincustomterrain" class="level3">
+          <h3><code>applyCustomTerrain(customTerrain)</code></h3>
+          <p>Paints tiles with colors from a predefined 2D array.</p>
+        </section>
+        <section id="applyproceduralterrainterrain" class="level3">
+          <h3><code>applyProceduralTerrain(terrain)</code></h3>
+          <p>
+            Paints tiles probabilistically using <code>primary</code>,
+            <code>secondary</code>, and <code>accent</code> terrain
+            weights/colors.
+          </p>
+          <hr />
+        </section>
+      </section>
+      <section id="entity-generation" class="level2">
+        <h2>Entity Generation</h2>
+        <section id="generateentitiesrealm" class="level3">
+          <h3><code>generateEntities(realm)</code></h3>
+          <ul>
+            <li>Supports both custom and random entity placement</li>
+            <li>Falls back to spawn chance definitions if needed</li>
+            <li>Always places portals last</li>
+          </ul>
+        </section>
+        <section id="placecustomentitiescustomentities" class="level3">
+          <h3><code>placeCustomEntities(customEntities)</code></h3>
+          <p>
+            Places entities from a 2D grid of definitions, handling
+            <code>portals</code> and assigning types/dialogue.
+          </p>
+        </section>
+        <section id="generaterandomentitiesrealm" class="level3">
+          <h3><code>generateRandomEntities(realm)</code></h3>
+          <p>
+            Randomly places entities based on their <code>chance</code>
+            attribute.
+          </p>
+        </section>
+        <section id="generatefromspawnsspawns" class="level3">
+          <h3><code>generateFromSpawns(spawns)</code></h3>
+          <p>Fallback generator for unprocessed realm data.</p>
+          <hr />
+        </section>
+        <section id="entity-helpers" class="level3">
+          <h3>Entity Helpers</h3>
+          <ul>
+            <li><code>getEntityType(category)</code></li>
+            <li><code>getEntitySolidity(type, concept)</code></li>
+            <li><code>getEntityDialogue(category, concept)</code></li>
+          </ul>
+          <p>
+            Provides derived values for entity attributes based on category or
+            concept.
+          </p>
+          <hr />
+        </section>
+        <section id="placeportalsrealm" class="level3">
+          <h3><code>placePortals(realm)</code></h3>
+          <p>
+            Places realm portals at random available positions, using
+            <code>realm.portals[]</code>.
+          </p>
+        </section>
+        <section id="findemptypositionmaxattempts" class="level3">
+          <h3><code>findEmptyPosition(maxAttempts)</code></h3>
+          <p>
+            Finds a random unoccupied tile (avoiding the player) to place
+            entities or portals.
+          </p>
+          <hr />
+        </section>
+      </section>
+      <section id="player-integration" class="level2">
+        <h2>Player Integration</h2>
+        <section id="repositionplayer" class="level3">
+          <h3><code>repositionPlayer()</code></h3>
+          <ul>
+            <li>Creates a new <code>Player</code> instance if none exists</li>
+            <li>Moves player to a random open tile otherwise</li>
+          </ul>
+          <hr />
+        </section>
+      </section>
+      <section id="camera-and-viewport" class="level2">
+        <h2>Camera and Viewport</h2>
+        <section id="updatecamera" class="level3">
+          <h3><code>updateCamera()</code></h3>
+          <p>
+            Centers the viewport around the player, updating
+            <code>camera.x</code> and <code>camera.y</code> and applying
+            <code>translate()</code> to the <code>#world</code> container.
+          </p>
+        </section>
+        <section id="resizeview" class="level3">
+          <h3><code>resizeView()</code></h3>
+          <p>
+            Calculates tile sizes based on <code>.game-pane</code> dimensions
+            and updates the grid layout accordingly. Uses fixed fallback
+            dimensions if the layout isn’t ready.
+          </p>
+          <hr />
+        </section>
+      </section>
+      <section id="audio-control" class="level2">
+        <h2>Audio Control</h2>
+        <section id="toggleaudio" class="level3">
+          <h3><code>toggleAudio()</code></h3>
+          <p>
+            Toggles background music on or off and updates the
+            <code>#audioToggle</code> button.
+          </p>
+          <hr />
+        </section>
+      </section>
+      <section id="utility" class="level2">
+        <h2>Utility</h2>
+        <section id="clampval-min-max" class="level3">
+          <h3><code>clamp(val, min, max)</code></h3>
+          <p>Restricts a number to the <code>[min, max]</code> range.</p>
+          <hr />
+        </section>
+      </section>
+      <section id="dom-requirements" class="level2">
+        <h2>DOM Requirements</h2>
+        <p>Requires the following elements to exist:</p>
+        <ul>
+          <li><code>#world</code> — container for the tile grid</li>
+          <li><code>#realmInfo</code> — shows current realm name</li>
+          <li><code>#transition</code> — transition effect element</li>
+          <li><code>#audioToggle</code> — audio control button</li>
+          <li>
+            <code>.game-pane</code> — container for calculating available screen
+            space
+          </li>
+        </ul>
+        <hr />
+      </section>
+      <section id="example-usage" class="level2">
+        <h2>Example Usage</h2>
+        <div class="sourceCode" id="cb2">
+          <pre
+            class="sourceCode js"
+          >
+<code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> world <span class="op">=</span> <span class="kw">new</span> <span class="fu">GameWorld</span>(CONFIG<span class="op">.</span><span class="at">world</span><span class="op">,</span> gameState)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> world<span class="op">.</span><span class="fu">initialize</span>()</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> world<span class="op">.</span><span class="fu">switchRealm</span>(<span class="st">&#39;forest&#39;</span>)</span></code></pre></div>
-<hr />
-</section>
-<section id="summary" class="level2">
-<h2>Summary</h2>
-<p>The <code>GameWorld</code> class orchestrates all visual and logical
-aspects of the game’s environment, enabling dynamic and modular realm
-loading, responsive terrain rendering, and player–entity interaction. It
-works closely with:</p>
-<ul>
-<li><code>Entity</code></li>
-<li><code>Player</code></li>
-<li><code>ConlangEngine</code></li>
-<li><code>UIManager</code></li>
-</ul>
-</section>
-</section>
-</body>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> world<span class="op">.</span><span class="fu">switchRealm</span>(<span class="st">&#39;forest&#39;</span>)</span></code></pre>
+        </div>
+        <hr />
+      </section>
+      <section id="summary" class="level2">
+        <h2>Summary</h2>
+        <p>
+          The <code>GameWorld</code> class orchestrates all visual and logical
+          aspects of the game’s environment, enabling dynamic and modular realm
+          loading, responsive terrain rendering, and player–entity interaction.
+          It works closely with:
+        </p>
+        <ul>
+          <li><code>Entity</code></li>
+          <li><code>Player</code></li>
+          <li><code>ConlangEngine</code></li>
+          <li><code>UIManager</code></li>
+        </ul>
+      </section>
+    </section>
+  </body>
 </html>

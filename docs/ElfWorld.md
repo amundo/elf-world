@@ -8,7 +8,9 @@ last_updated: 2025-07-10
 
 # ElfWorld.js
 
-This is the main game controller file for **Elf World**. It initializes all core subsystems, loads realm and entity data, manages global state, and exposes debugging tools in the browser console.
+This is the main game controller file for **Elf World**. It initializes all core
+subsystems, loads realm and entity data, manages global state, and exposes
+debugging tools in the browser console.
 
 ---
 
@@ -49,9 +51,9 @@ gameState = {
   knownWords,
   focusedEntity,
   selectedEntity,
-  currentRealm
+  currentRealm,
 }
-````
+```
 
 ---
 
@@ -73,22 +75,22 @@ Top-level function called on startup:
 
 ### `loadRealms()`
 
-* Loads `realms/index.json`
-* For each realm file:
+- Loads `realms/index.json`
+- For each realm file:
 
-  * Loads and processes entities
-  * Handles fallback if loading fails
+  - Loads and processes entities
+  - Handles fallback if loading fails
 
 ### `loadEntityCatalog()`
 
-* Loads `entities/index.json`
-* Falls back to a hardcoded catalog if necessary
+- Loads `entities/index.json`
+- Falls back to a hardcoded catalog if necessary
 
 ### `processRealmData(realmData, entityCatalog)`
 
-* Expands `entityRef` references using the catalog
-* Supports both procedural and pre-defined entity formats
-* Handles portal setup and custom entity integration
+- Expands `entityRef` references using the catalog
+- Supports both procedural and pre-defined entity formats
+- Handles portal setup and custom entity integration
 
 ---
 
@@ -98,11 +100,12 @@ Top-level function called on startup:
 
 Returns a small catalog with fallback emoji entities:
 
-* Tree, rock, fairy, snake, portal
+- Tree, rock, fairy, snake, portal
 
 ### `getFallbackRealms()`
 
-Returns a default realm ("Fairy Realm") with pink forest and one talking fairy NPC.
+Returns a default realm ("Fairy Realm") with pink forest and one talking fairy
+NPC.
 
 ---
 
@@ -112,11 +115,11 @@ Returns a default realm ("Fairy Realm") with pink forest and one talking fairy N
 
 Registers all DOM input events:
 
-* Arrow key movement
-* `<Enter>` to process command input
-* Audio toggle button
-* Resizing view on window resize
-* Disables right-click on game area
+- Arrow key movement
+- `<Enter>` to process command input
+- Audio toggle button
+- Resizing view on window resize
+- Disables right-click on game area
 
 ---
 
@@ -158,7 +161,7 @@ dumpGameState()
 
 ```js
 showRealms()
-switchRealm('forest')
+switchRealm("forest")
 getCurrentRealm()
 showPortals()
 ```
@@ -179,9 +182,9 @@ getCurrentRealm()
 Starts the game. Logs any errors during loading and displays an error screen.
 
 ```js
-initializeGame().catch(error => {
-  console.error('Game initialization failed:', error)
-  showError('Game failed to start. Check console for details.')
+initializeGame().catch((error) => {
+  console.error("Game initialization failed:", error)
+  showError("Game failed to start. Check console for details.")
 })
 ```
 
@@ -189,21 +192,22 @@ initializeGame().catch(error => {
 
 ## File Structure Assumptions
 
-* `realms/index.json`: lists all realm files
-* `entities/index.json`: maps entity IDs to emoji/gloss data
-* `realms/*.json`: individual realm definitions
+- `realms/index.json`: lists all realm files
+- `entities/index.json`: maps entity IDs to emoji/gloss data
+- `realms/*.json`: individual realm definitions
 
 ---
 
 ## Summary
 
-This file glues together all components of the Elf World game. It handles loading, setup, interaction, and developer tools.
+This file glues together all components of the Elf World game. It handles
+loading, setup, interaction, and developer tools.
 
 **Modules used:**
 
-* `ConlangEngine`
-* `GameWorld`
-* `UIManager`
-* `CommandProcessor`
+- `ConlangEngine`
+- `GameWorld`
+- `UIManager`
+- `CommandProcessor`
 
 **Game can be controlled and debugged entirely from the browser console.**

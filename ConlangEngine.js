@@ -1,4 +1,4 @@
-import { Lexicon } from './Lexicon.js'
+import { Lexicon } from "./Lexicon.js"
 
 /**
  * ConlangEngine - handles phonological generation and lexicon management
@@ -7,24 +7,45 @@ import { Lexicon } from './Lexicon.js'
 class ConlangEngine {
   constructor(config = {}) {
     // Phonological system
-    this.consonants = config.consonants || ['p', 't', 'k', 's', 'n', 'm', 'l', 'r', 'w', 'j']
-    this.vowels = config.vowels || ['a', 'e', 'i', 'o', 'u']
-    this.syllableStructures = config.syllableStructures || ['CV', 'CVC', 'V', 'VC']
-    
+    this.consonants = config.consonants ||
+      ["p", "t", "k", "s", "n", "m", "l", "r", "w", "j"]
+    this.vowels = config.vowels || ["a", "e", "i", "o", "u"]
+    this.syllableStructures = config.syllableStructures ||
+      ["CV", "CVC", "V", "VC"]
+
     // Random number generator
     this.seed = config.seed || null
     this.rng = this.createRNG(this.seed)
-    
+
     // Lexicon instance
     this.lexicon = new Lexicon()
-    
+
     // Initialize with seed vocabulary
     this.seedWords = config.seedWords || [
-      "GO", "HAVE", "HEAR", "HELLO", "HERE", "HOW", "KNOW", "LEARN", 
-      "NEAR", "NOT", "OPEN", "SAY", "SEE", "TAKE", "THING", "THIS", 
-      "USE", "WHAT", "WHERE", "WHO", "WORD", "WORLD"
+      "GO",
+      "HAVE",
+      "HEAR",
+      "HELLO",
+      "HERE",
+      "HOW",
+      "KNOW",
+      "LEARN",
+      "NEAR",
+      "NOT",
+      "OPEN",
+      "SAY",
+      "SEE",
+      "TAKE",
+      "THING",
+      "THIS",
+      "USE",
+      "WHAT",
+      "WHERE",
+      "WHO",
+      "WORD",
+      "WORLD",
     ]
-    
+
     this.initializeSeedVocabulary()
   }
 
@@ -44,11 +65,12 @@ class ConlangEngine {
    * Generate a syllable based on structure pattern
    */
   generateSyllable(structure) {
-    let syllable = ''
+    let syllable = ""
     for (const segment of structure) {
-      if (segment === 'C') {
-        syllable += this.consonants[Math.floor(this.rng() * this.consonants.length)]
-      } else if (segment === 'V') {
+      if (segment === "C") {
+        syllable +=
+          this.consonants[Math.floor(this.rng() * this.consonants.length)]
+      } else if (segment === "V") {
         syllable += this.vowels[Math.floor(this.rng() * this.vowels.length)]
       }
     }
@@ -60,9 +82,12 @@ class ConlangEngine {
    */
   generateWordForm() {
     const numSyllables = Math.floor(this.rng() * 3) + 1
-    let word = ''
+    let word = ""
     for (let i = 0; i < numSyllables; i++) {
-      const structure = this.syllableStructures[Math.floor(this.rng() * this.syllableStructures.length)]
+      const structure = this
+        .syllableStructures[
+          Math.floor(this.rng() * this.syllableStructures.length)
+        ]
       word += this.generateSyllable(structure)
     }
     return word
@@ -87,9 +112,9 @@ class ConlangEngine {
 
     // Add to lexicon with metadata
     this.lexicon.addWord(gloss, form, {
-      generatedBy: 'ConlangEngine',
+      generatedBy: "ConlangEngine",
       phonologicalStructure: this.analyzePhonologicalStructure(form),
-      ...metadata
+      ...metadata,
     })
 
     return form
@@ -107,10 +132,10 @@ class ConlangEngine {
    */
   backTranslate(conlangText) {
     const words = conlangText.toLowerCase().split(/\s+/)
-    return words.map(conlangWord => {
+    return words.map((conlangWord) => {
       const gloss = this.lexicon.getGloss(conlangWord)
       return gloss || conlangWord // Return original if not found
-    }).join(' ')
+    }).join(" ")
   }
 
   /**
@@ -118,9 +143,9 @@ class ConlangEngine {
    */
   translate(englishText) {
     const words = englishText.toLowerCase().split(/\s+/)
-    return words.map(englishWord => {
+    return words.map((englishWord) => {
       return this.getWord(englishWord)
-    }).join(' ')
+    }).join(" ")
   }
 
   /**
@@ -128,9 +153,9 @@ class ConlangEngine {
    */
   initializeSeedVocabulary() {
     for (const word of this.seedWords) {
-      this.getWord(word.toLowerCase(), { 
+      this.getWord(word.toLowerCase(), {
         seedWord: true,
-        frequency: 'high'
+        frequency: "high",
       })
     }
   }
@@ -139,14 +164,14 @@ class ConlangEngine {
    * Analyze phonological structure of a word
    */
   analyzePhonologicalStructure(word) {
-    let structure = ''
+    let structure = ""
     for (const char of word.toLowerCase()) {
       if (this.vowels.includes(char)) {
-        structure += 'V'
+        structure += "V"
       } else if (this.consonants.includes(char)) {
-        structure += 'C'
+        structure += "C"
       } else {
-        structure += 'X' // Unknown segment
+        structure += "X" // Unknown segment
       }
     }
     return structure
@@ -172,7 +197,8 @@ class ConlangEngine {
       }
 
       // Count structures
-      const structure = word.phonologicalStructure || this.analyzePhonologicalStructure(word.form)
+      const structure = word.phonologicalStructure ||
+        this.analyzePhonologicalStructure(word.form)
       structureCounts.set(structure, (structureCounts.get(structure) || 0) + 1)
     }
 
@@ -180,7 +206,7 @@ class ConlangEngine {
       consonantFrequencies: Object.fromEntries(consonantCounts),
       vowelFrequencies: Object.fromEntries(vowelCounts),
       structureFrequencies: Object.fromEntries(structureCounts),
-      totalWords: allWords.length
+      totalWords: allWords.length,
     }
   }
 
@@ -188,10 +214,10 @@ class ConlangEngine {
    * Generate a batch of words for concepts
    */
   generateBatch(concepts, metadata = {}) {
-    return concepts.map(concept => ({
+    return concepts.map((concept) => ({
       gloss: concept,
       form: this.getWord(concept, metadata),
-      word: this.lexicon.getByGloss(concept)
+      word: this.lexicon.getByGloss(concept),
     }))
   }
 
@@ -227,8 +253,8 @@ class ConlangEngine {
         consonants: this.consonants,
         vowels: this.vowels,
         syllableStructures: this.syllableStructures,
-        seed: this.seed
-      }
+        seed: this.seed,
+      },
     }
   }
 }

@@ -8,7 +8,9 @@ last_updated: 2025-07-10
 
 # Entity.js
 
-The `Entity` class represents interactable objects in the game world, including NPCs, portals, creatures, and objects. It handles rendering, movement, interactions, conlang naming, and dialogue.
+The `Entity` class represents interactable objects in the game world, including
+NPCs, portals, creatures, and objects. It handles rendering, movement,
+interactions, conlang naming, and dialogue.
 
 ---
 
@@ -18,19 +20,20 @@ The `Entity` class represents interactable objects in the game world, including 
 
 ```js
 new Entity({ x, y, entityDef, gameState, world })
-````
+```
 
-* **x, y**: Initial position in the world grid
-* **entityDef**: Object with properties such as `emoji`, `concept`, `dialogue`, `destination`, and `type`
-* **gameState**: The main game state object
-* **world**: The game world/grid this entity is part of
+- **x, y**: Initial position in the world grid
+- **entityDef**: Object with properties such as `emoji`, `concept`, `dialogue`,
+  `destination`, and `type`
+- **gameState**: The main game state object
+- **world**: The game world/grid this entity is part of
 
 Initializes:
 
-* Emoji display
-* Concept and conlang name
-* HTML element and event handlers
-* Placement in the world
+- Emoji display
+- Concept and conlang name
+- HTML element and event handlers
+- Placement in the world
 
 ---
 
@@ -38,10 +41,10 @@ Initializes:
 
 Creates the DOM element for the entity:
 
-* Assigns `.entity` and `.type` class names
-* Sets emoji as content
-* Adds a tooltip showing the concept and conlang name
-* Adds a click handler for inspection
+- Assigns `.entity` and `.type` class names
+- Sets emoji as content
+- Adds a tooltip showing the concept and conlang name
+- Adds a click handler for inspection
 
 ---
 
@@ -49,8 +52,8 @@ Creates the DOM element for the entity:
 
 Places the entity in the world grid:
 
-* Appends its element to the correct tile in the DOM
-* Registers it in `entityGrid`
+- Appends its element to the correct tile in the DOM
+- Registers it in `entityGrid`
 
 ---
 
@@ -58,9 +61,10 @@ Places the entity in the world grid:
 
 Returns dialogue from the entity:
 
-* If dialogue is an array of glosses, each is translated using `conlang.getWord()`
-* Punctuation is preserved
-* If a legacy string is used, returns it as-is
+- If dialogue is an array of glosses, each is translated using
+  `conlang.getWord()`
+- Punctuation is preserved
+- If a legacy string is used, returns it as-is
 
 Used for NPC interactions.
 
@@ -70,10 +74,10 @@ Used for NPC interactions.
 
 Maps emoji to known concept strings. Examples:
 
-* `'🌲'` → `'tree'`
-* `'🧙‍♂️'` → `'wizard'`
-* `'✨'` → `'portal'`
-* Unknown emoji → `'entity'`
+- `'🌲'` → `'tree'`
+- `'🧙‍♂️'` → `'wizard'`
+- `'✨'` → `'portal'`
+- Unknown emoji → `'entity'`
 
 ---
 
@@ -81,10 +85,10 @@ Maps emoji to known concept strings. Examples:
 
 Handles clicking on the entity:
 
-* Adds a message with the entity's emoji
-* Shows the conlang name if the concept is known
-* Displays `???` if not
-* Sets the selected entity in `gameState`
+- Adds a message with the entity's emoji
+- Shows the conlang name if the concept is known
+- Displays `???` if not
+- Sets the selected entity in `gameState`
 
 ---
 
@@ -92,9 +96,9 @@ Handles clicking on the entity:
 
 Moves the entity to a new position in the world:
 
-* Removes element from old tile
-* Updates internal coordinates and `entityGrid`
-* Appends to new tile
+- Removes element from old tile
+- Updates internal coordinates and `entityGrid`
+- Appends to new tile
 
 ---
 
@@ -102,13 +106,13 @@ Moves the entity to a new position in the world:
 
 Triggered when a player interacts with the entity.
 
-* **If `type === 'portal'`**:
+- **If `type === 'portal'`**:
 
-  * Switches to the destination realm (if defined)
-* **If dialogue is defined**:
+  - Switches to the destination realm (if defined)
+- **If dialogue is defined**:
 
-  * Calls `speak()` to get translated conlang dialogue
-  * Displays it via `UIManager.showDialogue()`
+  - Calls `speak()` to get translated conlang dialogue
+  - Displays it via `UIManager.showDialogue()`
 
 Also logs debug info to the console.
 
@@ -118,10 +122,10 @@ Also logs debug info to the console.
 
 Each entity creates and manages its own DOM element with:
 
-* CSS class `.entity`
-* Text content as its emoji
-* Tooltip for concept and conlang name
-* Click-to-inspect behavior
+- CSS class `.entity`
+- Text content as its emoji
+- Tooltip for concept and conlang name
+- Click-to-inspect behavior
 
 ---
 
@@ -132,14 +136,14 @@ const elder = new Entity({
   x: 5,
   y: 7,
   entityDef: {
-    type: 'npc',
-    emoji: '👴',
-    concept: 'elder',
-    dialogue: ['hello', 'child'],
-    solid: true
+    type: "npc",
+    emoji: "👴",
+    concept: "elder",
+    dialogue: ["hello", "child"],
+    solid: true,
   },
   gameState,
-  world
+  world,
 })
 ```
 
@@ -149,16 +153,15 @@ const elder = new Entity({
 
 Examples include:
 
-* `npc` — characters with dialogue
-* `portal` — teleport to other realms
-* `object` — static scenery
+- `npc` — characters with dialogue
+- `portal` — teleport to other realms
+- `object` — static scenery
 
 ---
 
 ## Summary of Responsibilities
 
-* Visual representation via emoji and DOM
-* Conlang naming and dialogue
-* Movement and world placement
-* Interaction (inspection, speaking, realm switching)
-
+- Visual representation via emoji and DOM
+- Conlang naming and dialogue
+- Movement and world placement
+- Interaction (inspection, speaking, realm switching)

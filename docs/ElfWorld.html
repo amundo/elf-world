@@ -1,344 +1,553 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Patrick Hall" />
-  <meta name="description" content="Main entry point for the Elf World game. Initializes core systems, loads realms and entities, and handles global state and input." />
-  <title>ElfWorld Documentation</title>
-  <style>
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta name="author" content="Patrick Hall" />
+    <meta
+      name="description"
+      content="Main entry point for the Elf World game. Initializes core systems, loads realms and entities, and handles global state and input."
+    />
+    <title>ElfWorld Documentation</title>
+    <style>
       html {
-        background-color: white;
+        color: #1a1a1a;
+        background-color: #fdfdfd;
       }
       body {
+        margin: 0 auto;
+        max-width: 36em;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        hyphens: auto;
+        overflow-wrap: break-word;
+        text-rendering: optimizeLegibility;
+        font-kerning: normal;
+      }
+      @media (max-width: 600px) {
+        body {
+          font-size: 0.9em;
+          padding: 12px;
+        }
+        h1 {
+          font-size: 1.8em;
+        }
+      }
+      @media print {
+        html {
+          background-color: white;
+        }
+        body {
+          background-color: transparent;
+          color: black;
+          font-size: 12pt;
+        }
+        p, h2, h3 {
+          orphans: 3;
+          widows: 3;
+        }
+        h2, h3, h4 {
+          page-break-after: avoid;
+        }
+      }
+      p {
+        margin: 1em 0;
+      }
+      a {
+        color: #1a1a1a;
+      }
+      a:visited {
+        color: #1a1a1a;
+      }
+      img {
+        max-width: 100%;
+      }
+      svg {
+        height: auto;
+        max-width: 100%;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 1.4em;
+      }
+      h5, h6 {
+        font-size: 1em;
+        font-style: italic;
+      }
+      h6 {
+        font-weight: normal;
+      }
+      ol, ul {
+        padding-left: 1.7em;
+        margin-top: 1em;
+      }
+      li > ol, li > ul {
+        margin-top: 0;
+      }
+      blockquote {
+        margin: 1em 0 1em 1.7em;
+        padding-left: 1em;
+        border-left: 2px solid #e6e6e6;
+        color: #606060;
+      }
+      code {
+        font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+        font-size: 85%;
+        margin: 0;
+        hyphens: manual;
+      }
+      pre {
+        margin: 1em 0;
+        overflow: auto;
+      }
+      pre code {
+        padding: 0;
+        overflow: visible;
+        overflow-wrap: normal;
+      }
+      .sourceCode {
         background-color: transparent;
-        color: black;
-        font-size: 12pt;
+        overflow: visible;
       }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
+      hr {
+        background-color: #1a1a1a;
+        border: none;
+        height: 1px;
+        margin: 1em 0;
       }
-      h2, h3, h4 {
-        page-break-after: avoid;
+      table {
+        margin: 1em 0;
+        border-collapse: collapse;
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        font-variant-numeric: lining-nums tabular-nums;
       }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
+      table caption {
+        margin-bottom: 0.75em;
+      }
+      tbody {
+        margin-top: 0.5em;
+        border-top: 1px solid #1a1a1a;
+        border-bottom: 1px solid #1a1a1a;
+      }
+      th {
+        border-top: 1px solid #1a1a1a;
+        padding: 0.25em 0.5em 0.25em 0.5em;
+      }
+      td {
+        padding: 0.125em 0.5em 0.25em 0.5em;
+      }
+      header {
+        margin-bottom: 4em;
+        text-align: center;
+      }
+      #TOC li {
+        list-style: none;
+      }
+      #TOC ul {
+        padding-left: 1.3em;
+      }
+      #TOC > ul {
+        padding-left: 0;
+      }
+      #TOC a:not(:hover) {
+        text-decoration: none;
+      }
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      div.columns {
+        display: flex;
+        gap: min(4vw, 1.5em);
+      }
+      div.column {
+        flex: auto;
+        overflow-x: auto;
+      }
+      div.hanging-indent {
+        margin-left: 1.5em;
+        text-indent: -1.5em;
+      }
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class] {
+        list-style: none;
+      }
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math {
+        display: block;
+        text-align: center;
+        margin: 0.5rem auto;
+      }
+      /* CSS for syntax highlighting */
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      pre > code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      pre > code.sourceCode > span {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      pre > code.sourceCode > span:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode > span {
+        color: inherit;
+        text-decoration: inherit;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        pre > code.sourceCode {
+          white-space: pre-wrap;
+        }
+        pre > code.sourceCode > span {
+          text-indent: -5em;
+          padding-left: 5em;
+        }
+      }
+      pre.numberSource code {
+        counter-reset: source-line 0;
+      }
+      pre.numberSource code > span {
+        position: relative;
+        left: -4em;
+        counter-increment: source-line;
+      }
+      pre.numberSource code > span > a:first-child::before {
+        content: counter(source-line);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
         color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">ElfWorld Documentation</h1>
-<p class="author">Patrick Hall</p>
-</header>
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#elfworld.js" id="toc-elfworld.js">ElfWorld.js</a>
-<ul>
-<li><a href="#responsibilities"
-id="toc-responsibilities">Responsibilities</a></li>
-<li><a href="#game-configuration" id="toc-game-configuration">Game
-Configuration</a></li>
-<li><a href="#global-state-gamestate"
-id="toc-global-state-gamestate">Global State:
-<code>gameState</code></a></li>
-<li><a href="#initialization" id="toc-initialization">Initialization</a>
-<ul>
-<li><a href="#initializegame"
-id="toc-initializegame"><code>initializeGame()</code></a></li>
-</ul></li>
-<li><a href="#realm-and-entity-loading"
-id="toc-realm-and-entity-loading">Realm and Entity Loading</a>
-<ul>
-<li><a href="#loadrealms"
-id="toc-loadrealms"><code>loadRealms()</code></a></li>
-<li><a href="#loadentitycatalog"
-id="toc-loadentitycatalog"><code>loadEntityCatalog()</code></a></li>
-<li><a href="#processrealmdatarealmdata-entitycatalog"
-id="toc-processrealmdatarealmdata-entitycatalog"><code>processRealmData(realmData, entityCatalog)</code></a></li>
-</ul></li>
-<li><a href="#fallback-utilities" id="toc-fallback-utilities">Fallback
-Utilities</a>
-<ul>
-<li><a href="#getdefaultentitycatalog"
-id="toc-getdefaultentitycatalog"><code>getDefaultEntityCatalog()</code></a></li>
-<li><a href="#getfallbackrealms"
-id="toc-getfallbackrealms"><code>getFallbackRealms()</code></a></li>
-</ul></li>
-<li><a href="#ui-and-input" id="toc-ui-and-input">UI and Input</a>
-<ul>
-<li><a href="#setupeventlisteners"
-id="toc-setupeventlisteners"><code>setupEventListeners()</code></a></li>
-<li><a href="#showgame-showerrormessage"
-id="toc-showgame-showerrormessage"><code>showGame()</code> /
-<code>showError(message)</code></a></li>
-</ul></li>
-<li><a href="#debug-api" id="toc-debug-api">Debug API</a>
-<ul>
-<li><a href="#core-objects" id="toc-core-objects">Core objects:</a></li>
-<li><a href="#vocabulary-tools" id="toc-vocabulary-tools">Vocabulary
-tools:</a></li>
-<li><a href="#stats" id="toc-stats">Stats:</a></li>
-<li><a href="#world-navigation" id="toc-world-navigation">World
-navigation:</a></li>
-<li><a href="#example" id="toc-example">Example:</a></li>
-</ul></li>
-<li><a href="#startup" id="toc-startup">Startup</a>
-<ul>
-<li><a href="#initializegame-1"
-id="toc-initializegame-1"><code>initializeGame()</code></a></li>
-</ul></li>
-<li><a href="#file-structure-assumptions"
-id="toc-file-structure-assumptions">File Structure Assumptions</a></li>
-<li><a href="#summary" id="toc-summary">Summary</a></li>
-</ul></li>
-</ul>
-</nav>
-<section id="elfworld.js" class="level1">
-<h1>ElfWorld.js</h1>
-<p>This is the main game controller file for <strong>Elf World</strong>.
-It initializes all core subsystems, loads realm and entity data, manages
-global state, and exposes debugging tools in the browser console.</p>
-<hr />
-<section id="responsibilities" class="level2">
-<h2>Responsibilities</h2>
-<ul>
-<li>Load external resources (realms, entities)</li>
-<li>Initialize:
-<ul>
-<li><code>ConlangEngine</code> for language generation</li>
-<li><code>GameWorld</code> for world map and rendering</li>
-<li><code>UIManager</code> for interface elements</li>
-<li><code>CommandProcessor</code> for handling user input</li>
-</ul></li>
-<li>Set up keyboard and command input</li>
-<li>Maintain global <code>gameState</code></li>
-<li>Expose browser debugging interface</li>
-</ul>
-<hr />
-</section>
-<section id="game-configuration" class="level2">
-<h2>Game Configuration</h2>
-<p>Defined in the <code>CONFIG</code> object:</p>
-<ul>
-<li><code>world</code>: Grid size and view window</li>
-<li><code>conlang</code>: Phonology and seed words</li>
-<li><code>game</code>: Starting realm and known vocabulary</li>
-</ul>
-<hr />
-</section>
-<section id="global-state-gamestate" class="level2">
-<h2>Global State: <code>gameState</code></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gameState <span class="op">=</span> {</span>
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {}
+      @media screen {
+        pre > code.sourceCode > span > a:first-child::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+        color: #008000;
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {} /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+        color: #008000;
+        font-weight: bold;
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">ElfWorld Documentation</h1>
+      <p class="author">Patrick Hall</p>
+    </header>
+    <nav id="TOC" role="doc-toc">
+      <ul>
+        <li>
+          <a href="#elfworld.js" id="toc-elfworld.js">ElfWorld.js</a>
+          <ul>
+            <li>
+              <a href="#responsibilities" id="toc-responsibilities"
+              >Responsibilities</a>
+            </li>
+            <li>
+              <a href="#game-configuration" id="toc-game-configuration"
+              >Game Configuration</a>
+            </li>
+            <li>
+              <a
+                href="#global-state-gamestate"
+                id="toc-global-state-gamestate"
+              >Global State:
+                <code>gameState</code></a>
+            </li>
+            <li>
+              <a href="#initialization" id="toc-initialization"
+              >Initialization</a>
+              <ul>
+                <li>
+                  <a href="#initializegame" id="toc-initializegame"><code
+                    >initializeGame()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a
+                href="#realm-and-entity-loading"
+                id="toc-realm-and-entity-loading"
+              >Realm and Entity Loading</a>
+              <ul>
+                <li>
+                  <a href="#loadrealms" id="toc-loadrealms"><code
+                    >loadRealms()</code></a>
+                </li>
+                <li>
+                  <a href="#loadentitycatalog" id="toc-loadentitycatalog"><code
+                    >loadEntityCatalog()</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#processrealmdatarealmdata-entitycatalog"
+                    id="toc-processrealmdatarealmdata-entitycatalog"
+                  ><code>processRealmData(realmData, entityCatalog)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#fallback-utilities" id="toc-fallback-utilities"
+              >Fallback Utilities</a>
+              <ul>
+                <li>
+                  <a
+                    href="#getdefaultentitycatalog"
+                    id="toc-getdefaultentitycatalog"
+                  ><code>getDefaultEntityCatalog()</code></a>
+                </li>
+                <li>
+                  <a href="#getfallbackrealms" id="toc-getfallbackrealms"><code
+                    >getFallbackRealms()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#ui-and-input" id="toc-ui-and-input">UI and Input</a>
+              <ul>
+                <li>
+                  <a
+                    href="#setupeventlisteners"
+                    id="toc-setupeventlisteners"
+                  ><code>setupEventListeners()</code></a>
+                </li>
+                <li>
+                  <a
+                    href="#showgame-showerrormessage"
+                    id="toc-showgame-showerrormessage"
+                  ><code>showGame()</code> /
+                    <code>showError(message)</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#debug-api" id="toc-debug-api">Debug API</a>
+              <ul>
+                <li>
+                  <a href="#core-objects" id="toc-core-objects"
+                  >Core objects:</a>
+                </li>
+                <li>
+                  <a href="#vocabulary-tools" id="toc-vocabulary-tools"
+                  >Vocabulary tools:</a>
+                </li>
+                <li><a href="#stats" id="toc-stats">Stats:</a></li>
+                <li>
+                  <a href="#world-navigation" id="toc-world-navigation"
+                  >World navigation:</a>
+                </li>
+                <li><a href="#example" id="toc-example">Example:</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#startup" id="toc-startup">Startup</a>
+              <ul>
+                <li>
+                  <a href="#initializegame-1" id="toc-initializegame-1"><code
+                    >initializeGame()</code></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a
+                href="#file-structure-assumptions"
+                id="toc-file-structure-assumptions"
+              >File Structure Assumptions</a>
+            </li>
+            <li><a href="#summary" id="toc-summary">Summary</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <section id="elfworld.js" class="level1">
+      <h1>ElfWorld.js</h1>
+      <p>
+        This is the main game controller file for <strong>Elf World</strong>. It
+        initializes all core subsystems, loads realm and entity data, manages
+        global state, and exposes debugging tools in the browser console.
+      </p>
+      <hr />
+      <section id="responsibilities" class="level2">
+        <h2>Responsibilities</h2>
+        <ul>
+          <li>Load external resources (realms, entities)</li>
+          <li>
+            Initialize:
+            <ul>
+              <li><code>ConlangEngine</code> for language generation</li>
+              <li><code>GameWorld</code> for world map and rendering</li>
+              <li><code>UIManager</code> for interface elements</li>
+              <li><code>CommandProcessor</code> for handling user input</li>
+            </ul>
+          </li>
+          <li>Set up keyboard and command input</li>
+          <li>Maintain global <code>gameState</code></li>
+          <li>Expose browser debugging interface</li>
+        </ul>
+        <hr />
+      </section>
+      <section id="game-configuration" class="level2">
+        <h2>Game Configuration</h2>
+        <p>Defined in the <code>CONFIG</code> object:</p>
+        <ul>
+          <li><code>world</code>: Grid size and view window</li>
+          <li><code>conlang</code>: Phonology and seed words</li>
+          <li><code>game</code>: Starting realm and known vocabulary</li>
+        </ul>
+        <hr />
+      </section>
+      <section id="global-state-gamestate" class="level2">
+        <h2>Global State: <code>gameState</code></h2>
+        <div class="sourceCode" id="cb1">
+          <pre
+            class="sourceCode js"
+          >
+<code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gameState <span class="op">=</span> {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  conlang<span class="op">,</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  world<span class="op">,</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  ui<span class="op">,</span></span>
@@ -349,162 +558,204 @@ global state, and exposes debugging tools in the browser console.</p>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  focusedEntity<span class="op">,</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  selectedEntity<span class="op">,</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  currentRealm</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<hr />
-</section>
-<section id="initialization" class="level2">
-<h2>Initialization</h2>
-<section id="initializegame" class="level3">
-<h3><code>initializeGame()</code></h3>
-<p>Top-level function called on startup:</p>
-<ol type="1">
-<li>Loads realm and entity data</li>
-<li>Initializes subsystems</li>
-<li>Builds and displays the world</li>
-<li>Welcomes the player</li>
-<li>Exposes a debug API in the browser console</li>
-</ol>
-<hr />
-</section>
-</section>
-<section id="realm-and-entity-loading" class="level2">
-<h2>Realm and Entity Loading</h2>
-<section id="loadrealms" class="level3">
-<h3><code>loadRealms()</code></h3>
-<ul>
-<li><p>Loads <code>realms/index.json</code></p></li>
-<li><p>For each realm file:</p>
-<ul>
-<li>Loads and processes entities</li>
-<li>Handles fallback if loading fails</li>
-</ul></li>
-</ul>
-</section>
-<section id="loadentitycatalog" class="level3">
-<h3><code>loadEntityCatalog()</code></h3>
-<ul>
-<li>Loads <code>entities/index.json</code></li>
-<li>Falls back to a hardcoded catalog if necessary</li>
-</ul>
-</section>
-<section id="processrealmdatarealmdata-entitycatalog" class="level3">
-<h3><code>processRealmData(realmData, entityCatalog)</code></h3>
-<ul>
-<li>Expands <code>entityRef</code> references using the catalog</li>
-<li>Supports both procedural and pre-defined entity formats</li>
-<li>Handles portal setup and custom entity integration</li>
-</ul>
-<hr />
-</section>
-</section>
-<section id="fallback-utilities" class="level2">
-<h2>Fallback Utilities</h2>
-<section id="getdefaultentitycatalog" class="level3">
-<h3><code>getDefaultEntityCatalog()</code></h3>
-<p>Returns a small catalog with fallback emoji entities:</p>
-<ul>
-<li>Tree, rock, fairy, snake, portal</li>
-</ul>
-</section>
-<section id="getfallbackrealms" class="level3">
-<h3><code>getFallbackRealms()</code></h3>
-<p>Returns a default realm (“Fairy Realm”) with pink forest and one
-talking fairy NPC.</p>
-<hr />
-</section>
-</section>
-<section id="ui-and-input" class="level2">
-<h2>UI and Input</h2>
-<section id="setupeventlisteners" class="level3">
-<h3><code>setupEventListeners()</code></h3>
-<p>Registers all DOM input events:</p>
-<ul>
-<li>Arrow key movement</li>
-<li><code>&lt;Enter&gt;</code> to process command input</li>
-<li>Audio toggle button</li>
-<li>Resizing view on window resize</li>
-<li>Disables right-click on game area</li>
-</ul>
-<hr />
-</section>
-<section id="showgame-showerrormessage" class="level3">
-<h3><code>showGame()</code> / <code>showError(message)</code></h3>
-<p>Controls visibility of game screen and loading/error display.</p>
-<hr />
-</section>
-</section>
-<section id="debug-api" class="level2">
-<h2>Debug API</h2>
-<p>Exposed to <code>window</code> for in-console debugging:</p>
-<section id="core-objects" class="level3">
-<h3>Core objects:</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>game<span class="op">,</span> conlang<span class="op">,</span> lexicon<span class="op">,</span> <span class="fu">player</span>()</span></code></pre></div>
-</section>
-<section id="vocabulary-tools" class="level3">
-<h3>Vocabulary tools:</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addWord</span>(gloss<span class="op">,</span> form)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+        </div>
+        <hr />
+      </section>
+      <section id="initialization" class="level2">
+        <h2>Initialization</h2>
+        <section id="initializegame" class="level3">
+          <h3><code>initializeGame()</code></h3>
+          <p>Top-level function called on startup:</p>
+          <ol type="1">
+            <li>Loads realm and entity data</li>
+            <li>Initializes subsystems</li>
+            <li>Builds and displays the world</li>
+            <li>Welcomes the player</li>
+            <li>Exposes a debug API in the browser console</li>
+          </ol>
+          <hr />
+        </section>
+      </section>
+      <section id="realm-and-entity-loading" class="level2">
+        <h2>Realm and Entity Loading</h2>
+        <section id="loadrealms" class="level3">
+          <h3><code>loadRealms()</code></h3>
+          <ul>
+            <li><p>Loads <code>realms/index.json</code></p></li>
+            <li>
+              <p>For each realm file:</p>
+              <ul>
+                <li>Loads and processes entities</li>
+                <li>Handles fallback if loading fails</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section id="loadentitycatalog" class="level3">
+          <h3><code>loadEntityCatalog()</code></h3>
+          <ul>
+            <li>Loads <code>entities/index.json</code></li>
+            <li>Falls back to a hardcoded catalog if necessary</li>
+          </ul>
+        </section>
+        <section id="processrealmdatarealmdata-entitycatalog" class="level3">
+          <h3><code>processRealmData(realmData, entityCatalog)</code></h3>
+          <ul>
+            <li>Expands <code>entityRef</code> references using the catalog</li>
+            <li>Supports both procedural and pre-defined entity formats</li>
+            <li>Handles portal setup and custom entity integration</li>
+          </ul>
+          <hr />
+        </section>
+      </section>
+      <section id="fallback-utilities" class="level2">
+        <h2>Fallback Utilities</h2>
+        <section id="getdefaultentitycatalog" class="level3">
+          <h3><code>getDefaultEntityCatalog()</code></h3>
+          <p>Returns a small catalog with fallback emoji entities:</p>
+          <ul>
+            <li>Tree, rock, fairy, snake, portal</li>
+          </ul>
+        </section>
+        <section id="getfallbackrealms" class="level3">
+          <h3><code>getFallbackRealms()</code></h3>
+          <p>
+            Returns a default realm (“Fairy Realm”) with pink forest and one
+            talking fairy NPC.
+          </p>
+          <hr />
+        </section>
+      </section>
+      <section id="ui-and-input" class="level2">
+        <h2>UI and Input</h2>
+        <section id="setupeventlisteners" class="level3">
+          <h3><code>setupEventListeners()</code></h3>
+          <p>Registers all DOM input events:</p>
+          <ul>
+            <li>Arrow key movement</li>
+            <li><code>&lt;Enter&gt;</code> to process command input</li>
+            <li>Audio toggle button</li>
+            <li>Resizing view on window resize</li>
+            <li>Disables right-click on game area</li>
+          </ul>
+          <hr />
+        </section>
+        <section id="showgame-showerrormessage" class="level3">
+          <h3><code>showGame()</code> / <code>showError(message)</code></h3>
+          <p>Controls visibility of game screen and loading/error display.</p>
+          <hr />
+        </section>
+      </section>
+      <section id="debug-api" class="level2">
+        <h2>Debug API</h2>
+        <p>Exposed to <code>window</code> for in-console debugging:</p>
+        <section id="core-objects" class="level3">
+          <h3>Core objects:</h3>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode js"
+            ><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>game<span class="op">,</span> conlang<span class="op">,</span> lexicon<span class="op">,</span> <span class="fu">player</span>()</span></code></pre>
+          </div>
+        </section>
+        <section id="vocabulary-tools" class="level3">
+          <h3>Vocabulary tools:</h3>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode js"
+            >
+<code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addWord</span>(gloss<span class="op">,</span> form)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">learnWord</span>(word)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">exportLexicon</span>()</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">searchLexicon</span>(term)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">showKnownWords</span>()</span></code></pre></div>
-</section>
-<section id="stats" class="level3">
-<h3>Stats:</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getLexiconStats</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">showKnownWords</span>()</span></code></pre>
+          </div>
+        </section>
+        <section id="stats" class="level3">
+          <h3>Stats:</h3>
+          <div class="sourceCode" id="cb4">
+            <pre
+              class="sourceCode js"
+            >
+<code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getLexiconStats</span>()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getPhonologyStats</span>()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dumpGameState</span>()</span></code></pre></div>
-</section>
-<section id="world-navigation" class="level3">
-<h3>World navigation:</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">showRealms</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dumpGameState</span>()</span></code></pre>
+          </div>
+        </section>
+        <section id="world-navigation" class="level3">
+          <h3>World navigation:</h3>
+          <div class="sourceCode" id="cb5">
+            <pre
+              class="sourceCode js"
+            >
+<code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">showRealms</span>()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">switchRealm</span>(<span class="st">&#39;forest&#39;</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">getCurrentRealm</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">showPortals</span>()</span></code></pre></div>
-</section>
-<section id="example" class="level3">
-<h3>Example:</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">showKnownWords</span>()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getCurrentRealm</span>()</span></code></pre></div>
-<hr />
-</section>
-</section>
-<section id="startup" class="level2">
-<h2>Startup</h2>
-<section id="initializegame-1" class="level3">
-<h3><code>initializeGame()</code></h3>
-<p>Starts the game. Logs any errors during loading and displays an error
-screen.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">initializeGame</span>()<span class="op">.</span><span class="fu">catch</span>(error <span class="kw">=&gt;</span> {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">showPortals</span>()</span></code></pre>
+          </div>
+        </section>
+        <section id="example" class="level3">
+          <h3>Example:</h3>
+          <div class="sourceCode" id="cb6">
+            <pre
+              class="sourceCode js"
+            >
+<code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">showKnownWords</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getCurrentRealm</span>()</span></code></pre>
+          </div>
+          <hr />
+        </section>
+      </section>
+      <section id="startup" class="level2">
+        <h2>Startup</h2>
+        <section id="initializegame-1" class="level3">
+          <h3><code>initializeGame()</code></h3>
+          <p>
+            Starts the game. Logs any errors during loading and displays an
+            error screen.
+          </p>
+          <div class="sourceCode" id="cb7">
+            <pre
+              class="sourceCode js"
+            >
+<code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">initializeGame</span>()<span class="op">.</span><span class="fu">catch</span>(error <span class="kw">=&gt;</span> {</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Game initialization failed:&#39;</span><span class="op">,</span> error)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">showError</span>(<span class="st">&#39;Game failed to start. Check console for details.&#39;</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
-<hr />
-</section>
-</section>
-<section id="file-structure-assumptions" class="level2">
-<h2>File Structure Assumptions</h2>
-<ul>
-<li><code>realms/index.json</code>: lists all realm files</li>
-<li><code>entities/index.json</code>: maps entity IDs to emoji/gloss
-data</li>
-<li><code>realms/*.json</code>: individual realm definitions</li>
-</ul>
-<hr />
-</section>
-<section id="summary" class="level2">
-<h2>Summary</h2>
-<p>This file glues together all components of the Elf World game. It
-handles loading, setup, interaction, and developer tools.</p>
-<p><strong>Modules used:</strong></p>
-<ul>
-<li><code>ConlangEngine</code></li>
-<li><code>GameWorld</code></li>
-<li><code>UIManager</code></li>
-<li><code>CommandProcessor</code></li>
-</ul>
-<p><strong>Game can be controlled and debugged entirely from the browser
-console.</strong></p>
-</section>
-</section>
-</body>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre>
+          </div>
+          <hr />
+        </section>
+      </section>
+      <section id="file-structure-assumptions" class="level2">
+        <h2>File Structure Assumptions</h2>
+        <ul>
+          <li><code>realms/index.json</code>: lists all realm files</li>
+          <li>
+            <code>entities/index.json</code>: maps entity IDs to emoji/gloss
+            data
+          </li>
+          <li><code>realms/*.json</code>: individual realm definitions</li>
+        </ul>
+        <hr />
+      </section>
+      <section id="summary" class="level2">
+        <h2>Summary</h2>
+        <p>
+          This file glues together all components of the Elf World game. It
+          handles loading, setup, interaction, and developer tools.
+        </p>
+        <p><strong>Modules used:</strong></p>
+        <ul>
+          <li><code>ConlangEngine</code></li>
+          <li><code>GameWorld</code></li>
+          <li><code>UIManager</code></li>
+          <li><code>CommandProcessor</code></li>
+        </ul>
+        <p>
+          <strong>Game can be controlled and debugged entirely from the browser
+            console.</strong>
+        </p>
+      </section>
+    </section>
+  </body>
 </html>
