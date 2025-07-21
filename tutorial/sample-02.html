@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.html: Game Cell with Entity Example</title>
+  <style> 
+    game-cell {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      position: relative;
+      font-size: 48px;
+      text-align: center;
+      line-height: 100px;
+    }
+    game-cell[terrain="grass"] {
+      background-color: forestgreen;
+    }
+    game-cell[terrain="water"] {
+      background-color: deepskyblue;
+    }
+    game-cell[terrain="mountains"] {
+      background-color: gray;
+    }
+    .entity {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <script> 
+    class GameCell extends HTMLElement {
+      #data = {}
+      #entity = null
+      set data(data) {
+        this.#data = data
+        this.render()
+      }
+      get data() {
+        return this.#data
+      }
+      set entity(entity) {
+        this.#entity = entity
+        this.render()
+      }
+      get entity() {
+        return this.#entity
+      }
+      renderEntity(){
+        this.querySelectorAll('.entity').forEach(e => e.remove())
+        if(this.#entity){
+          let div = document.createElement('div')
+          div.classList.add('entity')
+          div.textContent = this.#entity.emoji
+          this.append(div)
+        }
+      }
+      render() {
+        this.setAttribute('terrain', this.#data.terrain)
+        this.renderEntity()
+      }
+    }
+    customElements.define('game-cell', GameCell)
+    const cell = document.createElement('game-cell')
+    cell.data = { terrain: 'grass' }
+    cell.entity = { type: 'player', emoji: '🧝‍♂️', name: 'Hero' }
+    document.body.append(cell)
+  </script>
+</body>
+</html>

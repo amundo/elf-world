@@ -1,0 +1,10 @@
+<!doctype html>
+<title>World logger</title>
+<script type="module">
+  import { World } from './world.js'
+  let world = new World()
+  await world.load('world1.json')
+  let terrainText = world.debugRender()
+  document.body.innerHTML = `<pre></pre>`
+  document.querySelector("pre").textContent = terrainText
+</script>

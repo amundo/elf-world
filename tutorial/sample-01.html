@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.html: Game Cell Example</title>
+  <style> 
+    game-cell {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+    }
+    game-cell[terrain="grass"] {
+      background-color: forestgreen;
+    }
+    game-cell[terrain="water"] {
+      background-color: deepskyblue;
+    }
+    game-cell[terrain="mountains"] {
+      background-color: gray;
+    }
+  </style>
+</head>
+<body>
+  <game-cell id="cell"></game-cell>
+  <script> 
+    class GameCell extends HTMLElement {
+      #data = {}
+      set data(data) {
+        this.#data = data
+        this.setAttribute('data', JSON.stringify(data))
+        this.render()
+      }
+      get data() {
+        return this.#data
+      }
+      set terrain(terrain) {
+        this.#data.terrain = terrain
+        this.render()
+      }
+      get terrain() {
+        return this.#data.terrain
+      }
+      render() {
+        this.setAttribute('terrain', this.#data.terrain)
+      }
+    }
+    customElements.define('game-cell', GameCell)
+
+    const cell = document.getElementById('cell')
+    cell.terrain = 'grass' 
+  </script>
+</body>
+</html>

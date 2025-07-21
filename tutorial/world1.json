@@ -1,0 +1,21 @@
+
+{
+  "terrain": [
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","water","water","water","grass","grass","grass","grass","grass","grass"],
+    ["grass","water","water","water","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],  
+    ["grass","grass","grass","grass","grass","mountain","mountain","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","mountain","mountain","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","water","water","water"],
+    ["grass","grass","grass","grass","grass","grass","grass","water","water","water"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"]
+  ],
+  "actors": [
+    { "id": 1, "type": "player", "x": 0, "y": 0, "emoji": "🧝" },
+    { "id": 2, "type": "goblin", "x": 1, "y": 1, "emoji": "👺" },
+    { "id": 3, "type": "unicorn", "x": 8, "y": 3, "emoji": "🦄" }
+  ]
+
+}
