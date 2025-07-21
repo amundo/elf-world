@@ -449,7 +449,7 @@ Well, guess who went back down the rabbit hole of procedural generation? This gu
 </figure>
 
 
-This thing is fun to play with, but probably not practical my purposes. Anyway, you can share links like:
+This thing is fun to play with, but probably not practical for my purposes. Anyway, you can share links like:
 
 [../editor/biomes-sidebar.html#elev=1&moist=1.6&temp=0.8&noise=0.3&color=0.1&ocean=0.4&mount=0.6&desert=0.4&grid=50](../editor/biomes-sidebar.html#elev=1&moist=1.6&temp=0.8&noise=0.3&color=0.1&ocean=0.4&mount=0.6&desert=0.4&grid=50)
 

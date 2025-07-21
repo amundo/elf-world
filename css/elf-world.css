@@ -7,6 +7,10 @@ body {
   padding: 0;
   overflow: hidden;
   font-family: sans-serif;
+
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Layout containers */
@@ -36,19 +40,30 @@ body {
 
 /* Game world */
 .world {
-  position: absolute;
   display: grid;
-  transition: transform 0.3s ease-out;
   width: 100%;
   height: 100%;
 }
 
-.tile {
-  display: grid;
-  place-content: center;
-  font-size: 2rem;
+game-tile.tile {
   position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background-color: white;
+  border: 1px solid #eee;
+}
+
+
+.coord {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px;
+  font-size: 8px;
+  opacity: .5;
+  font-family: monospace;
 }
 
 /* Entity styles */
@@ -64,7 +79,7 @@ body {
 
 .player {
   background-image: radial-gradient(circle, yellow, lemonchiffon, transparent 65%);
-  padding:.5em;
+  /* padding:.5em; */
 }
 
 .portal {
@@ -83,7 +98,6 @@ body {
 
 /* UI overlays */
 .ui {
-  position: absolute;
   top: 0;
   left: 0;
   padding: 0.5rem;
@@ -329,7 +343,10 @@ body {
   }
   
   .tile {
-    font-size: 1.5rem;
+    display: grid;
+    place-content: center;
+    font-size: 2rem;
+    aspect-ratio: 1 / 1;
   }
 }
 
